@@ -1,6 +1,5 @@
 CREATE TABLE locations (
     location_id int NOT NULL AUTO_INCREMENT UNIQUE,
-    owned_by_player_id int,
     table_qty int NOT NULL DEFAULT 0,
     email varchar(255) UNIQUE,
     phone_num varchar(25),
