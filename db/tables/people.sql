@@ -5,7 +5,7 @@ CREATE OR REPLACE people(
     gender enum('female', 'male', 'other', 'prefer not to say')
     dob Date
     email varchar(255) unique
-    phone_num varchar(25) unique
+    phone_num varchar(25)
     street_address_1 varchar(255)
     street_address_2 varchar(255)
     city varchar(255)
