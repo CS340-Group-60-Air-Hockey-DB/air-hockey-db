@@ -1,8 +1,9 @@
-CREATE OR REPLACE people_locations(
-    person_id int NOT NULL
-    location_id int NOT NULL
+CREATE OR REPLACE TABLE people_locations(
+    person_location_id int auto_increment UNIQUE NOT NULL,
+    person_id int NOT NULL,
+    location_id int NOT NULL,
 
-    primary key (person_location_id)
-    foreign key (person_id) references people(person_id)
-    foreign key (location_id) references location(location_id)
-)
+    primary key (person_location_id),
+    foreign key (person_id) REFERENCES people(person_id),
+    foreign key (location_id) REFERENCES locations(location_id)
+);
