@@ -1,0 +1,33 @@
+CREATE OR REPLACE TABLE sets (
+    set_id int auto_increment not null unique,
+    match_id int not null,
+    winner_id int,
+    set_num int not null,
+    start_datetime datetime,
+    end_datetime datetime,
+    set_status enum ('scheduled', 'in_progress', 'completed', 'abandoned') not NULL default 'scheduled',
+
+    primary key (set_id),
+    foreign key (match_id) references matches(match_id),
+    foreign key (winner_id) references people(person_id),
+    constraint chk_set_num check (set_num between 1 and 7),
+    CONSTRAINT chk_match_times CHECK (
+        end_datetime IS NULL OR 
+        end_datetime > start_datetime
+    ),
+    constraint chk_winner CHECK (
+       (
+            set_status = 'completed' AND 
+            winner_id IS NOT NULL AND 
+            set_num between 2 and 7
+        ) OR 
+       (
+            game_status != 'completed' AND winner_id IS NULL AND 
+            (player_1_score != 7 AND player_2_score != 7)
+       )
+    ),
+    -- Needed Constraints left:
+        -- - Unique constraint on match_id + set_num - set numbers must be unique within a match
+        -- - A set must contain at least 4 games when completed
+        -- - set_num cannot exceed the parent match's set_max value
+);
