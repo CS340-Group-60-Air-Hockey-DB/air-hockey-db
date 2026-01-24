@@ -5,7 +5,7 @@ CREATE OR REPLACE TABLE games(
     winner_id int NOT NULL,
     set_id int NOT NULL,
     game_num int,
-    game_status enum ('scheduled', 'in_progress', 'completed', 'abandoned') not NULL default 'scheduled'
+    game_status enum ('scheduled', 'in_progress', 'completed', 'abandoned') not NULL default 'scheduled',
     start_datetime datetime,
     end_datetime datetime,
 
