@@ -1,8 +1,8 @@
 CREATE OR REPLACE TABLE sets (
-    set_id int auto_increment not null unique,
-    match_id int not null,
-    winner_id int,
-    set_num int not null,
+    set_id int(11) auto_increment not null unique,
+    match_id int(11) not null,
+    winner_id int(11),
+    set_num tinyint(4) not null,
     start_datetime datetime,
     end_datetime datetime,
     set_status enum ('scheduled', 'in_progress', 'completed', 'abandoned') not NULL default 'scheduled',
