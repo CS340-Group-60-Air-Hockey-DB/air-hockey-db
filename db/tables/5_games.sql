@@ -32,5 +32,5 @@ CREATE OR REPLACE TABLE games(
     CONSTRAINT chk_match_times CHECK (
         end_datetime IS NULL OR 
         end_datetime > start_datetime
-    ),
+    )
 );
