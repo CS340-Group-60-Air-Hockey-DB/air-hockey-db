@@ -21,9 +21,9 @@ CREATE OR REPLACE TABLE sets (
             set_status = 'completed' AND 
             winner_id IS NOT NULL AND 
             set_num between 2 and 7
-    )
-    -- Needed Constraints left:
-        -- - Unique constraint on match_id + set_num - set numbers must be unique within a match
+    ),
+    constraint unique_match_set UNIQUE (match_id, set_num)
+);
+    -- Needed Constraints left (via API Endpoint Function Check or a Database Trigger):
         -- - A set must contain at least 4 games when completed
         -- - set_num cannot exceed the parent match's set_max value
-);
