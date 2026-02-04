@@ -1,4 +1,4 @@
-CREATE TABLE matches (
+CREATE OR REPLACE TABLE matches (
     match_id int NOT NULL AUTO_INCREMENT UNIQUE,
     location_id int NOT NULL,
     winner_id int NULL,
