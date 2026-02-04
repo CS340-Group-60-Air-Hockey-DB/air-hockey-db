@@ -1,8 +1,7 @@
 CREATE OR REPLACE TABLE games(
     game_id int auto_increment UNIQUE NOT NULL,
-    player_1_score int NOT NULL DEFAULT 0,
-    player_2_score int NOT NULL DEFAULT 0,
-    winner_id int NOT NULL,
+    player_1_score tinyint(4) NOT NULL DEFAULT 0,
+    player_2_score tinyint(4) NOT NULL DEFAULT 0,
     set_id int NOT NULL,
     game_num int,
     game_status enum ('scheduled', 'in_progress', 'completed', 'abandoned') not NULL default 'scheduled',
@@ -10,7 +9,6 @@ CREATE OR REPLACE TABLE games(
     end_datetime datetime,
 
     primary key(game_id),
-    foreign key winner_id references people(person_id),
     foreign key set_id references sets(set_id),
     constraint chk_player_scores CHECK (
         player_1_score BETWEEN 0 AND 7 AND 
