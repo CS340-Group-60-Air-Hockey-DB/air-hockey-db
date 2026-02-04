@@ -89,6 +89,8 @@ CREATE OR REPLACE TABLE sets (
     foreign key (match_id) references matches(match_id),
     foreign key (winner_id) references people(person_id),
 
+    UNIQUE (match_id, set_num),
+
     constraint chk_set_num check (set_num between 1 and 7),
     constraint chk_match_times check (
         end_datetime IS NULL OR 
@@ -99,10 +101,12 @@ CREATE OR REPLACE TABLE sets (
             winner_id IS NOT NULL AND 
             set_num between 2 and 7
     ),
+
     -- Needed Constraints left:
-        -- - Unique constraint on match_id + set_num - set numbers must be unique within a match
-        -- - A set must contain at least 4 games when completed
-        -- - set_num cannot exceed the parent match's set_max value
+        -- - A set must contain at least 4 games when completed: I think we will need to handle this
+        --   in our DML script as it requires counting rows in the games table.
+        -- - set_num cannot exceed the parent match's set_max value: I think similar issue for this since set_max
+        --   is stored in the matches table.
 );
 
 CREATE OR REPLACE TABLE games(
@@ -155,6 +159,18 @@ CREATE OR REPLACETABLE match_officials (
 );
 
 CREATE OR REPLACE TABLE player_matches(
+    player_match_id int(11) NOT NULL auto_increment,
+    player_id int(11) NOT NULL,
+    match_id int(11) NOT NULL,
+    starting_side enum('left', 'right') NOT NULL,
+    player_order enum('player_1', 'player_2') NOT NULL,
+
+    primary key (player_match_id),
+
+    foreign key (player_id) references people(person_id) ON DELETE CASCASE,
+    foreign key (match_id) references matches(match_id) ON DELETE CASCASE,
+
+    constraint unique_player_match unique (player_id, match_id)
 );
 
 CREATE OR REPLACE TABLE people_locations(
