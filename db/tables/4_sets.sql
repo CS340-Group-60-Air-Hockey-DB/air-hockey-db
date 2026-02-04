@@ -17,10 +17,9 @@ CREATE OR REPLACE TABLE sets (
         end_datetime IS NULL OR 
         end_datetime > start_datetime
     ),
-    constraint chk_winner check (
-            set_status = 'completed' AND 
-            winner_id IS NOT NULL AND 
-            set_num between 2 and 7
+    CONSTRAINT chk_winner CHECK (
+        (set_num <= 2) OR 
+        (set_status = 'completed' AND winner_id IS NOT NULL)
     ),
     constraint unique_match_set UNIQUE (match_id, set_num)
 
