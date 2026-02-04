@@ -1,0 +1,5 @@
+INSERT INTO locations(table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes)
+VALUES (4, null, '919-329-9031', '1234 Foundation Lane', null, 'Raleigh', 'NC', 'USA', '27603', 'residential', 'The Foundation', null),
+(1, 'contact@paddlepalace.com', '919-555-0142', '789 Brewhouse Lane', 'Suite 2B', 'Durham', 'NC', 'USA', '27701', 'bar', 'The Paddle Palace Bar & Grill', 'Air hockey table in the game room area, popular weekend spot'),
+(0, 'events@grandplazahotel.com', '919-555-0298', '456 Hospitality Boulevard', null, 'Cary', 'NC', 'USA', '27511', 'other', 'Grand Plaza Hotel & Conference Center', 'Potential tournament venue, no permanent tables but large event space available'),
+(0, 'info@spacecitysports.com', '713-555-0891', '8500 Kirby Drive', null, 'Houston', 'TX', 'USA', '77054', 'other', 'Space City Sports Complex', 'Major sports venue, interested in hosting regional + world air hockey championships.')
