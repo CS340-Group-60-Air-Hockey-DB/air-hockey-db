@@ -9,7 +9,7 @@ CREATE OR REPLACE TABLE games(
     end_datetime datetime,
 
     primary key(game_id),
-    foreign key set_id references sets(set_id),
+    foreign key (set_id) references sets(set_id),
     constraint chk_player_scores CHECK (
         player_1_score BETWEEN 0 AND 7 AND 
         player_2_score BETWEEN 0 AND 7
