@@ -1,4 +1,11 @@
 INSERT INTO sets(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
 VALUES (1, null, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
 (1, null, 2, '2026-02-01 14:55:10', '2026-02-01 15:19:45', 'completed'),
-(1, 1, 3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed');
+(1, 1, 3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 
+(3, null, 1, '2026-05-11 18:00:00', null, 'scheduled'),
+(3, null, 2, null, null, 'scheduled'),
+(3, null, 3, null, null, 'scheduled'),
+(3, null, 4, null, null, 'scheduled'),
+(3, null, 5, null, null, 'scheduled'),
+(3, null, 6, null, null, 'scheduled'),
+(3, null, 7, null, null, 'scheduled');
