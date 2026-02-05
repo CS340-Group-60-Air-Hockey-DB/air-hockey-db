@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS people;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE OR REPLACE TABLE people(
-    person_id int auto_increment unique NOT NULL,
+    person_id int(11) auto_increment unique NOT NULL,
     first_name varchar(50) NOT NULL,
     last_name varchar(50) NOT NULL,
     gender enum('female', 'male', 'other', 'prefer not to say'),
@@ -28,9 +28,8 @@ CREATE OR REPLACE TABLE people(
 );
 
 CREATE OR REPLACE TABLE locations (
-    location_id int NOT NULL AUTO_INCREMENT UNIQUE,
-    owned_by_player_id int,
-    table_qty int NOT NULL DEFAULT 0,
+    location_id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+    table_qty int(11) NOT NULL DEFAULT 0,
     email varchar(255) UNIQUE,
     phone_num varchar(25),
     street_address_1 varchar(255) NOT NULL,
@@ -54,10 +53,10 @@ CREATE OR REPLACE TABLE locations (
 );
 
 CREATE OR REPLACE TABLE matches (
-    match_id int NOT NULL AUTO_INCREMENT UNIQUE,
-    location_id int NOT NULL,
-    winner_id int NULL,
-    set_max int NOT NULL DEFAULT 3,
+    match_id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+    location_id int(11) NOT NULL,
+    winner_id int(11) NULL,
+    set_max tinyint(4) NOT NULL DEFAULT 3,
     faceoff_type enum('standard', 'puck flip') NOT NULL DEFAULT 'standard',
     start_datetime datetime NOT NULL,
     end_datetime datetime NULL,
@@ -144,9 +143,9 @@ CREATE OR REPLACE TABLE games(
 );
 
 CREATE OR REPLACE TABLE match_officials (
-    match_official_id int NOT NULL AUTO_INCREMENT UNIQUE,
-    official_person_id int NOT NULL,
-    set_id int NOT NULL,
+    match_official_id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+    official_person_id int(11) NOT NULL,
+    set_id int(11) NOT NULL,
     official_type enum('referee', 'witness') NOT NULL,
     PRIMARY KEY (match_official_id),
     FOREIGN KEY (official_person_id) REFERENCES people(person_id),
@@ -169,9 +168,9 @@ CREATE OR REPLACE TABLE player_matches(
 );
 
 CREATE OR REPLACE TABLE people_locations(
-    person_location_id int auto_increment UNIQUE NOT NULL,
-    person_id int NOT NULL,
-    location_id int NOT NULL,
+    person_location_id int(11) auto_increment UNIQUE NOT NULL,
+    person_id int(11) NOT NULL,
+    location_id int(11) NOT NULL,
 
     primary key (person_location_id),
     foreign key (person_id) REFERENCES people(person_id),
