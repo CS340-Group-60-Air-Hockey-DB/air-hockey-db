@@ -100,7 +100,7 @@ CREATE OR REPLACE TABLE sets (
             set_status = 'completed' AND 
             winner_id IS NOT NULL AND 
             set_num between 2 and 7
-    ),
+    )
 
     -- Needed Constraints left:
         -- - A set must contain at least 4 games when completed: I think we will need to handle this
@@ -121,8 +121,8 @@ CREATE OR REPLACE TABLE games(
     end_datetime datetime,
 
     primary key(game_id),
-    foreign key winner_id references people(person_id),
-    foreign key set_id references sets(set_id),
+    foreign key (winner_id) references people(person_id),
+    foreign key (set_id) references sets(set_id),
     constraint chk_player_scores CHECK (
         player_1_score BETWEEN 0 AND 7 AND 
         player_2_score BETWEEN 0 AND 7
@@ -145,10 +145,10 @@ CREATE OR REPLACE TABLE games(
     CONSTRAINT chk_match_times CHECK (
         end_datetime IS NULL OR 
         end_datetime > start_datetime
-    ),
+    )
 );
 
-CREATE OR REPLACETABLE match_officials (
+CREATE OR REPLACE TABLE match_officials (
     match_official_id int NOT NULL AUTO_INCREMENT UNIQUE,
     official_person_id int NOT NULL,
     set_id int NOT NULL,
@@ -167,8 +167,8 @@ CREATE OR REPLACE TABLE player_matches(
 
     primary key (player_match_id),
 
-    foreign key (player_id) references people(person_id) ON DELETE CASCASE,
-    foreign key (match_id) references matches(match_id) ON DELETE CASCASE,
+    foreign key (player_id) references people(person_id) ON DELETE CASCADE,
+    foreign key (match_id) references matches(match_id) ON DELETE CASCADE,
 
     constraint unique_player_match unique (player_id, match_id)
 );
