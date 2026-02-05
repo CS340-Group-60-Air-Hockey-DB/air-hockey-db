@@ -1,4 +1,4 @@
-CREATE TABLE match_officials (
+CREATE OR REPLACE TABLE match_officials (
     match_official_id int NOT NULL AUTO_INCREMENT UNIQUE,
     official_person_id int NOT NULL,
     set_id int NOT NULL,

@@ -14,13 +14,13 @@ CREATE OR REPLACE TABLE sets (
 
     constraint chk_set_num check (set_num between 1 and 7),
     constraint chk_match_times check (
-        end_datetime IS NULL OR 
+        end_datetime IS NULL or 
         end_datetime > start_datetime
     ),
     constraint chk_winner check (
-            set_status = 'completed' AND 
-            winner_id IS NOT NULL AND 
-            set_num between 2 and 7
+        set_num <= 2 or 
+        set_status != 'completed' or
+        winner_id IS NOT NULL
     ),
     constraint unique_match_set UNIQUE (match_id, set_num)
 
