@@ -76,10 +76,10 @@ CREATE OR REPLACE TABLE matches (
 );
 
 CREATE OR REPLACE TABLE sets (
-    set_id int auto_increment not null unique,
-    match_id int not null,
-    winner_id int,
-    set_num int not null,
+    set_id int(11) auto_increment not null unique,
+    match_id int(11) not null,
+    winner_id int(11),
+    set_num tinyint(4) not null,
     start_datetime datetime,
     end_datetime datetime,
     set_status enum ('scheduled', 'in_progress', 'completed', 'abandoned') not NULL default 'scheduled',
@@ -89,24 +89,21 @@ CREATE OR REPLACE TABLE sets (
     foreign key (match_id) references matches(match_id),
     foreign key (winner_id) references people(person_id),
 
-    UNIQUE (match_id, set_num),
-
     constraint chk_set_num check (set_num between 1 and 7),
     constraint chk_match_times check (
-        end_datetime IS NULL OR 
+        end_datetime IS NULL or 
         end_datetime > start_datetime
     ),
     constraint chk_winner check (
-            set_status = 'completed' AND 
-            winner_id IS NOT NULL AND 
-            set_num between 2 and 7
-    )
+        set_num <= 2 or 
+        set_status != 'completed' or
+        winner_id IS NOT NULL
+    ),
+    constraint unique_match_set UNIQUE (match_id, set_num)
 
-    -- Needed Constraints left:
-        -- - A set must contain at least 4 games when completed: I think we will need to handle this
-        --   in our DML script as it requires counting rows in the games table.
-        -- - set_num cannot exceed the parent match's set_max value: I think similar issue for this since set_max
-        --   is stored in the matches table.
+    -- Needed Constraints left (via API Endpoint Function Check or a Database Trigger):
+        -- - A set must contain at least 4 games when completed
+        -- - set_num cannot exceed the parent match's set_max value
 );
 
 CREATE OR REPLACE TABLE games(
