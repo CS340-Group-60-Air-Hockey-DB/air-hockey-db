@@ -1,4 +1,4 @@
-CREATE TABLE locations (
+CREATE OR REPLACE TABLE locations (
     location_id int NOT NULL AUTO_INCREMENT UNIQUE,
     table_qty int NOT NULL DEFAULT 0,
     email varchar(255) UNIQUE,
