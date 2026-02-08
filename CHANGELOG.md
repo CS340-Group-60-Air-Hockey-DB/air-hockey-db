@@ -24,7 +24,9 @@ It utilizes the article [Keep a Changelog](http://keepachangelog.com/) for the f
 
 ## Version 0.0.0
 
-### 1-23-2026 - Step 2 Final
+### 2-05-2026 - Step 2 Draft
+
+### 1-23-2026 - Step 1 Final
 
 #### Added
 
