@@ -1,5 +1,4 @@
 SET FOREIGN_KEY_CHECKS = 0;
--- Drop Tables
 DROP TABLE IF EXISTS people_locations;
 DROP TABLE IF EXISTS player_matches;
 DROP TABLE IF EXISTS match_officials;
@@ -8,8 +7,8 @@ DROP TABLE IF EXISTS sets;
 DROP TABLE IF EXISTS matches;
 DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS people;
+SET FOREIGN_KEY_CHECKS = 1;
 
--- Create Tables
 CREATE OR REPLACE TABLE people(
     person_id int(11) auto_increment unique NOT NULL,
     first_name varchar(50) NOT NULL,
@@ -258,5 +257,3 @@ INSERT INTO people_locations(person_id, location_id)
 VALUES (1, 1),
 (3, 2),
 (4, 4);
-
-SET FOREIGN_KEY_CHECKS = 1;
