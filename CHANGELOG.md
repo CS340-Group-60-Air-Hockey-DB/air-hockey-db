@@ -4,17 +4,17 @@ Any notable changes to the project will be noted here.
 
 The types of changes in the log are as follows:
   
-**Added:** new features
+&emsp;&emsp;**Added:** new features
 
-**Changed:** changes in existing functionality
+&emsp;&emsp;**Changed:** changes in existing functionality
 
-**Deprecated:** soon-to-be removed features
+&emsp;&emsp;**Deprecated:** soon-to-be removed features
 
-**Removed:** now removed features
+&emsp;&emsp;**Removed:** now removed features
 
-**Fixed:** any bug fixes
+&emsp;&emsp;**Fixed:** any bug fixes
 
-**Security:** in case of vulnerabilities
+&emsp;&emsp;**Security:** in case of vulnerabilities
 
 ## Citations
 
@@ -24,8 +24,32 @@ It utilizes the article [Keep a Changelog](http://keepachangelog.com/) for the f
 
 ## Version 0.0.0
 
-### 1-13-2026
+### 1-23-2026 - Step 2 Final
 
 #### Added
 
-*
+* Feedback from our TA and peers to the [PDF document](public/pdf-document/air-hockey-db-step-1-final.pdf)
+* A section for actions based on the feedback given
+  * Includes reasoning on why we didn't use some suggestions
+* `zip_code` attribute to the `locations` entity in the document
+* DOB information for the `people` entity (originally `players`).
+
+#### Changed
+
+* Attribute names to be all singular for consistent naming conventions
+* All `zip_code` attributes to a varchar(255)
+* The `players` entity to `people`, in case there are people associated with Air Hockey that are not an Air
+Hockey player
+* All `varchar` attributes to have a character limit
+* The relationship between `people` (originally `players`) + `locations`
+* [ERD](public/images/air-hockey-erd-v1-updated-dark.jpg) with additions, deletions, and changes stated
+
+#### Removed
+
+* `sets_reffed` in the `match_officials` entity.
+
+### 1-13-2026 - Step 1 Draft
+
+#### Added
+
+* Created a [PDF document](public/pdf-document/air-hockey-db-step-1-draft.pdf) with an overview of the project, the database outline, and an [entity-relationship diagram (ERD)](public/images/air-hockey-erd-v1-dark.jpeg) with citations
