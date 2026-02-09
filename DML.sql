@@ -7,9 +7,6 @@
 ------------
 -- people --
 ------------
--- There is no DELETE for this table, as the community wants to keep data integrity for past matches
-
-
 ----- CREATE -----
 
 ----- READ -----
@@ -18,11 +15,13 @@ SELECT * from people;
 
 ----- UPDATE -----
 
+----- DELETE -----
+-- There is no DELETE for this table, as the community wants to keep data integrity for past matches
+
+
 ---------------
 -- locations --
 ---------------
--- There is no DELETE for this table, as the community wants to keep data integrity for past matches
-
 ----- CREATE -----
 
 ----- READ -----
@@ -31,10 +30,13 @@ SELECT * from locations;
 
 ----- UPDATE -----
 
+----- DELETE -----
+-- There is no DELETE for this table, as the community wants to keep data integrity for past matches
+
+
 -------------
 -- matches --
 -------------
-
 ----- CREATE -----
 
 ----- READ -----
@@ -45,10 +47,10 @@ SELECT * from matches;
 
 ----- DELETE -----
 
+
 ----------
 -- sets --
 ----------
-
 ----- CREATE -----
 
 ----- READ -----
@@ -59,10 +61,10 @@ SELECT * from sets;
 
 ----- DELETE -----
 
+
 -----------
 -- games --
 -----------
-
 ----- CREATE -----
 
 ----- READ -----
@@ -73,10 +75,10 @@ SELECT * from games;
 
 ----- DELETE -----
 
+
 ---------------------
 -- match_officials --
 ---------------------
-
 ----- CREATE -----
 
 ----- READ -----
@@ -87,10 +89,10 @@ SELECT * from match_officials;
 
 ----- DELETE -----
 
+
 --------------------
 -- player_matches --
 --------------------
-
 ----- CREATE -----
 
 ----- READ -----
@@ -101,10 +103,10 @@ SELECT * from player_matches;
 
 ----- DELETE -----
 
+
 ----------------------
 -- people_locations --
 ----------------------
-
 ----- CREATE -----
 
 ----- READ -----
