@@ -24,7 +24,7 @@ It utilizes the article [Keep a Changelog](http://keepachangelog.com/) for the f
 
 ## Version 0.0.0
 
-### 2-05-2026 - Step 2 Draft
+### 2-05-2026: Step 2 Draft
 
 #### Added
 
@@ -50,7 +50,7 @@ It utilizes the article [Keep a Changelog](http://keepachangelog.com/) for the f
   * `winner_id` from `games`
   * `match_id` from `match_officials`
 
-### 1-23-2026 - Step 1 Final
+### 1-23-2026: Step 1 Final
 
 #### Added
 
@@ -74,7 +74,7 @@ Hockey player
 
 * `sets_reffed` in the `match_officials` entity.
 
-### 1-13-2026 - Step 1 Draft
+### 1-13-2026: Step 1 Draft
 
 #### Added
 
