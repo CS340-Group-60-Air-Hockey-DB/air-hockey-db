@@ -341,21 +341,32 @@ VALUES
     'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06');
 
 INSERT INTO match_officials (official_person_id, set_id, official_type)
-VALUES (6, 1, 'referee'),
-(6, 
-    2, 
+VALUES 
+-- Officials are only for Match 1
+-- Quinn Foster ref for sets 1 + 2
+((SELECT person_id FROM people WHERE first_name = 'Quinn' AND last_name = 'Foster'), 
+    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
     'referee'),
-(7, 
-    3, 
+((SELECT person_id FROM people WHERE first_name = 'Quinn' AND last_name = 'Foster'), 
+    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
     'referee'),
-(7, 
-    1, 
+
+-- Aisling O'Connor ref for Set 3
+((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = 'OConnor'), 
+    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
+    'referee'),
+
+-- Aisling O'Connor witness for sets 1 + 2
+((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = 'OConnor'), 
+    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
     'witness'),
-(7, 
-    2, 
+((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = 'OConnor'), 
+    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
     'witness'),
-(6, 
-    3, 
+
+-- Quinn Foster witness for set 3
+((SELECT person_id FROM people WHERE first_name = 'Quinn' AND last_name = 'Foster'), 
+    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
     'witness');
 
 INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
