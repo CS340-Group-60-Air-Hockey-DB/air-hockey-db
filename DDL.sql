@@ -193,6 +193,7 @@ CREATE OR REPLACE TABLE people_locations(
     foreign key (location_id) REFERENCES locations(location_id)
 );
 
+
 ------------------------------------
 -- Insert sample data into tables --
 ------------------------------------
@@ -202,6 +203,10 @@ CREATE OR REPLACE TABLE people_locations(
 --       Alex Adam wins 2 out of 3 sets
 --   Match 2 (abandoned): Natalie Perez vs Aisling O'Connor tournament that was cancelled
 --   Match 3 (scheduled): Casey Martinez vs Quinn Foster at The Foundation, May 11 2026
+
+------------
+-- people --
+------------
 INSERT INTO people(first_name, last_name, gender, dob, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code)
 VALUES ('Alex', 'Adams', 'female', '1996-03-05', 'alexadams@email.com', '987-547-4251', '6827 Glenwood Ave', null, 'Raleigh', 'NC', 'USA', '27603'),
 ('Casey', 'Martinez', 'male', '2001-03-25', 'casey.martinez@example.com', NULL, '789 Pine Rd', 'Apt 5C', 'Chicago', 'IL', 'USA', '60616'),
@@ -211,12 +216,18 @@ VALUES ('Alex', 'Adams', 'female', '1996-03-05', 'alexadams@email.com', '987-547
 ('Quinn', 'Foster', 'prefer not to say', '1987-10-18', NULL, NULL, NULL, NULL, NULL, NULL, 'USA', NULL),
 ('Aisling', "O'Connor", 'female', '1999-02-09', 'aoife.oconnor@example.ie', NULL, '3 Trinity Lane', NULL, 'Dublin', NULL, 'Ireland', 'D02 XY76');
 
+---------------
+-- locations --
+---------------
 INSERT INTO locations(table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes)
 VALUES (4, null, '919-329-9031', '1234 Foundation Lane', null, 'Raleigh', 'NC', 'USA', '27603', 'residential', 'The Foundation', null),
 (1, 'contact@paddlepalace.com', '919-555-0142', '789 Brewhouse Lane', 'Suite 2B', 'Durham', 'NC', 'USA', '27701', 'bar', 'The Paddle Palace Bar & Grill', 'Air hockey table in the game room area, popular weekend spot'),
 (0, 'events@grandplazahotel.com', '919-555-0298', '456 Hospitality Boulevard', null, 'Cary', 'NC', 'USA', '27511', 'other', 'Grand Plaza Hotel & Conference Center', 'Potential tournament venue, no permanent tables but large event space available'),
 (0, 'info@spacecitysports.com', '713-555-0891', '8500 Kirby Drive', null, 'Houston', 'TX', 'USA', '77054', 'other', 'Space City Sports Complex', 'Major sports venue, interested in hosting regional + world air hockey championships.');
 
+-------------
+-- matches --
+-------------
 INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
 VALUES 
 (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 
@@ -229,6 +240,9 @@ VALUES
     (SELECT location_id from locations where email is null and type_of_address = 'residential' and location_name = 'The Foundation'), 
     'challenge', null, 'scheduled');
 
+----------
+-- sets --
+----------
 INSERT INTO sets(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
 VALUES 
 -- Match 1
@@ -266,6 +280,9 @@ VALUES
 ((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
     null, 7, null, null, 'scheduled');
 
+-----------
+-- games --
+-----------
 INSERT INTO games(player_1_score, player_2_score, set_id, game_num, game_status, start_datetime, end_datetime)
 -- Games for Match 1 Set 1
 VALUES 
@@ -323,6 +340,9 @@ VALUES
     (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
     7, 'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06');
 
+---------------------
+-- match_officials --
+---------------------
 INSERT INTO match_officials (official_person_id, set_id, official_type)
 VALUES 
 -- Officials are only for Match 1
@@ -352,6 +372,9 @@ VALUES
     (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
     'witness');
 
+--------------------
+-- player_matches --
+--------------------
 INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
 VALUES 
 -- Match 1
@@ -378,6 +401,9 @@ VALUES
     (SELECT match_id FROM matches WHERE start_datetime = '2026-05-11 18:00:00'), 
     'right', 'player_2');
 
+----------------------
+-- people_locations --
+----------------------
 INSERT INTO people_locations(person_id, location_id)
 VALUES 
 (1, 
