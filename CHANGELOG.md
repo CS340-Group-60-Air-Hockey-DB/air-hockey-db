@@ -26,6 +26,30 @@ It utilizes the article [Keep a Changelog](http://keepachangelog.com/) for the f
 
 ### 2-05-2026 - Step 2 Draft
 
+#### Added
+
+* Normalization to the Fixes section in the [PDF document](public/pdf-document/air-hockey-db-step-2-draft.pdf)
+* [Schema](public/images/air-hockey-v2-schema.jpg) for database
+* Based on normalization to make the database 3NF we added:
+  * `player_order` attribute to `player_matches`
+* Database folder with insert, query, + table folders
+* Created SQL files + code to:
+  * Create all the tables that are in the PDF document
+  * Insert data into the tables
+* Created a DDL SQL file to combine all table + insert SQL files into one in order to turn it in
+
+#### Changed
+
+* [ERD](public/images/air-hockey-v2-erd-dark.jpeg) with additions, deletions, and changes stated
+* "Actions Based on Feedback" heading to "Fixes based on Feedback from Step 1" in the PDF document
+
+#### Removed
+
+* Based on normalization to make the database 3NF we removed:
+  * `is_winner` from `player_matches`
+  * `winner_id` from `games`
+  * `match_id` from `match_officials`
+
 ### 1-23-2026 - Step 1 Final
 
 #### Added
