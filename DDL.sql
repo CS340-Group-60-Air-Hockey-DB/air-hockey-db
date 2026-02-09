@@ -99,7 +99,8 @@ CREATE OR REPLACE TABLE `sets` (
 
     primary key (set_id),
 
-    foreign key (match_id) references matches(match_id) 
+    foreign key (match_id) references matches(match_id)
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
     foreign key (winner_id) references people(person_id) 
         ON UPDATE CASCADE,
@@ -127,7 +128,8 @@ CREATE OR REPLACE TABLE games(
     end_datetime datetime,
 
     primary key (game_id),
-    foreign key (set_id) references `sets`(set_id) 
+    foreign key (set_id) references sets(set_id) 
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
     constraint chk_player_scores CHECK (
         player_1_score BETWEEN 0 AND 7 AND 
@@ -162,7 +164,8 @@ CREATE OR REPLACE TABLE match_officials (
     PRIMARY KEY (match_official_id),
     FOREIGN KEY (official_person_id) REFERENCES people(person_id) 
         ON UPDATE CASCADE,
-    FOREIGN KEY (set_id) REFERENCES `sets`(set_id) 
+    FOREIGN KEY (set_id) REFERENCES sets(set_id)
+        ON DELETE CASCADE 
         ON UPDATE CASCADE
 );
 
@@ -178,6 +181,7 @@ CREATE OR REPLACE TABLE player_matches(
     foreign key (player_id) references people(person_id) 
         ON UPDATE CASCADE,
     foreign key (match_id) references matches(match_id) 
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
 
     constraint unique_player_match unique (player_id, match_id)
