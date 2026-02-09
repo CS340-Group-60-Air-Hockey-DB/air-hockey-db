@@ -8,62 +8,109 @@
 -- people --
 ------------
 -- There is no DELETE for this table, as the community wants to keep data integrity for past matches
--- CREATE
--- READ
--- UPDATE
+
+
+----- CREATE -----
+
+----- READ -----
+-- Get all data
+SELECT * from people;
+
+----- UPDATE -----
 
 ---------------
 -- locations --
 ---------------
 -- There is no DELETE for this table, as the community wants to keep data integrity for past matches
--- CREATE
--- READ
--- UPDATE
+
+----- CREATE -----
+
+----- READ -----
+-- Get all data
+SELECT * from locations;
+
+----- UPDATE -----
 
 -------------
 -- matches --
 -------------
--- CREATE
--- READ
--- UPDATE
--- DELETE
+
+----- CREATE -----
+
+----- READ -----
+-- Get all data
+SELECT * from matches;
+
+----- UPDATE -----
+
+----- DELETE -----
 
 ----------
 -- sets --
 ----------
--- CREATE
--- READ
--- UPDATE
--- DELETE
+
+----- CREATE -----
+
+----- READ -----
+-- Get all data
+SELECT * from sets;
+
+----- UPDATE -----
+
+----- DELETE -----
 
 -----------
 -- games --
 -----------
--- CREATE
--- READ
--- UPDATE
--- DELETE
+
+----- CREATE -----
+
+----- READ -----
+-- Get all data
+SELECT * from games;
+
+----- UPDATE -----
+
+----- DELETE -----
 
 ---------------------
 -- match_officials --
 ---------------------
--- CREATE
--- READ
--- UPDATE
--- DELETE
+
+----- CREATE -----
+
+----- READ -----
+-- Get all data
+SELECT * from match_officials;
+
+----- UPDATE -----
+
+----- DELETE -----
 
 --------------------
 -- player_matches --
 --------------------
--- CREATE
--- READ
--- UPDATE
--- DELETE
+
+----- CREATE -----
+
+----- READ -----
+-- Get all data
+SELECT * from player_matches;
+
+----- UPDATE -----
+
+----- DELETE -----
 
 ----------------------
 -- people_locations --
 ----------------------
--- CREATE
--- READ
--- UPDATE
--- DELETE
+
+----- CREATE -----
+
+----- READ -----
+-- Get all data
+SELECT * from people_locations;
+
+----- UPDATE -----
+
+----- DELETE -----
