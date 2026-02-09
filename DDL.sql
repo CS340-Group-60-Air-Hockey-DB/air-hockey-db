@@ -406,12 +406,12 @@ VALUES
 ----------------------
 INSERT INTO people_locations(person_id, location_id)
 VALUES 
-(1, 
-    1),
-(3, 
-    2),
-(4, 
-    4);
+((SELECT person_id FROM people WHERE first_name = 'Alex' AND last_name = 'Adams'), 
+    (SELECT location_id from locations where email is null and type_of_address = 'residential' and location_name = 'The Foundation')),
+((SELECT person_id FROM people WHERE first_name = 'Evan' AND last_name = 'Cole'), 
+    (SELECT location_id from locations where email = 'contact@paddlepalace.com')), 
+((SELECT person_id FROM people WHERE first_name = 'Dylan' AND last_name = 'Moore'), 
+    (SELECT location_id from locations where email = 'events@grandplazahotel.com'));
 
 -------------------------------
 -- Enable foreign key checks --
