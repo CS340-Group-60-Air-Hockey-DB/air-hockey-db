@@ -335,15 +335,15 @@ VALUES
     'referee'),
 
 -- Aisling O'Connor ref for Set 3
-((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = 'OConnor'), 
+((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = "O'Connor"), 
     (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
     'referee'),
 
 -- Aisling O'Connor witness for sets 1 + 2
-((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = 'OConnor'), 
+((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = "O'Connor"), 
     (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
     'witness'),
-((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = 'OConnor'), 
+((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = "O'Connor"), 
     (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
     'witness'),
 
@@ -354,22 +354,28 @@ VALUES
 
 INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
 VALUES 
-((select person_id from people where email = 'alexadams@email.com'), 
-    (select match_id from matches where match_status = 'completed'), 
+-- Match 1
+((SELECT person_id FROM people WHERE first_name = 'Alex' AND last_name = 'Adams'), 
+    (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39'), 
     'left', 'player_1'),
-((select person_id from people where first_name = 'Evan' and last_name = 'Cole'), 
-    1, 'right', 'player_2'),
-(5, 
-    2, 
-    'left', 'player_1'),
-(7, 
-    2, 
+((SELECT person_id FROM people WHERE first_name = 'Evan' AND last_name = 'Cole'), 
+    (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39'), 
     'right', 'player_2'),
-(2, 
-    3, 
+
+-- Match 2
+((SELECT person_id FROM people WHERE first_name = 'Natalie' AND last_name = 'Perez'), 
+    (SELECT match_id FROM matches WHERE start_datetime = '2024-01-15 19:00:00'), 
     'left', 'player_1'),
-(6,
-    3, 
+((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = "O'Connor"), 
+    (SELECT match_id FROM matches WHERE start_datetime = '2024-01-15 19:00:00'), 
+    'right', 'player_2'),
+
+-- Match 3
+((SELECT person_id FROM people WHERE first_name = 'Casey' AND last_name = 'Martinez'), 
+    (SELECT match_id FROM matches WHERE start_datetime = '2026-05-11 18:00:00'), 
+    'left', 'player_1'),
+((SELECT person_id FROM people WHERE first_name = 'Quinn' AND last_name = 'Foster'), 
+    (SELECT match_id FROM matches WHERE start_datetime = '2026-05-11 18:00:00'), 
     'right', 'player_2');
 
 INSERT INTO people_locations(person_id, location_id)
