@@ -229,22 +229,42 @@ VALUES
     (SELECT location_id from locations where email is null and type_of_address = 'residential' and location_name = 'The Foundation'), 
     'challenge', null, 'scheduled');
 
-INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
-VALUES (1, null, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
-(1, null, 2, '2026-02-01 14:55:10', '2026-02-01 15:19:45', 'completed'),
-(1, 1, 3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 
-(2, null, 1, '2024-01-15 19:00:00', null, 'abandoned'),
-(2, null, 2, null, null, 'abandoned'),
-(2, null, 3, null, null, 'abandoned'),
-(2, null, 4, null, null, 'abandoned'),
-(2, null, 5, null, null, 'abandoned'),
-(3, null, 1, '2026-05-11 18:00:00', null, 'scheduled'),
-(3, null, 2, null, null, 'scheduled'),
-(3, null, 3, null, null, 'scheduled'),
-(3, null, 4, null, null, 'scheduled'),
-(3, null, 5, null, null, 'scheduled'),
-(3, null, 6, null, null, 'scheduled'),
-(3, null, 7, null, null, 'scheduled');
+INSERT INTO sets(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
+VALUES 
+-- Match 1
+((select match_id from matches where start_datetime = '2026-02-01 14:31:39'), 
+    null, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
+((select match_id from matches where start_datetime = '2026-02-01 14:31:39'), 
+    null, 2, '2026-02-01 14:55:10', '2026-02-01 15:19:45', 'completed'),
+((select match_id from matches where start_datetime = '2026-02-01 14:31:39'), 
+    (select person_id from people where email = 'alexadams@email.com'), 
+    3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 
+-- Match 2
+((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
+    null, 1, '2024-01-15 19:00:00', null, 'abandoned'),
+((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
+    null, 2, null, null, 'abandoned'),
+((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
+    null, 3, null, null, 'abandoned'),
+((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
+    null, 4, null, null, 'abandoned'),
+((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
+    null, 5, null, null, 'abandoned'),
+-- Match 3
+((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
+    null, 1, '2026-05-11 18:00:00', null, 'scheduled'),
+((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
+    null, 2, null, null, 'scheduled'),
+((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
+    null, 3, null, null, 'scheduled'),
+((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
+    null, 4, null, null, 'scheduled'),
+((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
+    null, 5, null, null, 'scheduled'),
+((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
+    null, 6, null, null, 'scheduled'),
+((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
+    null, 7, null, null, 'scheduled');
 
 INSERT INTO games(player_1_score, player_2_score, set_id, game_num, game_status, start_datetime, end_datetime)
 -- Games for Set 1
