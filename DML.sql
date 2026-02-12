@@ -115,7 +115,7 @@ VALUES (:person_id, :location_id);
 UPDATE people_locations
 SET person_id = :update_person_id,
     location_id = :update_location_id
-WHERE person_id = :curr_person_id OR
+WHERE person_id = :curr_person_id AND
     location_id = :curr_location_id;
 
 ----- DELETE -----
