@@ -5,6 +5,8 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import People from './pages/People';
 import Locations from './pages/Locations';
+import Matches from './pages/Matches';
+import PlayerMatches from './pages/Player_Matches';
 
 // Components
 import Navigation from './components/Navigation';
@@ -22,9 +24,9 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/people" element={<People backendURL={backendURL} />} />
                 <Route path='/locations' element={<Locations backendURL={backendURL} />} />
-                <Route path='/matches' element={null} />
+                <Route path='/matches' element={<Matches backendURL={backendURL} />} />
                 <Route path='/match_officials' element={null} />
-                <Route path='/player_matches' element={null} />
+                <Route path='/player_matches' element={<PlayerMatches backendURL={backendURL} />} />
                 <Route path='/sets' element={null} />
                 <Route path='/games' element={null} />
             </Routes>
