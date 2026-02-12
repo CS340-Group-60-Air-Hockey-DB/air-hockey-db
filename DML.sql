@@ -162,34 +162,50 @@ WHERE set_id = :set_id;
 -- games --
 -----------
 ----- CREATE -----
-
+INSERT INTO games(player_1_score, player_2_score, set_id, game_num, game_status, start_datetime, end_datetime)
+VALUES (:player_1_score, :player_2_score, :set_id, :game_num, :game_status, :start_datetime, :end_datetime);
 
 ----- READ -----
 -- Get all data
 SELECT * from games;
 
 ----- UPDATE -----
-
+UPDATE games
+SET player_1_score = :player_1_score,
+    player_2_score = :player_2_score,
+    set_id = :set_id,
+    game_num = :game_num,
+    game_status = :game_status,
+    start_datetime = :start_datetime,
+    end_datetime = :end_datetime
+WHERE game_id = :game_id;
 
 ----- DELETE -----
-
+DELETE games
+WHERE game_id = :game_id;
 
 
 ---------------------
 -- match_officials --
 ---------------------
 ----- CREATE -----
-
+INSERT INTO match_officials (official_person_id, set_id, official_type)
+VALUES (:official_person_id, :set_id, :official_type);
 
 ----- READ -----
 -- Get all data
 SELECT * from match_officials;
 
 ----- UPDATE -----
-
+UPDATE games
+SET official_person_id = :official_person_id,
+    set_id = :set_id,
+    official_type = :official_type
+WHERE match_official_id = :match_official_id;
 
 ----- DELETE -----
-
+DELETE match_officials
+WHERE match_official_id = :match_official_id;
 
 
 --------------------
