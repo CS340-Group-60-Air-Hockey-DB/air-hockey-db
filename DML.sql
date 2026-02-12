@@ -1,7 +1,24 @@
 -- Competitive Air Hockey Database
--- Alexandria Duell and Rita Berglund (House of Pucks)
--- This file contains DML (Data Manipulation Language) to apply CREATE, READ, UPDATE, + DELETE (CRUD) queries to the tables
--- Tables that do not have all CRUD queries, will state it
+-- Alexandria Duell and Rita Berglund 
+-- (House of Pucks)
+
+--------------------------------- PURPOSE ---------------------------------
+-- This file contains DML (Data Manipulation Language) to apply CREATE, 
+-- READ, UPDATE, + DELETE (CRUD) queries to the tables.
+
+-- Tables that do not have all CRUD queries, will state it.
+
+------------------------------ QUERY OVERVIEW ------------------------------
+-- 1. people (CRU)
+-- 2. locations (CRU)
+        -- READ: Has a query to add a view to include owner names
+              -- select is for the view described above
+-- 3. people_locations (CUD)
+-- 4. matches (CRUD)
+-- 5. sets (CRUD)
+-- 6. games (CRUD)
+-- 7. match_officials (CRUD)
+-- 8. player_matches (CRUD)
 
 
 ------------
