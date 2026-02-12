@@ -9,6 +9,16 @@ function Matches() {
         { match_id: 2, location_name: 'Location 2', winner_name: 'John Smith', match_status: 'scheduled', start_datetime: '2026-02-15 16:00:00'},
     ]);
 
+    const [locations] = useState([
+        { id: 1, name: 'Location 1' },
+        { id: 2, name: 'Location 2' },
+    ]);
+
+    const [people] = useState([
+        { id: 1, name: 'Jane Doe' },
+        { id: 2, name: 'John Smith' },
+    ]);
+
     return (
         <div className="page-container">
             <h1>Air Hockey Matches</h1>

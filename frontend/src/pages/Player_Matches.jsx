@@ -8,6 +8,16 @@ function PlayerMatches() {
         { player_match_id: 2, match_id: 1, player_name: 'John Smith', starting_side: 'right', player_order: 'player 2' },
     ]);
 
+    const [matches] = useState([
+        { id: 1, description: 'Match 1' },
+        { id: 2, description: 'Match 2' },
+    ]);
+
+    const [people] = useState([
+        { id: 1, name: 'Jane Doe' },
+        { id: 2, name: 'John Smith' },
+    ]);
+    
     return (
         <div className="page-container">
             <h1>Player Matches</h1>
