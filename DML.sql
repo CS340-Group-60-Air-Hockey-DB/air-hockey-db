@@ -9,6 +9,9 @@
 -- Tables that do not have all CRUD queries, will state it.
 
 ------------------------------ QUERY OVERVIEW ------------------------------
+-- All queries use a colon (:) to indicate a variable coming from the backend 
+-- application.
+
 -- 1. people (CRU)
 -- 2. locations (CRU)
         -- READ: Has a query to add a view to include owner names
