@@ -2,7 +2,7 @@ function Home() {
     return (
         <>
             <h1>
-                Competitive Air Hockey
+                Competitive Air Hockey Database
             </h1>
             <div id="home-description">
                 <p>
