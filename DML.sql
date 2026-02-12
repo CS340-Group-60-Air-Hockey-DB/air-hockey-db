@@ -80,6 +80,29 @@ SET table_qty = table_qty,
 -- There is no DELETE for this table, as the community wants to keep data integrity for past matches
 
 
+----------------------
+-- people_locations --
+----------------------
+----- CREATE -----
+INSERT INTO people_locations(person_id, location_id)
+VALUES (person_id, location_id);
+
+----- READ -----
+-- Not needed for a junction table.
+
+----- UPDATE -----
+UPDATE people_locations
+SET person_id = update_person_id
+    location_id = update_location_id
+WHERE person_id = curr_person_id OR
+    location_id = curr_location_id;
+
+----- DELETE -----
+DELETE people_locations
+WHERE person_id = person_id OR
+    location_id = location_id;
+
+
 -------------
 -- matches --
 -------------
