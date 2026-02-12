@@ -45,7 +45,7 @@ WHERE person_id = :person_id;
 ---------------
 ----- CREATE -----
 INSERT INTO locations(table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes)
-VALUES (table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes);
+VALUES (:table_qty, :email, :phone_num, :street_address_1, :street_address_2, :city, :`state`, :country, :zip_code, :type_of_address, :location_name, :notes);
 
 ----- READ -----
 -- Get all data
@@ -63,18 +63,19 @@ ORDER BY location_name;
 
 ----- UPDATE -----
 UPDATE locations 
-SET table_qty = table_qty, 
-    email = email, 
-    phone_num = phone_num, 
-    street_address_1 = street_address_1, 
-    street_address_2 = street_address_2, 
-    city = city, 
-    state = state, 
-    country = country, 
-    zip_code = zip_code 
-    type_of_address = type_of_address, 
-    location_name = location_name, 
-    notes = notes;
+SET table_qty = :table_qty, 
+    email = :email,
+    phone_num = :phone_num,
+    street_address_1 = :street_address_1,
+    street_address_2 = :street_address_2,
+    city = :city,
+    `state` = :`state`,
+    country = :country
+    zip_code = :zip_code
+    type_of_address = :type_of_address, 
+    location_name = :location_name, 
+    notes = :notes
+WHERE location_id = :location_id;
 
 ----- DELETE -----
 -- There is no DELETE for this table, as the community wants to keep data integrity for past matches
