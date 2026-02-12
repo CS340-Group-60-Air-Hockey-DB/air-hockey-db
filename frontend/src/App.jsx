@@ -20,6 +20,12 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/people" element={<People backendURL={backendURL} />} />
+                <Route path='/locations' element={null} />
+                <Route path='/matches' element={null} />
+                <Route path='/match_officials' element={null} />
+                <Route path='/player_matches' element={null} />
+                <Route path='/sets' element={null} />
+                <Route path='/games' element={null} />
             </Routes>
         </>
     );
