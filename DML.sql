@@ -120,7 +120,7 @@ WHERE person_id = :curr_person_id OR
 
 ----- DELETE -----
 DELETE FROM people_locations
-WHERE person_id = :person_id OR
+WHERE person_id = :person_id AND
     location_id = :location_id;
 
 
