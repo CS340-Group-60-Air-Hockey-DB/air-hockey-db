@@ -212,17 +212,24 @@ WHERE match_official_id = :match_official_id;
 -- player_matches --
 --------------------
 ----- CREATE -----
-
+INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
+VALUES player_matches(:player_id, :match_id, :starting_side, :player_order);
 
 ----- READ -----
 -- Get all data
 SELECT * from player_matches;
 
 ----- UPDATE -----
-
+UPDATE player_matches
+SET player_id = :player_id,
+    match_id :match_id,
+    starting_side = :starting_side,
+    player_order = :player_order
+WHERE player_match_id = :player_match_id;
 
 ----- DELETE -----
-
+DELETE player_matches
+WHERE player_match_id = :player_match_id;
 
 
 ----------------------
