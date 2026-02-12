@@ -6,7 +6,7 @@
 -- This file contains DML (Data Manipulation Language) to apply CREATE, 
 -- READ, UPDATE, + DELETE (CRUD) queries to the tables.
 
--- Tables that do not have all CRUD queries, will state it.
+-- Tables that do not have all CRUD queries, will state the reason why.
 
 ------------------------------ QUERY OVERVIEW ------------------------------
 -- All queries use a colon (:) to indicate a variable coming from the backend 
