@@ -230,19 +230,3 @@ WHERE player_match_id = :player_match_id;
 ----- DELETE -----
 DELETE player_matches
 WHERE player_match_id = :player_match_id;
-
-
-----------------------
--- people_locations --
-----------------------
------ CREATE -----
-
-
------ READ -----
--- Get all data
-SELECT * from people_locations;
-
------ UPDATE -----
-
-
------ DELETE -----
