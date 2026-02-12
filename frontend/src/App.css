@@ -42,5 +42,12 @@
 }
 
 #home-description{
-  border: 1px solid purple;
+  border: 10px solid #b4a7d6;
+  padding: 10px 30px;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-self: center;
+  text-align: left;
+  text-indent: 55px;
 }
