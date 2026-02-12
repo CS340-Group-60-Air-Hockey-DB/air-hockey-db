@@ -1,6 +1,6 @@
 -- Competitive Air Hockey Database
 -- Alexandria Duell and Rita Berglund 
--- (House of Pucks)
+-- Group 60: House of Pucks
 
 --------------------------------- PURPOSE ---------------------------------
 -- This file contains DML (Data Manipulation Language) to apply CREATE, 
