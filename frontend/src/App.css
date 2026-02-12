@@ -34,7 +34,7 @@ p {
     Copied + Adapted from: Alex Duell's CS290 project code
     Source: https://github.com/duellal/a8-portfolio/blob/main/frontend/src/App.css - lines 15-28, 201 - 251
 */
-/*  ----- Navigation ----- Override text links for app navigation only.  */
+/*  ----- Navigation ----- Override text links for navigation  */
 nav {
     display: flex;
     justify-self: center;
@@ -80,7 +80,7 @@ nav .highlight {
     box-shadow: 5px 5px rgba(0,0,0,0.3);
 }
 
-
+/* ----- Home Page ----- */
 #home-description{
   border: 10px solid #b4a7d6;
   padding: 10px 30px;
@@ -123,6 +123,7 @@ nav .highlight {
   box-sizing: border-box;
 }
 
+/* ------ Footer ------ */
 footer{
   margin: 100px 0 50px 0;
 }
