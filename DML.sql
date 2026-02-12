@@ -136,17 +136,26 @@ WHERE match_id = :match_id;
 -- sets --
 ----------
 ----- CREATE -----
-
+INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
+VALUES (:match_id, :winner_id, :set_num, :start_datetime, :end_datetime, :set_status);
 
 ----- READ -----
 -- Get all data
-SELECT * from sets;
+SELECT * from `sets`;
 
 ----- UPDATE -----
-
+UPDATE `sets`
+SET match_id = :match_id, 
+    winner_id = :winner_id, 
+    set_num = :set_num, 
+    start_datetime = :start_datetime, 
+    end_datetime = :end_datetime, 
+    set_status = :set_status
+WHERE set_id = :set_id;
 
 ----- DELETE -----
-
+DELETE FROM `sets`
+WHERE set_id = :set_id;
 
 
 -----------
