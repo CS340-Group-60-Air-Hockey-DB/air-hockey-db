@@ -7,6 +7,7 @@ import People from './pages/People';
 import Locations from './pages/Locations';
 import Matches from './pages/Matches';
 import PlayerMatches from './pages/Player_Matches';
+import Sets from './pages/Sets';
 
 // Components
 import Navigation from './components/Navigation';
@@ -27,7 +28,7 @@ function App() {
                 <Route path='/matches' element={<Matches backendURL={backendURL} />} />
                 <Route path='/match_officials' element={null} />
                 <Route path='/player_matches' element={<PlayerMatches backendURL={backendURL} />} />
-                <Route path='/sets' element={null} />
+                <Route path='/sets' element={<Sets backendURL={backendURL} />} />
                 <Route path='/games' element={null} />
             </Routes>
         </>
