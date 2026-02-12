@@ -13,7 +13,7 @@ const PORT = process.env.PORT_FRONTEND || 51738;
 
 // Handles any requests that don't match the ones above to return the React app
 // A request to '/nonExist' will redirect to the index.html where react router takes over at '/'
-app.get('*', (req, res) => {
+app.use((req, res, next) => {
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 
