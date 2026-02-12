@@ -9,7 +9,7 @@
 ------------
 ----- CREATE -----
 INSERT INTO people (first_name, last_name, gender, dob, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code)
-VALUES (first_name, last_name, gender, dob, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code)
+VALUES (first_name, last_name, gender, dob, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code);
 
 ----- READ -----
 -- Get all data, order by first name
@@ -18,7 +18,7 @@ ORDER BY first_name;
 
 -- Get data by id
 SELECT * from people
-WHERE person_id = person_id
+WHERE person_id = person_id;
 
 ----- UPDATE -----
 UPDATE people
@@ -34,7 +34,7 @@ SET first_name = first_name,
     state = state, 
     country = country, 
     zip_code = zip_code
-WHERE person_id = person_id
+WHERE person_id = person_id;
 
 ----- DELETE -----
 -- There is no DELETE for this table, as the community wants to keep data integrity for past matches
@@ -45,7 +45,7 @@ WHERE person_id = person_id
 ---------------
 ----- CREATE -----
 INSERT INTO locations(table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes)
-VALUES (table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes)
+VALUES (table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes);
 
 ----- READ -----
 -- Get all data
@@ -74,7 +74,7 @@ SET table_qty = table_qty,
     zip_code = zip_code 
     type_of_address = type_of_address, 
     location_name = location_name, 
-    notes = notes
+    notes = notes;
 
 ----- DELETE -----
 -- There is no DELETE for this table, as the community wants to keep data integrity for past matches
@@ -84,17 +84,27 @@ SET table_qty = table_qty,
 -- matches --
 -------------
 ----- CREATE -----
-
+INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
+VALUES (set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, 'scheduled');
 
 ----- READ -----
 -- Get all data
 SELECT * from matches;
 
 ----- UPDATE -----
-
+UPDATE matches
+SET set_max = set_max, 
+    faceoff_type = faceoff_type, 
+    start_datetime = start_datetime, 
+    end_datetime = end_datetime, 
+    location_id = location_id, 
+    match_type = match_type, 
+    note = note, 
+    match_status = match_status;
 
 ----- DELETE -----
-
+DELETE FROM matches 
+WHERE match_id = match_id;
 
 
 ----------
