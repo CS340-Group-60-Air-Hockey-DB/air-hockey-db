@@ -7,7 +7,26 @@ import UpdatePersonForm from '../components/UpdatePersonForm';
 function People({ backendURL }) {
 
     // Set up a state variable `people` to store and display the backend response
-    const [people, setPeople] = useState([]);
+    const [people, setPeople] = useState([
+        {
+            person_id: 1,
+            first_name: 'Jane',
+            last_name: 'Doe',
+            gender: 'female',
+            dob: '1999-12-12',
+            email: 'jdoe@oregonstate.edu',
+            phone_num: '123-456-7890'
+        },
+        {
+            person_id: 2,
+            first_name: 'John',
+            last_name: 'Smith',
+            gender: 'male',
+            dob: '1998-03-15',
+            email: 'jsmith@oregonstate.edu',
+            phone_num: '098-765-4321'
+        }
+    ]);
 
     const getData = async function () {
         try {
@@ -42,7 +61,7 @@ function People({ backendURL }) {
                         {people.length > 0 && Object.keys(people[0]).map((header, index) => (
                             <th key={index}>{header}</th>
                         ))}
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
