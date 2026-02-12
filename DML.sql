@@ -113,13 +113,13 @@ VALUES (:person_id, :location_id);
 
 ----- UPDATE -----
 UPDATE people_locations
-SET person_id = update_person_id
-    location_id = update_location_id
-WHERE person_id = curr_person_id OR
-    location_id = curr_location_id;
+SET person_id = :update_person_id
+    location_id = :update_location_id
+WHERE person_id = :curr_person_id OR
+    location_id = :curr_location_id;
 
 ----- DELETE -----
-DELETE people_locations
+DELETE FROM people_locations
 WHERE person_id = :person_id OR
     location_id = :location_id;
 
@@ -204,7 +204,7 @@ SET player_1_score = :player_1_score,
 WHERE game_id = :game_id;
 
 ----- DELETE -----
-DELETE games
+DELETE FROM games
 WHERE game_id = :game_id;
 
 
@@ -228,7 +228,7 @@ SET official_person_id = :official_person_id,
 WHERE match_official_id = :match_official_id;
 
 ----- DELETE -----
-DELETE match_officials
+DELETE FROM match_officials
 WHERE match_official_id = :match_official_id;
 
 
@@ -253,5 +253,5 @@ SET player_id = :player_id,
 WHERE player_match_id = :player_match_id;
 
 ----- DELETE -----
-DELETE player_matches
+DELETE FROM player_matches
 WHERE player_match_id = :player_match_id;
