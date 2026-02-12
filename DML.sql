@@ -86,7 +86,7 @@ WHERE location_id = :location_id;
 ----------------------
 ----- CREATE -----
 INSERT INTO people_locations(person_id, location_id)
-VALUES (person_id, location_id);
+VALUES (:person_id, :location_id);
 
 ----- READ -----
 -- Not needed for a junction table.
@@ -100,8 +100,8 @@ WHERE person_id = curr_person_id OR
 
 ----- DELETE -----
 DELETE people_locations
-WHERE person_id = person_id OR
-    location_id = location_id;
+WHERE person_id = :person_id OR
+    location_id = :location_id;
 
 
 -------------
