@@ -130,7 +130,8 @@ VALUES (:set_max, :faceoff_type, :start_datetime, :end_datetime, :location_id, :
 
 ----- READ -----
 -- Get all data
-SELECT * from matches;
+SELECT * from matches
+ORDER BY match_status;
 
 ----- UPDATE -----
 UPDATE matches
@@ -158,7 +159,8 @@ VALUES (:match_id, :winner_id, :set_num, :start_datetime, :end_datetime, :set_st
 
 ----- READ -----
 -- Get all data
-SELECT * from `sets`;
+SELECT * from `sets`
+ORDER BY match_id;
 
 ----- UPDATE -----
 UPDATE `sets`
@@ -184,7 +186,8 @@ VALUES (:player_1_score, :player_2_score, :set_id, :game_num, :game_status, :sta
 
 ----- READ -----
 -- Get all data
-SELECT * from games;
+SELECT * from games
+ORDER BY set_id;
 
 ----- UPDATE -----
 UPDATE games
@@ -211,7 +214,8 @@ VALUES (:official_person_id, :set_id, :official_type);
 
 ----- READ -----
 -- Get all data
-SELECT * from match_officials;
+SELECT * from match_officials
+ORDER BY set_id;
 
 ----- UPDATE -----
 UPDATE games
@@ -234,7 +238,8 @@ VALUES player_matches(:player_id, :match_id, :starting_side, :player_order);
 
 ----- READ -----
 -- Get all data
-SELECT * from player_matches;
+SELECT * from player_matches
+ORDER BY match_id;
 
 ----- UPDATE -----
 UPDATE player_matches
