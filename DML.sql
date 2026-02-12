@@ -52,7 +52,7 @@ SET first_name = :first_name,
     street_address_2 = :street_address_2,
     city = :city,
     `state` = :`state`,
-    country = :country
+    country = :country,
     zip_code = :zip_code
 WHERE person_id = :person_id;
 
@@ -90,8 +90,8 @@ SET table_qty = :table_qty,
     street_address_2 = :street_address_2,
     city = :city,
     `state` = :`state`,
-    country = :country
-    zip_code = :zip_code
+    country = :country,
+    zip_code = :zip_code,
     type_of_address = :type_of_address, 
     location_name = :location_name, 
     notes = :notes
@@ -113,7 +113,7 @@ VALUES (:person_id, :location_id);
 
 ----- UPDATE -----
 UPDATE people_locations
-SET person_id = :update_person_id
+SET person_id = :update_person_id,
     location_id = :update_location_id
 WHERE person_id = :curr_person_id OR
     location_id = :curr_location_id;
@@ -221,7 +221,7 @@ SELECT * from match_officials
 ORDER BY set_id;
 
 ----- UPDATE -----
-UPDATE games
+UPDATE match_officials
 SET official_person_id = :official_person_id,
     set_id = :set_id,
     official_type = :official_type
@@ -237,7 +237,7 @@ WHERE match_official_id = :match_official_id;
 --------------------
 ----- CREATE -----
 INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
-VALUES player_matches(:player_id, :match_id, :starting_side, :player_order);
+VALUES (:player_id, :match_id, :starting_side, :player_order);
 
 ----- READ -----
 -- Get all data
@@ -247,7 +247,7 @@ ORDER BY match_id;
 ----- UPDATE -----
 UPDATE player_matches
 SET player_id = :player_id,
-    match_id :match_id,
+    match_id = :match_id,
     starting_side = :starting_side,
     player_order = :player_order
 WHERE player_match_id = :player_match_id;
