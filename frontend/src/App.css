@@ -84,6 +84,7 @@ nav .highlight {
 #home-description{
   border: 10px solid #b4a7d6;
   padding: 10px 30px;
+  margin-bottom: 100px;
   width: 70%;
   display: flex;
   flex-wrap: wrap;

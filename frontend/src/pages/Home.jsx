@@ -28,10 +28,11 @@ function Home(props) {
 
             <h2>
                 Page Descriptions
-                </h2>
+            </h2>
+            
             <div id="page-descriptions">
                 <div class='page-sections'>
-    <h3>
+                    <h3>
                         Air Hockey Community
                     </h3>
                     <p>
