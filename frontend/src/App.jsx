@@ -8,6 +8,7 @@ import Locations from './pages/Locations';
 import Matches from './pages/Matches';
 import PlayerMatches from './pages/Player_Matches';
 import Sets from './pages/Sets';
+import Games from './pages/Games';
 
 // Components
 import Navigation from './components/Navigation';
@@ -29,7 +30,7 @@ function App() {
                 <Route path='/match_officials' element={null} />
                 <Route path='/player_matches' element={<PlayerMatches backendURL={backendURL} />} />
                 <Route path='/sets' element={<Sets backendURL={backendURL} />} />
-                <Route path='/games' element={null} />
+                <Route path='/games' element={<Games backendURL={backendURL} />} />
             </Routes>
         </>
     );
