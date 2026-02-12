@@ -109,7 +109,7 @@ WHERE person_id = :person_id OR
 -------------
 ----- CREATE -----
 INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
-VALUES (set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, 'scheduled');
+VALUES (:set_max, :faceoff_type, :start_datetime, :end_datetime, :location_id, :match_type, :note, 'scheduled');
 
 ----- READ -----
 -- Get all data
@@ -117,18 +117,19 @@ SELECT * from matches;
 
 ----- UPDATE -----
 UPDATE matches
-SET set_max = set_max, 
-    faceoff_type = faceoff_type, 
-    start_datetime = start_datetime, 
-    end_datetime = end_datetime, 
-    location_id = location_id, 
-    match_type = match_type, 
-    note = note, 
-    match_status = match_status;
+SET set_max = :set_max, 
+    faceoff_type = :faceoff_type, 
+    start_datetime = :start_datetime, 
+    end_datetime = :end_datetime, 
+    location_id = :location_id, 
+    match_type = :match_type, 
+    note = :note, 
+    match_status = :match_status
+WHERE match_id = :match_id;
 
 ----- DELETE -----
 DELETE FROM matches 
-WHERE match_id = match_id;
+WHERE match_id = :match_id;
 
 
 ----------
