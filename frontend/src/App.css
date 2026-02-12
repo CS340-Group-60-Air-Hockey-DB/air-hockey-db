@@ -54,7 +54,7 @@
 
 #page-descriptions{
   border: 10px solid #b4a7d6;
-  padding: 10px 30px;
+  padding: 20px 30px;
   width: 70%;
   display: flex;
   flex-wrap: wrap;
@@ -63,12 +63,21 @@
   text-indent: 55px;
 }
 
+#page-descriptions .page-sections{
+  width: 100%;
+  margin: 10px;
+}
+
 #page-descriptions h3 {
   width: 100%;
   text-indent: 0px;
+  margin: 0px;
 }
 
 #page-descriptions p {
   width: 100%;
   text-align: start;
+  text-indent: 0px;
+  padding: 0px 50px;
+  box-sizing: border-box;
 }

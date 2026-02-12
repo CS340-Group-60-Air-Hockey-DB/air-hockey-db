@@ -23,54 +23,68 @@ function Home() {
                 Page Descriptions
                 </h2>
             <div id="page-descriptions">
-                <h3>
-                    Air Hockey Players
-                </h3>
-                <p>
-                    Browse Air Hockey players in the community. You can add a player or person who owns a location.
-                </p>
+                <div class='page-sections'>
+    <h3>
+                        Air Hockey Community
+                    </h3>
+                    <p>
+                        Browse and manage players, officials, and location owners in the air hockey community. Add, edit, or remove people from the database.
+                </p>    
+                </div>
+                
+                <div class='page-sections'>
+                    <h3>
+                        Locations
+                    </h3>
+                    <p>
+                        Browse locations where Air Hockey tables can be found and includes locations for venues of tournaments. Track table quantities, associated owner or business, venue details, and tournament locations. Add, edit, or remove locations.
+                    </p>
+                </div>
 
-                <h3>
-                    Locations
-                </h3>
-                <p>
+                <div class='page-sections'>
+                    <h3>
+                        Matches
+                    </h3>
+                    <p>
+                        Browse and manage competitive matches. View match details including location, type, status, and winner. Add, edit, or remove matches.
+                    </p>
+                </div>
 
-                </p>
+                <div class='page-sections'>
+                    <h3>
+                        Player Matches
+                    </h3>
+                    <p>
+                        View player participation in matches. See which players competed in each match, their starting positions, match scores, and outcomes. Add, edit, or remove player-match records.
+                    </p>
+                </div>
 
-                <h3>
-                    Matches
-                </h3>
-                <p>
-                    
-                </p>
+                <div class='page-sections'>
+                    <h3>
+                        Match Officials
+                    </h3>
+                    <p>
+                        Browse and manage referees and witnesses assigned to sets. Track official assignments and roles. Add, edit, or remove official records.
+                    </p>
+                </div>
 
-                <h3>
-                    Player Matches
-                </h3>
-                <p>
-                    
-                </p>
+                <div class='page-sections'>
+                    <h3>
+                        Sets
+                    </h3>
+                    <p>
+                        Browse and manage sets within matches. View set numbers, winners, status, and timing. Add, edit, or remove sets.
+                    </p>
+                </div>
 
-                <h3>
-                    Match Officials
-                </h3>
-                <p>
-                    
-                </p>
-
-                <h3>
-                    Sets
-                </h3>
-                <p>
-                    
-                </p>
-
-                <h3>
-                    Games
-                </h3>
-                <p>
-                    
-                </p>
+                <div class='page-sections'>
+                    <h3>
+                        Games
+                    </h3>
+                    <p>
+                        Browse and manage individual games within sets. View game scores, status, and timing for each game. Add, edit, or remove games.
+                    </p>
+                </div>
             </div>
         </>
     )
