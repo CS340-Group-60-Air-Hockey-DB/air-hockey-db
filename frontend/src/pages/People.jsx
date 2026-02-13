@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';  // Importing useState for managing
 import TableRow from '../components/TableRow';
 import CreatePersonForm from '../components/CreatePersonForm';
 import UpdatePersonForm from '../components/UpdatePersonForm';
-import cap_words from '../functions/split_words';
+import cap_words from '../functions/cap_words';
 
 
 function People({ backendURL }) {
