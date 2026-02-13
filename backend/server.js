@@ -1,5 +1,6 @@
 // ########################################
 // ########## SETUP
+require('dotenv').config()
 
 // Database
 const db = require('./database/db-connector');
@@ -25,18 +26,16 @@ app.get('/people', async (req, res) => {
         // Create and execute our queries
         // In query1, we use a JOIN clause to display the names of the homeworlds
         const query1 = `SELECT person_id, first_name, last_name, email, phone_num FROM people;`;
-        const query2 = 'SELECT * FROM locations;';
         const [people] = await db.query(query1);
-        const [locations] = await db.query(query2);
-    
-        res.status(200).json({ people, locations });  // Send the results to the frontend
+
+        res.status(200).json(people);  // Send the results to the frontend
 
     } catch (error) {
         console.error("Error executing queries:", error);
         // Send a generic error message to the browser
         res.status(500).send("An error occurred while executing the database queries.");
     }
-    
+
 });
 
 // ########################################
