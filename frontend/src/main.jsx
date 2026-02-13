@@ -1,3 +1,7 @@
+//Citation for the following file:
+//Date: 2/12/2026
+//Copied from CS 340 starter code
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
