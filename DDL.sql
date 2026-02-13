@@ -5,6 +5,8 @@
 -- Schema includes: people, locations, matches, sets, games, player_matches, match_officials, people_locations
 -- This file provides insert statements into the aforementioned tables. 
 
+-- The file was created fully by Rita + Alex
+
 ----------------------------------------------------------------------
 -- Disable foreign key checks to allow dropping tables in any order --
 ----------------------------------------------------------------------
@@ -231,20 +233,14 @@ VALUES (4, null, '919-329-9031', '1234 Foundation Lane', null, 'Raleigh', 'NC', 
 (0, 'events@grandplazahotel.com', '919-555-0298', '456 Hospitality Boulevard', null, 'Cary', 'NC', 'USA', '27511', 'other', 'Grand Plaza Hotel & Conference Center', 'Potential tournament venue, no permanent tables but large event space available'),
 (0, 'info@spacecitysports.com', '713-555-0891', '8500 Kirby Drive', null, 'Houston', 'TX', 'USA', '77054', 'other', 'Space City Sports Complex', 'Major sports venue, interested in hosting regional + world air hockey championships.');
 
+
 -------------
 -- matches --
 -------------
 INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
-VALUES 
-(3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 
-    (SELECT location_id from locations where email = 'contact@paddlepalace.com'), 
-    'challenge', null, 'completed'),
-(5, 'puck flip', '2024-01-15 19:00:00', null, 
-    (SELECT location_id from locations where email = 'events@grandplazahotel.com'), 
-    'tournament', 'Tournament was cancelled.', 'abandoned'),
-(7, 'standard', '2026-05-11 18:00:00', null, 
-    (SELECT location_id from locations where email is null and type_of_address = 'residential' and location_name = 'The Foundation'), 
-    'challenge', null, 'scheduled');
+VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challenge', null, 'completed'),
+(5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned'),
+(7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled');
 
 ----------
 -- sets --
@@ -252,99 +248,48 @@ VALUES
 INSERT INTO sets(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
 VALUES 
 -- Match 1
-((select match_id from matches where start_datetime = '2026-02-01 14:31:39'), 
-    null, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
-((select match_id from matches where start_datetime = '2026-02-01 14:31:39'), 
-    null, 2, '2026-02-01 14:55:10', '2026-02-01 15:19:45', 'completed'),
-((select match_id from matches where start_datetime = '2026-02-01 14:31:39'), 
-    (select person_id from people where email = 'alexadams@email.com'), 
-    3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 
+(1, null, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
+(1, null, 2, '2026-02-01 14:55:10', '2026-02-01 15:19:45', 'completed'),
+(1, 1, 3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 
 -- Match 2
-((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
-    null, 1, '2024-01-15 19:00:00', null, 'abandoned'),
-((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
-    null, 2, null, null, 'abandoned'),
-((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
-    null, 3, null, null, 'abandoned'),
-((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
-    null, 4, null, null, 'abandoned'),
-((select match_id from matches where start_datetime = '2024-01-15 19:00:00'), 
-    null, 5, null, null, 'abandoned'),
+(2, null, 1, '2024-01-15 19:00:00', null, 'abandoned'),
+(2, null, 2, null, null, 'abandoned'),
+(2, null, 3, null, null, 'abandoned'),
+(2, null, 4, null, null, 'abandoned'),
+(2, null, 5, null, null, 'abandoned'),
 -- Match 3
-((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
-    null, 1, '2026-05-11 18:00:00', null, 'scheduled'),
-((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
-    null, 2, null, null, 'scheduled'),
-((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
-    null, 3, null, null, 'scheduled'),
-((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
-    null, 4, null, null, 'scheduled'),
-((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
-    null, 5, null, null, 'scheduled'),
-((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
-    null, 6, null, null, 'scheduled'),
-((select match_id from matches where start_datetime = '2026-05-11 18:00:00'), 
-    null, 7, null, null, 'scheduled');
+(3, null, 1, '2026-05-11 18:00:00', null, 'scheduled'),
+(3, null, 2, null, null, 'scheduled'),
+(3, null, 3, null, null, 'scheduled'),
+(3, null, 4, null, null, 'scheduled'),
+(3, null, 5, null, null, 'scheduled'),
+(3, null, 6, null, null, 'scheduled'),
+(3, null, 7, null, null, 'scheduled');
 
 -----------
 -- games --
 -----------
 INSERT INTO games(player_1_score, player_2_score, set_id, game_num, game_status, start_datetime, end_datetime)
--- Games for Match 1 Set 1
-VALUES 
-(7, 3, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
-    1, 'completed', '2026-02-01 14:31:39', '2026-02-01 14:36:15'),
-(7, 6, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
-    2, 'completed', '2026-02-01 14:36:45', '2026-02-01 14:43:20'),
-(7, 3, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
-    3, 'completed', '2026-02-01 14:43:50', '2026-02-01 14:47:35'),
-(7, 5, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
-    4, 'completed', '2026-02-01 14:48:05', '2026-02-01 14:53:22'),
+-- Games for Match 1 Set 1 
+VALUES (7, 3, 1, 1, 'completed', '2026-02-01 14:31:39', '2026-02-01 14:36:15'),
+(7, 6, 1, 2, 'completed', '2026-02-01 14:36:45', '2026-02-01 14:43:20'),
+(7, 3, 1, 3, 'completed', '2026-02-01 14:43:50', '2026-02-01 14:47:35'),
+(7, 5, 1, 4, 'completed', '2026-02-01 14:48:05', '2026-02-01 14:53:22'),
 -- Games for Match 1 Set 2
-(3, 7, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
-    1, 'completed', '2026-02-01 14:55:10', '2026-02-01 14:59:05'),
-(7, 2, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
-    2, 'completed', '2026-02-01 14:59:35', '2026-02-01 15:03:10'),
-(7, 6, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
-    3, 'completed', '2026-02-01 15:03:40', '2026-02-01 15:08:25'),
-(5, 7, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
-    4, 'completed', '2026-02-01 15:08:55', '2026-02-01 15:13:40'),
-(7, 3, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
-    5, 'completed', '2026-02-01 15:14:10', '2026-02-01 15:17:50'),
-(7, 4, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
-    6, 'completed', '2026-02-01 15:18:20', '2026-02-01 15:19:45'),
+(3, 7, 2, 1, 'completed', '2026-02-01 14:55:10', '2026-02-01 14:59:05'),
+(7, 2, 2, 2, 'completed', '2026-02-01 14:59:35', '2026-02-01 15:03:10'),
+(7, 6, 2, 3, 'completed', '2026-02-01 15:03:40', '2026-02-01 15:08:25'),
+(5, 7, 2, 4, 'completed', '2026-02-01 15:08:55', '2026-02-01 15:13:40'),
+(7, 3, 2, 5, 'completed', '2026-02-01 15:14:10', '2026-02-01 15:17:50'),
+(7, 4, 2, 6, 'completed', '2026-02-01 15:18:20', '2026-02-01 15:19:45'),
 -- Games for Match 1 Set 3
-(7, 1, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    1, 'completed', '2026-02-01 15:21:33', '2026-02-01 15:25:20'),
-(5, 7, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    2, 'completed', '2026-02-01 15:25:50', '2026-02-01 15:30:35'),
-(7, 5, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    3, 'completed', '2026-02-01 15:31:05', '2026-02-01 15:35:50'),
-(7, 1, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    4, 'completed', '2026-02-01 15:36:20', '2026-02-01 15:39:45'),
-(4, 7, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    5, 'completed', '2026-02-01 15:40:15', '2026-02-01 15:44:30'),
-(6, 7, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    6, 'completed', '2026-02-01 15:44:55', '2026-02-01 15:49:45'),
-(7, 6, 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    7, 'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06');
+(7, 1, 3, 1, 'completed', '2026-02-01 15:21:33', '2026-02-01 15:25:20'),
+(5, 7, 3, 2, 'completed', '2026-02-01 15:25:50', '2026-02-01 15:30:35'),
+(7, 5, 3, 3, 'completed', '2026-02-01 15:31:05', '2026-02-01 15:35:50'),
+(7, 1, 3, 4, 'completed', '2026-02-01 15:36:20', '2026-02-01 15:39:45'),
+(4, 7, 3, 5, 'completed', '2026-02-01 15:40:15', '2026-02-01 15:44:30'),
+(6, 7, 3, 6, 'completed', '2026-02-01 15:44:55', '2026-02-01 15:49:45'),
+(7, 6, 3, 7, 'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06');
 
 ---------------------
 -- match_officials --
@@ -352,31 +297,12 @@ VALUES
 INSERT INTO match_officials (official_person_id, set_id, official_type)
 VALUES 
 -- Officials are only for Match 1
--- Quinn Foster ref for sets 1 + 2
-((SELECT person_id FROM people WHERE first_name = 'Quinn' AND last_name = 'Foster'), 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
-    'referee'),
-((SELECT person_id FROM people WHERE first_name = 'Quinn' AND last_name = 'Foster'), 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
-    'referee'),
-
--- Aisling O'Connor ref for Set 3
-((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = "O'Connor"), 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    'referee'),
-
--- Aisling O'Connor witness for sets 1 + 2
-((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = "O'Connor"), 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 1), 
-    'witness'),
-((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = "O'Connor"), 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 2), 
-    'witness'),
-
--- Quinn Foster witness for set 3
-((SELECT person_id FROM people WHERE first_name = 'Quinn' AND last_name = 'Foster'), 
-    (SELECT set_id FROM sets WHERE match_id = (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39') AND set_num = 3), 
-    'witness');
+(6, 1, 'referee'),
+(6, 2, 'referee'),
+(7, 3, 'referee'),
+(7, 1, 'witness'),
+(7, 2, 'witness'),
+(6, 3, 'witness');
 
 --------------------
 -- player_matches --
@@ -384,40 +310,24 @@ VALUES
 INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
 VALUES 
 -- Match 1
-((SELECT person_id FROM people WHERE first_name = 'Alex' AND last_name = 'Adams'), 
-    (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39'), 
-    'left', 'player_1'),
-((SELECT person_id FROM people WHERE first_name = 'Evan' AND last_name = 'Cole'), 
-    (SELECT match_id FROM matches WHERE start_datetime = '2026-02-01 14:31:39'), 
-    'right', 'player_2'),
+(1, 1, 'left', 'player_1'),
+(3, 1, 'right', 'player_2'),
 
 -- Match 2
-((SELECT person_id FROM people WHERE first_name = 'Natalie' AND last_name = 'Perez'), 
-    (SELECT match_id FROM matches WHERE start_datetime = '2024-01-15 19:00:00'), 
-    'left', 'player_1'),
-((SELECT person_id FROM people WHERE first_name = 'Aisling' AND last_name = "O'Connor"), 
-    (SELECT match_id FROM matches WHERE start_datetime = '2024-01-15 19:00:00'), 
-    'right', 'player_2'),
+(5, 2, 'left', 'player_1'),
+(7, 2, 'right', 'player_2'),
 
 -- Match 3
-((SELECT person_id FROM people WHERE first_name = 'Casey' AND last_name = 'Martinez'), 
-    (SELECT match_id FROM matches WHERE start_datetime = '2026-05-11 18:00:00'), 
-    'left', 'player_1'),
-((SELECT person_id FROM people WHERE first_name = 'Quinn' AND last_name = 'Foster'), 
-    (SELECT match_id FROM matches WHERE start_datetime = '2026-05-11 18:00:00'), 
-    'right', 'player_2');
+(2, 3, 'left', 'player_1'),
+(6, 3, 'right', 'player_2');
 
 ----------------------
 -- people_locations --
 ----------------------
 INSERT INTO people_locations(person_id, location_id)
-VALUES 
-((SELECT person_id FROM people WHERE first_name = 'Alex' AND last_name = 'Adams'), 
-    (SELECT location_id from locations where email is null and type_of_address = 'residential' and location_name = 'The Foundation')),
-((SELECT person_id FROM people WHERE first_name = 'Evan' AND last_name = 'Cole'), 
-    (SELECT location_id from locations where email = 'contact@paddlepalace.com')), 
-((SELECT person_id FROM people WHERE first_name = 'Dylan' AND last_name = 'Moore'), 
-    (SELECT location_id from locations where email = 'events@grandplazahotel.com'));
+VALUES (1, 1),
+(3, 2),
+(4, 4);
 
 -------------------------------
 -- Enable foreign key checks --
