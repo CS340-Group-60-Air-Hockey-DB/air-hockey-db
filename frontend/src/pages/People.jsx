@@ -58,15 +58,15 @@ function People({ backendURL }) {
             <table>
                 <thead>
                     <tr>
-                        {people.length > 0 && Object.keys(people[0]).map((header, index) => (
+                        {people?.length > 0 && Object.keys(people[0]).map((header, index) => (
                             <th key={index}>{header}</th>
                         ))}
-                        <th>Actions</th>
+                            <th>Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {people.map((person, index) => (
+                    {people?.map((person, index) => (
                         <TableRow key={index} rowObject={person} backendURL={backendURL} refreshPeople={getData}/>
                     ))}
 
