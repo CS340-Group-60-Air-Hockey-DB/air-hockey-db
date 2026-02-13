@@ -3,8 +3,14 @@
 import React, { useState } from 'react';
 import AddLocation from '../components/AddLocation';
 import UpdateLocation from '../components/UpdateLocation';
+import { useLocation } from 'react-router-dom';
 
-function Locations() {
+function Locations(props) {
+    const { setLocation } = props
+    const location = useLocation()
+
+    setLocation(location)
+
     // including sample data for this phase
     const [locations, setLocations] = useState([
         { location_id: 1, location_name: 'Location 1', table_qty: 5, city: 'Corvallis', state: 'OR', type_of_address: 'commercial'},

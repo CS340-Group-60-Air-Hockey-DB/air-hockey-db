@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import AddPlayerToMatch from '../components/AddPlayerToMatch';
+import { useLocation } from 'react-router-dom';
 
-function PlayerMatches() {
+function PlayerMatches(props) {
+    const { setLocation } = props
+    const location = useLocation()
+
+    setLocation(location)
+
     // sample data for this phase
     const [playerMatches, setPlayerMatches] = useState([
         { player_match_id: 1, match_id: 1, player_name: 'Jane Doe', starting_side: 'left', player_order: 'player 1' },

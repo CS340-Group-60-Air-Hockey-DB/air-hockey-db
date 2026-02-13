@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import AddSet from '../components/AddSet';
+import { useLocation } from 'react-router-dom';
 
-function Sets() {
+function Sets(props) {
+    const { setLocation } = props
+    const location = useLocation()
+
+    setLocation(location)
+
     // sample data for this phase
     const [sets, setSets] = useState([
         { set_id: 1, match_id: 1, set_num: 1, set_status: 'completed', winner_name: 'Jane Doe' },

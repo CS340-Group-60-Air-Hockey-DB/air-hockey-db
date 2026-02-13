@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import AddMatchOfficial from '../components/AddMatchOfficial';
+import { useLocation } from 'react-router-dom';
 
-function MatchOfficials() {
+function MatchOfficials(props) {
+    const { setLocation } = props
+    const location = useLocation()
+
+    setLocation(location)
+
     // sample data for this phase
     const [matchOfficials, setMatchOfficials] = useState([
         { match_official_id: 1, person_name: 'Jane Doe', set_description: 'Set 1 of Match 1', official_type: 'referee' },
