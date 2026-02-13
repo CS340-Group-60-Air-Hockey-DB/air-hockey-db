@@ -61,6 +61,7 @@ nav a {
     width: max-content;
     font-size: 20px;
     margin: 1.5% 1.5%;
+    min-width: 125px;
     width: 125px;
     height: 125px;
     box-sizing: border-box;
