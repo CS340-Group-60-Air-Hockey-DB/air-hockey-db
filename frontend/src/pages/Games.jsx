@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import AddGame from '../components/AddGame';
+import { useLocation } from 'react-router-dom';
 
-function Games() {
+function Games(props) {
+    const { setLocation } = props
+    const location = useLocation()
+
+    setLocation(location)
+
     // sample data for this phase
     const [games, setGames] = useState([
         { game_id: 1, set_id: 1, game_num: 1, p1_score: 7, p2_score: 5, status: 'completed' },

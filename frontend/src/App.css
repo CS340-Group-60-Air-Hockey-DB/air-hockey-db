@@ -1,42 +1,130 @@
+/*   ----- Variables  -----  */
+:root {
+    --red: #C2141D;
+    --yellow: #FFD933;
+    --baby-blue: #437BBF;
+    --lime-green: #dfffae;
+    --lime-green-border: #58B827;
+}
+
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+h1{
+  font-size: 40px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h2{
+  font-size: 34px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+h3{
+  font-size: 25px;
 }
 
-.card {
-  padding: 2em;
+p {
+  font-size: 18px;
 }
 
-.read-the-docs {
-  color: #888;
+/* 
+    Citation for the Navigation code below
+    Date: 2/12/2026
+    Copied + Adapted from: Alex Duell's CS290 project code
+    Source: https://github.com/duellal/a8-portfolio/blob/main/frontend/src/App.css - lines 15-28, 201 - 251
+*/
+/*  ----- Navigation ----- Override text links for navigation  */
+nav {
+    display: flex;
+    justify-self: center;
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+    width: 100%;
+    padding: 16px;
+    background-color: var(--baby-blue);
+    box-sizing: border-box;
+    font-weight: 800;
+    color: black;
+}
+
+nav a {
+    display: flex;
+    background-color: white;
+    border: 5px solid var(--red);
+    box-shadow: 5px 5px rgba(0,0,0,0.1);
+    border-radius: 100%;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    font-size: 20px;
+    margin: 1.5% 1.5%;
+    min-width: 125px;
+    width: 125px;
+    height: 125px;
+    box-sizing: border-box;
+}
+nav a:hover {
+    text-decoration: none;
+    background-color: var(--lime-green);
+    border-color: var(--lime-green-border);
+}
+nav .highlight {
+    text-decoration: none;
+    background-color: var(--yellow);
+    border: 5px solid var(--lime-green-border);
+    box-shadow:  none;
+}
+#app-nav a:hover {
+    box-shadow: 5px 5px rgba(0,0,0,0.3);
+}
+
+/* ----- Home Page ----- */
+#home-description{
+  border: 10px solid #b4a7d6;
+  padding: 10px 30px;
+  margin-bottom: 100px;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-self: center;
+  text-align: left;
+  text-indent: 55px;
+}
+
+#page-descriptions{
+  border: 10px solid #b4a7d6;
+  padding: 20px 30px;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-self: center;
+  text-align: left;
+  text-indent: 55px;
+}
+
+#page-descriptions .page-sections{
+  width: 100%;
+  margin: 10px;
+}
+
+#page-descriptions h3 {
+  width: 100%;
+  text-indent: 0px;
+  margin: 0px;
+}
+
+#page-descriptions p {
+  width: 100%;
+  text-align: start;
+  text-indent: 0px;
+  padding: 0px 50px;
+  box-sizing: border-box;
+}
+
+/* ------ Footer ------ */
+footer{
+  margin: 100px 0 50px 0;
 }

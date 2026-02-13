@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import AddMatch from '../components/AddMatch';
 import UpdateMatch from '../components/UpdateMatch';
+import { useLocation } from 'react-router-dom';
 
-function Matches() {
+function Matches(props) {
+    const { setLocation } = props
+    const location = useLocation()
+
+    setLocation(location)
+
     // sample data for this phase
     const [matches, setMatches] = useState([
         { match_id: 1, location_name: 'Location 1', winner_name: 'Jane Doe', match_status: 'completed', start_datetime: '2026-02-12 14:00:00'},

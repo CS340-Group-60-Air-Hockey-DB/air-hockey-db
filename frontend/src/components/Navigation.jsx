@@ -1,15 +1,14 @@
-function Navigation() {
+function Navigation({location}) {
     return (
-        <nav>
-            Navigation:
-            <a href="/">Home</a>
-            <a href="/people">Air Hockey Players</a>
-            <a href="/locations">Air Hockey Venues</a>
-            <a href="/matches">Air Hockey Matches</a>
-            <a href="/match_officials">Match Officials</a>
-            <a href="/player_matches">Player Matches</a>
-            <a href="/sets">Sets</a>
-            <a href="/games">Games</a>
+        <nav id="app-nav">
+            <a class={location === '/' ? 'highlight': ''} href="/">Home</a>
+            <a class={location === '/people' ? 'highlight': ''} href="/people">Community</a>
+            <a class={location === '/locations' ? 'highlight': ''} href="/locations">Venues</a>
+            <a class={location === '/matches' ? 'highlight': ''} href="/matches">Matches</a>
+            <a class={location === '/player_matches' ? 'highlight': ''} href="/player_matches">Player Matches</a>
+            <a class={location === '/match_officials' ? 'highlight': ''} href="/match_officials">Match Officials</a>
+            <a class={location === '/sets' ? 'highlight': ''} href="/sets">Sets</a>
+            <a class={location === '/games' ? 'highlight': ''} href="/games">Games</a>
         </nav>
     )
 } export default Navigation;
