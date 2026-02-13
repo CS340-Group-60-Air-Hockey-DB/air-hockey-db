@@ -2,12 +2,32 @@ import { useState, useEffect } from 'react';  // Importing useState for managing
 import TableRow from '../components/TableRow';
 import CreatePersonForm from '../components/CreatePersonForm';
 import UpdatePersonForm from '../components/UpdatePersonForm';
+import cap_words from '../functions/cap_words';
 
 
 function People({ backendURL }) {
 
     // Set up a state variable `people` to store and display the backend response
-    const [people, setPeople] = useState([]);
+    const [people, setPeople] = useState([
+        {
+            person_id: 1,
+            first_name: 'Jane',
+            last_name: 'Doe',
+            gender: 'female',
+            dob: '1999-12-12',
+            email: 'jdoe@oregonstate.edu',
+            phone_num: '123-456-7890'
+        },
+        {
+            person_id: 2,
+            first_name: 'John',
+            last_name: 'Smith',
+            gender: 'male',
+            dob: '1998-03-15',
+            email: 'jsmith@oregonstate.edu',
+            phone_num: '098-765-4321'
+        }
+    ]);
 
     const getData = async function () {
         try {
@@ -27,9 +47,11 @@ function People({ backendURL }) {
 
     };
 
+    console.log('People:', people)
+
     // Load table on page load
     useEffect(() => {
-        getData();
+        getData()
     }, []);
 
     return (
@@ -39,15 +61,17 @@ function People({ backendURL }) {
             <table>
                 <thead>
                     <tr>
-                        {people.length > 0 && Object.keys(people[0]).map((header, index) => (
-                            <th key={index}>{header}</th>
+                        {people?.length > 0 && Object.keys(people[0])?.map((header, index) => (
+                            <th key={index}>{
+                                header === 'phone_num' ? 'Phone Number' : cap_words(header)
+                            }</th>
                         ))}
-                        <th></th>
+                            <th>Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {people.map((person, index) => (
+                    {people?.map((person, index) => (
                         <TableRow key={index} rowObject={person} backendURL={backendURL} refreshPeople={getData}/>
                     ))}
 

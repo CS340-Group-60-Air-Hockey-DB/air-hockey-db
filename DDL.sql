@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS people_locations;
 DROP TABLE IF EXISTS player_matches;
 DROP TABLE IF EXISTS match_officials;
 DROP TABLE IF EXISTS games;
-DROP TABLE IF EXISTS sets;
+DROP TABLE IF EXISTS `sets`;
 DROP TABLE IF EXISTS matches;
 DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS people;
@@ -74,7 +74,7 @@ CREATE OR REPLACE TABLE matches (
     )
 );
 
-CREATE OR REPLACE TABLE sets (
+CREATE OR REPLACE TABLE `sets` (
     set_id int(11) auto_increment not null unique,
     match_id int(11) not null,
     winner_id int(11),
@@ -116,7 +116,7 @@ CREATE OR REPLACE TABLE games(
     end_datetime datetime,
 
     primary key (game_id),
-    foreign key (set_id) references sets(set_id),
+    foreign key (set_id) references `sets`(set_id),
     constraint chk_player_scores CHECK (
         player_1_score BETWEEN 0 AND 7 AND 
         player_2_score BETWEEN 0 AND 7
@@ -149,7 +149,7 @@ CREATE OR REPLACE TABLE match_officials (
     official_type enum('referee', 'witness') NOT NULL,
     PRIMARY KEY (match_official_id),
     FOREIGN KEY (official_person_id) REFERENCES people(person_id),
-    FOREIGN KEY (set_id) REFERENCES sets(set_id)
+    FOREIGN KEY (set_id) REFERENCES `sets`(set_id)
 );
 
 CREATE OR REPLACE TABLE player_matches(
@@ -198,7 +198,7 @@ VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challen
 (5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned'),
 (7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled');
 
-INSERT INTO sets(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
+INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
 VALUES (1, null, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
 (1, null, 2, '2026-02-01 14:55:10', '2026-02-01 15:19:45', 'completed'),
 (1, 1, 3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 

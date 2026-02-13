@@ -39,7 +39,7 @@ const CreatePersonForm = ({ backendURL, refreshPeople }) => {
                 id="dob"
             />
 
-            <label htemlFor="email">Email: </label>
+            <label htmlFor="email">Email: </label>
             <input
                 type="email"
                 name="email"
