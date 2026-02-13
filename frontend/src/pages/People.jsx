@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';  // Importing useState for managing
 import TableRow from '../components/TableRow';
 import CreatePersonForm from '../components/CreatePersonForm';
 import UpdatePersonForm from '../components/UpdatePersonForm';
+import cap_words from '../functions/split_words';
 
 
 function People({ backendURL }) {
@@ -46,9 +47,11 @@ function People({ backendURL }) {
 
     };
 
+    console.log('People:', people)
+
     // Load table on page load
     useEffect(() => {
-        getData();
+        getData()
     }, []);
 
     return (
@@ -58,8 +61,10 @@ function People({ backendURL }) {
             <table>
                 <thead>
                     <tr>
-                        {people?.length > 0 && Object.keys(people[0]).map((header, index) => (
-                            <th key={index}>{header}</th>
+                        {people?.length > 0 && Object.keys(people[0])?.map((header, index) => (
+                            <th key={index}>{
+                                header === 'phone_num' ? 'Phone Number' : cap_words(header)
+                            }</th>
                         ))}
                             <th>Actions</th>
                     </tr>
