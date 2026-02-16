@@ -6,7 +6,8 @@
 // ########## SETUP
 require('dotenv').config()
 
-const peopleRoutes = require('./routes/people')
+const people_routes = require('./routes/people')
+const location_routes = require('./routes/locations')
 
 // Express
 const express = require('express');
@@ -24,7 +25,8 @@ const PORT = process.env.PORT_BACKEND || 63729;
 // ########## ROUTE HANDLERS
 
 // ENDPOINTS
-app.use('/people', peopleRoutes)
+app.use('/people', people_routes)
+app.use('/locations', location_routes)
 
 // ########################################
 // ########## LISTENER
