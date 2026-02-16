@@ -23,4 +23,4 @@ const people_queries = {
     `,
 }
 
-export default people_queries
+module.exports = people_queries

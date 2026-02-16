@@ -1,4 +1,4 @@
-const match_officials_queries = {
+const match_official_queries = {
     delete_by_id: `
         DELETE FROM match_officials
         WHERE match_official_id = :match_official_id;
@@ -20,4 +20,4 @@ const match_officials_queries = {
     `,
 }
 
-export default match_officials_queries
+module.exports = match_official_queries

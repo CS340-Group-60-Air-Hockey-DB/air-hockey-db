@@ -38,4 +38,4 @@ const location_queries = {
 
 }
 
-export default location_queries
+module.exports = location_queries

@@ -1,4 +1,4 @@
-const sets_queries = {
+const set_queries = {
     delete_by_id: `
         DELETE FROM "sets"
         WHERE set_id = :set_id;
@@ -27,4 +27,4 @@ const sets_queries = {
     `,
 }
 
-export default sets_queries
+module.exports = set_queries

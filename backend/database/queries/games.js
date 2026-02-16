@@ -1,4 +1,4 @@
-const games_queries = {
+const game_queries = {
     delete_by_id: `
         DELETE FROM games
         WHERE game_id = :game_id;
@@ -28,4 +28,4 @@ const games_queries = {
     `,
 }
 
-export default games_queries
+module.exports = game_queries

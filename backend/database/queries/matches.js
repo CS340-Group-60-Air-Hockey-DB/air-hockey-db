@@ -1,4 +1,4 @@
-const matches_queries = {
+const match_queries = {
     delete_by_id: `
         DELETE FROM matches
         WHERE match_id = :match_id;
@@ -29,4 +29,4 @@ const matches_queries = {
     `,
 }
 
-export default matches_queries
+module.exports = match_queries

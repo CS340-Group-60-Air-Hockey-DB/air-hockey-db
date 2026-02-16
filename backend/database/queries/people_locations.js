@@ -1,4 +1,4 @@
-const people_locations_queries = {
+const people_location_queries = {
     delete_by_ids: `
         DELETE FROM people_locations
         WHERE person_id = :person_id AND
@@ -17,4 +17,4 @@ const people_locations_queries = {
     `,
 }
 
-export default people_locations_queries
+module.exports = people_location_queries
