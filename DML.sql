@@ -259,6 +259,16 @@ VALUES (:player_id, :match_id, :starting_side, :player_order);
 SELECT * from player_matches
 ORDER BY match_id;
 
+-- Get by match id
+SELECT * from player_matches
+WHERE match_id = :match_id
+ORDER BY match_id;
+
+-- Get by player (person) id
+SELECT * from player_matches
+WHERE player_id = :person_id
+ORDER BY match_id;
+
 ----- UPDATE -----
 UPDATE player_matches
 SET player_id = :player_id,
