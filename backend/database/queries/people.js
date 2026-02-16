@@ -4,7 +4,7 @@ const people_queries = {
     insert_person: `
         INSERT INTO people (first_name, last_name, gender, dob, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code)
         VALUES (:first_name, :last_name, :gender, :dob, :email, :phone_num, :street_address_1, :street_address_2, :city, :state, :country, :zip_code);
-    `
+    `,
     update_by_id: `
         UPDATE people
         SET first_name = :first_name, 
