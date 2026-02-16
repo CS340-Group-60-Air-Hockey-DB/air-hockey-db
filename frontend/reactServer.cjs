@@ -10,7 +10,7 @@ const path = require('path');
 const app = express();
 app.use(express.static(path.join(__dirname, 'dist')));
 
-const PORT = process.env.PORT_FRONTEND || 51738;
+const PORT = process.env.VITE_PORT_FRONTEND || 51739;
 
 // ########################################
 // ########## ROUTE HANDLERS

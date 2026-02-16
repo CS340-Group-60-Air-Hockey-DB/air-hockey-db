@@ -16,8 +16,11 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 
 // Define the backend port and URL for API requests
-const backendPort = import.meta.env.PORT_BACKEND || 63729;  // Use the port you assigned to the backend server, this would normally go in a .env file
-const backendURL = `http://classwork.engr.oregonstate.edu:${backendPort}`;
+const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
+const backend_url = import.meta.env.VITE_BACKEND_URL || 'http://classwork.engr.oregonstate.edu'
+
+const backendURL = `${backend_url}:${backendPort}`;
+
 
 function App() {
   const [location, setLocation] = useState('')
