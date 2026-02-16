@@ -25,6 +25,11 @@ const PORT = process.env.PORT_BACKEND || 63729;
 // ########## ROUTE HANDLERS
 
 // ENDPOINTS
+// Health Endpoint
+app.get('/', (req, res) => {
+    return res.status(200).json("Health endpoint check")
+})
+
 app.use('/people', people_routes)
 app.use('/locations', location_routes)
 
