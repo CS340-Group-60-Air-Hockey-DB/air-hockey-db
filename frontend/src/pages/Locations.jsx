@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import AddLocation from '../components/AddLocation';
 import UpdateLocation from '../components/UpdateLocation';
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Locations(props) {
-    const { setLocation } = props
+    const { backendURL, setLocation } = props
     const location = useLocation()
 
     setLocation(location)
@@ -16,6 +17,30 @@ function Locations(props) {
         { location_id: 1, location_name: 'Location 1', table_qty: 5, city: 'Corvallis', state: 'OR', type_of_address: 'commercial'},
         { location_id: 2, location_name: 'Location 2', table_qty: 3, city: 'Portland', state: 'OR', type_of_address: 'residential'},
     ]);
+
+
+    // Load table on page load
+    useEffect(() => {
+        const getLocations = async function () {
+            try {
+                // Make a GET request to the backend
+                const response = await fetch(backendURL + '/locations');
+                
+                // Convert the response into JSON format
+                const data = await response.json();
+        
+                // Update the locations state with the response data
+                setLocations(data);
+                
+            } catch (error) {
+                // If the API call fails, print the error to the console
+                console.log(error);
+            }
+        };
+
+        getLocations()
+    }, [backendURL]);
+
 
     return (
         <div className="page-container">
