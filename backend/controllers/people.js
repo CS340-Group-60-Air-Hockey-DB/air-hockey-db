@@ -1,5 +1,5 @@
 // Database
-const db = require('./database/db-connector');
+const db = require('../database/db-connector');
 
 
 const get_all_people = async (req, res) => {
