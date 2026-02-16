@@ -9,7 +9,7 @@ const matches_queries = {
     `,
     select_by_id: `
         SELECT * from matches
-        WHERE match_id = :match_id
+        WHERE match_id = :match_id;
     `,
     insert_match: `
         INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
