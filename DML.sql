@@ -51,7 +51,7 @@ SET first_name = :first_name,
     street_address_1 = :street_address_1,
     street_address_2 = :street_address_2,
     city = :city,
-    `state` = :`state`,
+    "state" = :"state",
     country = :country,
     zip_code = :zip_code
 WHERE person_id = :person_id;
@@ -64,14 +64,14 @@ WHERE person_id = :person_id;
 -- locations --
 ---------------
 ----- CREATE -----
-INSERT INTO locations(table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes)
-VALUES (:table_qty, :email, :phone_num, :street_address_1, :street_address_2, :city, :`state`, :country, :zip_code, :type_of_address, :location_name, :notes);
+INSERT INTO locations(table_qty, email, phone_num, street_address_1, street_address_2, city, "state", country, zip_code, type_of_address, location_name, notes)
+VALUES (:table_qty, :email, :phone_num, :street_address_1, :street_address_2, :city, :"state", :country, :zip_code, :type_of_address, :location_name, :notes);
 
 ----- READ -----
 -- Get all data
 CREATE OR REPLACE VIEW locations_with_owners AS
 SELECT l.location_id, l.location_name, 
-        CONCAT(p.first_name, ' ', p.last_name) as `owner`, 
+        CONCAT(p.first_name, ' ', p.last_name) as "owner", 
     	l.table_qty, l.email, l.phone_num, l.street_address_1, l.street_address_2, 
         l.city, l.state, l.country, l.zip_code, l.type_of_address, l.notes
         from locations as l 
@@ -89,7 +89,7 @@ SET table_qty = :table_qty,
     street_address_1 = :street_address_1,
     street_address_2 = :street_address_2,
     city = :city,
-    `state` = :`state`,
+    "state" = :"state",
     country = :country,
     zip_code = :zip_code,
     type_of_address = :type_of_address, 
@@ -157,16 +157,16 @@ WHERE match_id = :match_id;
 -- sets --
 ----------
 ----- CREATE -----
-INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
+INSERT INTO "sets"(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
 VALUES (:match_id, :winner_id, :set_num, :start_datetime, :end_datetime, :set_status);
 
 ----- READ -----
 -- Get all data
-SELECT * from `sets`
+SELECT * from "sets"
 ORDER BY match_id;
 
 ----- UPDATE -----
-UPDATE `sets`
+UPDATE "sets"
 SET match_id = :match_id, 
     winner_id = :winner_id, 
     set_num = :set_num, 
@@ -176,7 +176,7 @@ SET match_id = :match_id,
 WHERE set_id = :set_id;
 
 ----- DELETE -----
-DELETE FROM `sets`
+DELETE FROM "sets"
 WHERE set_id = :set_id;
 
 
