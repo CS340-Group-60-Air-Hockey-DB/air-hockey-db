@@ -19,7 +19,7 @@ const location_queries = {
         INSERT INTO locations(table_qty, email, phone_num, street_address_1, street_address_2, city, "state", country, zip_code, type_of_address, location_name, notes)
         VALUES (:table_qty, :email, :phone_num, :street_address_1, :street_address_2, :city, :"state", :country, :zip_code, :type_of_address, :location_name, :notes);
     `,
-    update_person_by_id: `
+    update_by_id: `
         UPDATE locations
         SET table_qty = :table_qty,
             email = :email,
