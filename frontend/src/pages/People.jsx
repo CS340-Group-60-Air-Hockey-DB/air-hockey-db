@@ -13,26 +13,7 @@ function People(props) {
     setLocation(location)
 
     // Set up a state variable `people` to store and display the backend response
-    const [people, setPeople] = useState([
-        {
-            person_id: 1,
-            first_name: 'Jane',
-            last_name: 'Doe',
-            gender: 'female',
-            dob: '1999-12-12',
-            email: 'jdoe@oregonstate.edu',
-            phone_num: '123-456-7890'
-        },
-        {
-            person_id: 2,
-            first_name: 'John',
-            last_name: 'Smith',
-            gender: 'male',
-            dob: '1998-03-15',
-            email: 'jsmith@oregonstate.edu',
-            phone_num: '098-765-4321'
-        }
-    ]);
+    const [people, setPeople] = useState([]);
 
 
     // Load table on page load
@@ -55,7 +36,7 @@ function People(props) {
         };
         
         getData()
-    }, [backendURL]);
+    }, [backendURL, people]);
 
     return (
         <>
@@ -75,14 +56,14 @@ function People(props) {
 
                 <tbody>
                     {people?.map((person, index) => (
-                        <TableRow key={index} rowObject={person} backendURL={backendURL} refreshPeople={getData}/>
+                        <TableRow key={index} rowObject={person} backendURL={backendURL} />
                     ))}
 
                 </tbody>
             </table>
             
-            <CreatePersonForm backendURL={backendURL} refreshPeople={getData} />
-            <UpdatePersonForm people={people} backendURL={backendURL} refreshPeople={getData} />               
+            <CreatePersonForm backendURL={backendURL} />
+            <UpdatePersonForm people={people} backendURL={backendURL} />               
         </>
     );
 
