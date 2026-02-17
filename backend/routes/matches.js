@@ -7,7 +7,7 @@ const { get_all_matches, get_all_match_locations, get_all_match_people } = requi
 router
     .get('/', get_all_matches)
     .get('/locations', get_all_match_locations)
-    .get('/people', get_all_match_people)
+    .get('/players', get_all_match_people)
 
 
 module.exports = router
