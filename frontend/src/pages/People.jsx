@@ -39,8 +39,14 @@ function People(props) {
     }, [backendURL]);
 
     return (
-        <>
-            <h1>Air Hockey Players</h1>
+        <div>
+            <div>
+                <h1>Community</h1>
+
+                <p>
+                    Browse and manage players, officials, and location owners in the air hockey community. Add, edit, or remove people from the database.
+                </p>
+            </div>
 
             <table>
                 <thead>
@@ -85,7 +91,7 @@ function People(props) {
             
             <CreatePersonForm backendURL={backendURL} />
             <UpdatePersonForm people={people} backendURL={backendURL} />               
-        </>
+        </div>
     );
 
 } export default People;
