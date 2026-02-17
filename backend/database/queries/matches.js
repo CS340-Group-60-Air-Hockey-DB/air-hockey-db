@@ -18,7 +18,8 @@ const match_queries = {
     `,
     select_all_match_people: `
         SELECT p.person_id, CONCAT(p.first_name, ' ', p.last_name) as "name" FROM matches as m
-        INNER JOIN people as p on p.person_id = m.winner_id
+        INNER JOIN player_matches as pm on pm.match_id = m.match_id 
+        INNER JOIN people as p on p.person_id = pm.player_id
         ORDER BY p.first_name;
     `,
     select_by_id: `

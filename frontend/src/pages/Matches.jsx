@@ -19,6 +19,11 @@ function Matches(props) {
 
 
     useEffect(() => {
+        const getMatchLocations = async () => {
+        // id
+        // name
+        }
+
         const getMatches = async function () {
             try {
                 // Make a GET request to the backend
@@ -35,6 +40,11 @@ function Matches(props) {
                 console.log(error);
             }
         };
+
+        const getMatchPeople = async () => {
+        // id
+        // name
+        }
         
         getMatches()
     }, [backendURL]);
