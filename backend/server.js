@@ -8,6 +8,7 @@ require('dotenv').config()
 
 const people_routes = require('./routes/people')
 const location_routes = require('./routes/locations')
+const match_routes = require('./routes/matches')
 
 // Express
 const express = require('express');
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
 
 app.use('/people', people_routes)
 app.use('/locations', location_routes)
+app.use('/matches', match_routes)
 
 // ########################################
 // ########## LISTENER
