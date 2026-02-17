@@ -233,14 +233,10 @@ VALUES (4, null, '919-329-9031', '1234 Foundation Lane', null, 'Raleigh', 'NC', 
 (0, 'events@grandplazahotel.com', '919-555-0298', '456 Hospitality Boulevard', null, 'Cary', 'NC', 'USA', '27511', 'other', 'Grand Plaza Hotel & Conference Center', 'Potential tournament venue, no permanent tables but large event space available'),
 (0, 'info@spacecitysports.com', '713-555-0891', '8500 Kirby Drive', null, 'Houston', 'TX', 'USA', '77054', 'other', 'Space City Sports Complex', 'Major sports venue, interested in hosting regional + world air hockey championships.');
 
-
--------------
--- matches --
--------------
-INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
-VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challenge', null, 'completed'),
-(5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned'),
-(7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled');
+INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status, winner_id)
+VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challenge', null, 'completed', 1),
+(5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned', null),
+(7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled', null);
 
 ----------
 -- sets --
