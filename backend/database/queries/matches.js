@@ -7,6 +7,10 @@ const match_queries = {
         SELECT * from matches
         ORDER BY match_status;
     `,
+    select_all_view: `
+        SELECT * from matches_with_fks
+        ORDER BY match_status;
+    `,
     select_by_id: `
         SELECT * from matches
         WHERE match_id = :match_id;
