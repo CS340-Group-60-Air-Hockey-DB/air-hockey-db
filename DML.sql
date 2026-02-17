@@ -151,6 +151,28 @@ VALUES (:set_max, :faceoff_type, :start_datetime, :end_datetime, :location_id, :
 SELECT * from matches
 ORDER BY match_status;
 
+-- Get all data from matches with foreign keys view
+CREATE OR REPLACE VIEW matches_with_fks AS
+    SELECT
+        l.location_name,
+        CONCAT (p.first_name, ' ', p.last_name) as "winner",
+        m.start_datetime,
+        m.end_datetime,
+        m.set_max,
+        m.faceoff_type,
+        m.match_type,
+        m.match_status,
+        m.note
+    from
+        matches as m
+        LEFT JOIN locations as l on l.location_id = m.location_id
+        LEFT JOIN people as p on p.person_id = m.winner_id
+    ORDER BY
+        m.start_datetime;
+        
+SELECT * from matches_with_fks
+ORDER BY match_status;
+
 ----- UPDATE -----
 UPDATE matches
 SET set_max = :set_max, 
