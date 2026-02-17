@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AddPlayerToMatch from '../components/AddPlayerToMatch';
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function PlayerMatches(props) {
     const { backendURL, locale, setLocation } = props
@@ -9,20 +10,28 @@ function PlayerMatches(props) {
     setLocation(location)
 
     // sample data for this phase
-    const [playerMatches, setPlayerMatches] = useState([
-        { player_match_id: 1, match_id: 1, player_name: 'Jane Doe', starting_side: 'left', player_order: 'player 1' },
-        { player_match_id: 2, match_id: 1, player_name: 'John Smith', starting_side: 'right', player_order: 'player 2' },
-    ]);
+    const [matches, setMatches] = useState([])
+    const [players, setPlayers] = useState([])
+    const [playerMatches, setPlayerMatches] = useState([]);
 
-    const [matches] = useState([
-        { id: 1, description: 'Match 1' },
-        { id: 2, description: 'Match 2' },
-    ]);
 
-    const [people] = useState([
-        { id: 1, name: 'Jane Doe' },
-        { id: 2, name: 'John Smith' },
-    ]);
+    useEffect(() => {
+        const all_matches = async () => {}
+
+        const all_players = async () => {}
+
+        const all_player_matches = async () => {}
+
+        if(matches?.length === 0){
+            all_matches()
+        }
+        if(players?.length === 0){
+            all_players()
+        }
+        if(playerMatches?.length === 0){
+            all_player_matches()
+        }
+    }, [backendURL])
     
     return (
         <div className="page-container">
@@ -38,11 +47,10 @@ function PlayerMatches(props) {
             <table className="data-table">
                 <thead>
                     <tr>
-                        <th>Player ID</th>
-                        <th>Match ID</th>
                         <th>Player Name</th>
                         <th>Starting Side</th>
                         <th>Player Order</th>
+                        <th>Opponent</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -62,7 +70,7 @@ function PlayerMatches(props) {
 
             <hr />
 
-            <AddPlayerToMatch matches={matches} people={people} />
+            <AddPlayerToMatch matches={matches} people={players} />
             
         </div>
     )
