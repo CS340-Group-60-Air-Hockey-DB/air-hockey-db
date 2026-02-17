@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 
 function Home(props) {
-    const { setLocation } = props
+    const { backendURL, locale, setLocation } = props
     const location = useLocation()
 
     setLocation(location)
@@ -31,7 +31,7 @@ function Home(props) {
             </h2>
             
             <div id="page-descriptions">
-                <div class='page-sections'>
+                <div className='page-sections'>
                     <h3>
                         Community
                     </h3>
@@ -40,7 +40,7 @@ function Home(props) {
                 </p>    
                 </div>
                 
-                <div class='page-sections'>
+                <div className='page-sections'>
                     <h3>
                         Locations
                     </h3>
@@ -49,7 +49,7 @@ function Home(props) {
                     </p>
                 </div>
 
-                <div class='page-sections'>
+                <div className='page-sections'>
                     <h3>
                         Matches
                     </h3>
@@ -58,7 +58,7 @@ function Home(props) {
                     </p>
                 </div>
 
-                <div class='page-sections'>
+                <div className='page-sections'>
                     <h3>
                         Player Matches
                     </h3>
@@ -67,7 +67,7 @@ function Home(props) {
                     </p>
                 </div>
 
-                <div class='page-sections'>
+                <div className='page-sections'>
                     <h3>
                         Match Officials
                     </h3>
@@ -76,7 +76,7 @@ function Home(props) {
                     </p>
                 </div>
 
-                <div class='page-sections'>
+                <div className='page-sections'>
                     <h3>
                         Sets
                     </h3>
@@ -85,7 +85,7 @@ function Home(props) {
                     </p>
                 </div>
 
-                <div class='page-sections'>
+                <div className='page-sections'>
                     <h3>
                         Games
                     </h3>

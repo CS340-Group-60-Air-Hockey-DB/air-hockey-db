@@ -3,7 +3,7 @@ import AddGame from '../components/AddGame';
 import { useLocation } from 'react-router-dom';
 
 function Games(props) {
-    const { setLocation } = props
+    const { backendURL, locale, setLocation } = props
     const location = useLocation()
 
     setLocation(location)

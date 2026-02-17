@@ -3,7 +3,7 @@ import AddMatchOfficial from '../components/AddMatchOfficial';
 import { useLocation } from 'react-router-dom';
 
 function MatchOfficials(props) {
-    const { setLocation } = props
+    const { backendURL, locale, setLocation } = props
     const location = useLocation()
 
     setLocation(location)

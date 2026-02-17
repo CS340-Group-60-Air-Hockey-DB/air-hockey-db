@@ -24,6 +24,7 @@ const backendURL = `${backend_url}:${backendPort}`;
 
 function App() {
   const [location, setLocation] = useState('')
+  const userLocale = navigator.language
 
     return (
         <>
@@ -31,35 +32,35 @@ function App() {
             <Routes>
                 <Route 
                     path="/" 
-                    element={<Home setLocation={setLocation} />} 
+                    element={<Home setLocation={setLocation} locale={userLocale} />} 
                 />
                 <Route 
                     path="/people" 
-                    element={<People backendURL={backendURL} setLocation={setLocation} />} 
+                    element={<People backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
                 />
                 <Route 
                     path='/locations' 
-                    element={<Locations backendURL={backendURL} setLocation={setLocation} />} 
+                    element={<Locations backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
                 />
                 <Route 
                     path='/matches' 
-                    element={<Matches backendURL={backendURL} setLocation={setLocation} />} 
+                    element={<Matches backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
                 />
                 <Route 
                     path='/match_officials' 
-                    element={<MatchOfficials backendURL={backendURL} setLocation={setLocation} />} 
+                    element={<MatchOfficials backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
                 />
                 <Route 
                     path='/player_matches' 
-                    element={<PlayerMatches backendURL={backendURL} setLocation={setLocation} />} 
+                    element={<PlayerMatches backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
                 />
                 <Route 
                     path='/sets' 
-                    element={<Sets backendURL={backendURL} setLocation={setLocation} />} 
+                    element={<Sets backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
                 />
                 <Route 
                     path='/games' 
-                    element={<Games backendURL={backendURL} setLocation={setLocation} />} 
+                    element={<Games backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
                 />
             </Routes>
             <Footer />

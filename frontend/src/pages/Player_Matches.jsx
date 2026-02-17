@@ -3,7 +3,7 @@ import AddPlayerToMatch from '../components/AddPlayerToMatch';
 import { useLocation } from 'react-router-dom';
 
 function PlayerMatches(props) {
-    const { setLocation } = props
+    const { backendURL, locale, setLocation } = props
     const location = useLocation()
 
     setLocation(location)

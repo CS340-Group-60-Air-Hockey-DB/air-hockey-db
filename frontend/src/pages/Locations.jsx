@@ -9,7 +9,7 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function Locations(props) {
-    const { backendURL, setLocation } = props
+    const { backendURL, locale, setLocation } = props
     const location = useLocation()
 
     setLocation(location)

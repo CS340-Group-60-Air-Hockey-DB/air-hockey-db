@@ -3,7 +3,7 @@ import AddSet from '../components/AddSet';
 import { useLocation } from 'react-router-dom';
 
 function Sets(props) {
-    const { setLocation } = props
+    const { backendURL, locale, setLocation } = props
     const location = useLocation()
 
     setLocation(location)

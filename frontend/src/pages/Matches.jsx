@@ -4,7 +4,7 @@ import UpdateMatch from '../components/UpdateMatch';
 import { useLocation } from 'react-router-dom';
 
 function Matches(props) {
-    const { setLocation } = props
+    const { backendURL, locale, setLocation } = props
     const location = useLocation()
 
     setLocation(location)
