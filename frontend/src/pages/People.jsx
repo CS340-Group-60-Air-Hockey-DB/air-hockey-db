@@ -36,7 +36,7 @@ function People(props) {
         };
         
         getData()
-    }, [backendURL, people]);
+    }, [backendURL]);
 
     return (
         <>
@@ -45,19 +45,40 @@ function People(props) {
             <table>
                 <thead>
                     <tr>
-                        {people?.length > 0 && Object.keys(people[0])?.map((header, index) => (
-                            <th key={index}>{
-                                header === 'phone_num' ? 'Phone Number' : cap_words(header)
-                            }</th>
-                        ))}
-                            <th>Actions</th>
+                        {people?.length > 0 && Object.keys(people[0])?.map((header, index) => {
+                            if(header === 'dob'){
+                                return (
+                                    <th key={index}>
+                                        { cap_words('date_of_birth') }
+                                    </th>
+                                )
+                            }
+                            else if(header === 'phone_num'){
+                                return (
+                                    <th key={index}>
+                                        {cap_words('phone_number')}
+                                    </th>
+                                )
+                            }
+                            else{
+                                return (
+                                    <th key={index}>
+                                        { header === 'phone_num' ? 'Phone Number' : cap_words(header) }
+                                    </th>
+                                )
+                            }
+                        })}
+                        
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {people?.map((person, index) => (
-                        <TableRow key={index} rowObject={person} backendURL={backendURL} />
-                    ))}
+                    {people?.map((person, index) => {
+                        let person_row = person
+                        delete person_row.person_id
+                        return <TableRow key={index} rowObject={person_row} backendURL={backendURL} />
+                    })}
 
                 </tbody>
             </table>
