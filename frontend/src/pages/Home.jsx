@@ -33,7 +33,7 @@ function Home(props) {
             <div id="page-descriptions">
                 <div class='page-sections'>
                     <h3>
-                        Air Hockey Community
+                        Community
                     </h3>
                     <p>
                         Browse and manage players, officials, and location owners in the air hockey community. Add, edit, or remove people from the database.
