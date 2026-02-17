@@ -173,6 +173,17 @@ CREATE OR REPLACE VIEW matches_with_fks AS
 SELECT * from matches_with_fks
 ORDER BY match_status;
 
+-- Get all locations in matches
+SELECT l.location_id, l.location_name FROM matches as m
+INNER JOIN locations as l on l.location_id = m.location_id
+ORDER BY l.location_name;
+
+-- Get all people in matches
+SELECT p.person_id, CONCAT(p.first_name, ' ', p.last_name) as "name" FROM matches as m
+INNER JOIN player_matches as pm on pm.match_id = m.match_id 
+INNER JOIN people as p on p.person_id = pm.player_id
+ORDER BY p.first_name;
+
 ----- UPDATE -----
 UPDATE matches
 SET set_max = :set_max, 
