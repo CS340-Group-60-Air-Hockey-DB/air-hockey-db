@@ -20,8 +20,19 @@ function Matches(props) {
 
     useEffect(() => {
         const getMatchLocations = async () => {
-        // id
-        // name
+            try {
+                const response = await fetch(backendURL + '/matches/locations');
+                
+                const match_locations = await response.json();
+        
+                setLocations([
+                    { location_id: 0, location_name: 'select location' }, 
+                    ...match_locations
+                ]);
+                
+            } catch (error) {
+                console.log(error);
+            }
         }
 
         const getMatches = async function () {
@@ -42,11 +53,30 @@ function Matches(props) {
         };
 
         const getMatchPeople = async () => {
-        // id
-        // name
+            try {
+                const response = await fetch(backendURL + '/matches/people');
+                
+                const match_players = await response.json();
+        
+                setPeople([
+                    { person_id: 0, name: 'select player' },
+                    ...match_players
+                ]);
+                
+            } catch (error) {
+                console.log(error);
+            }
         }
         
-        getMatches()
+       if(locations?.length === 0){
+            getMatchLocations()
+       }
+       if(matches?.length === 0){
+            getMatches()
+       }
+       if(people?.length === 0){
+            getMatchPeople()
+       }
     }, [backendURL]);
 
 
@@ -109,8 +139,6 @@ function Matches(props) {
                                 hour: "numeric",
                                 minute: "numeric"
                             }) : null
-
-                            console.log('end time:', match.end_datetime)
                             
                             match_row.end_datetime = match.end_datetime ? new Date(match.end_datetime).toLocaleDateString(locale, {
                                 hour: "numeric",

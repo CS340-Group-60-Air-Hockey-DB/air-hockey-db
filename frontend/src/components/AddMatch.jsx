@@ -5,7 +5,7 @@ function AddMatch({ locations, people }) {
 
             <label>Location: </label>
             <select required>
-                {locations.map(loc => <option key={loc.id} value={loc.id}>{loc.name}</option>)}
+                {locations.map(loc => <option key={loc.location_id} value={loc.location_id}>{loc.location_name}</option>)}
             </select>
 
             <label> Type: </label>

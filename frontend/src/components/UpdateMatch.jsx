@@ -14,12 +14,12 @@ function UpdateMatch({ matches, locations, people }) {
 
             <label>Update Location: </label>
             <select>
-                {locations.map(loc => <option key={loc.id} value={loc.id}>{loc.name}</option>)}
+                {locations.map(loc => <option key={loc.location_id} value={loc.location_id}>{loc.location_name}</option>)}
             </select>
 
             <label>Update Winner: </label>
             <select>
-                {people.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                {people.map(p => <option key={p.person_id} value={p.person_id}>{p.name}</option>)}
             </select>
 
             <br /><br />
