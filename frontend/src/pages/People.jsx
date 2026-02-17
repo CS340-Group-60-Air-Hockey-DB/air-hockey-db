@@ -69,7 +69,7 @@ function People(props) {
                             else{
                                 return (
                                     <th key={`header-${index}`}>
-                                        { header === 'phone_num' ? 'Phone Number' : cap_words(header) }
+                                        { cap_words(header) }
                                     </th>
                                 )
                             }
