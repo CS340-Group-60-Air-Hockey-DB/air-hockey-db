@@ -26,7 +26,14 @@ function PlayerMatches(props) {
     
     return (
         <div className="page-container">
-            <h1>Player Matches</h1>
+            <div>
+                <h1>
+                    Player Matches
+                </h1>
+                <p>
+                    View player participation in matches. See which players competed in each match, their starting positions, match scores, and outcomes. Add, edit, or remove player-match records.
+                </p>
+            </div>
 
             <table className="data-table">
                 <thead>

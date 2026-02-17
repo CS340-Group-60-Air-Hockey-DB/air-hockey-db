@@ -21,7 +21,15 @@ function Games(props) {
 
     return (
         <div className="page-container">
-            <h1>Games</h1>
+            <div>
+                <h1>
+                    Games
+                </h1>
+    
+                <p>
+                    Browse and manage individual games within sets. View game scores, status, and timing for each game. Add, edit, or remove games.
+                </p>
+            </div>
 
             <table className="data-table">
                 <thead>

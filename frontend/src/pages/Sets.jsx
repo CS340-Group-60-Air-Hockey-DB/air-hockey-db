@@ -21,7 +21,13 @@ function Sets(props) {
 
     return (
         <div className="page-container">
-            <h1>Sets</h1>
+            <div>
+                <h1>Sets</h1>
+
+                <p>
+                    Browse and manage sets within matches. View set numbers, winners, status, and timing. Add, edit, or remove sets.
+                </p>
+            </div>
 
             <table className="data-table">
                 <thead>

@@ -26,7 +26,14 @@ function MatchOfficials(props) {
 
     return (
         <div className="page-container">
-            <h1>Match Officials</h1>
+            <div>
+                <h1>
+                    Match Officials
+                </h1>
+                <p>
+                    Browse and manage referees and witnesses assigned to sets. Track official assignments and roles. Add, edit, or remove official records.
+                </p>
+            </div>
 
             <table className="data-table">
                 <thead>
