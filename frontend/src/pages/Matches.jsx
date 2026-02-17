@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import AddMatch from '../components/AddMatch';
 import UpdateMatch from '../components/UpdateMatch';
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import cap_words from '../functions/cap_words';
+import TableRow from '../components/TableRow';
 
 function Matches(props) {
     const { backendURL, locale, setLocation } = props
@@ -10,47 +13,103 @@ function Matches(props) {
     setLocation(location)
 
     // sample data for this phase
-    const [matches, setMatches] = useState([
-        { match_id: 1, location_name: 'Location 1', winner_name: 'Jane Doe', match_status: 'completed', start_datetime: '2026-02-12 14:00:00'},
-        { match_id: 2, location_name: 'Location 2', winner_name: 'John Smith', match_status: 'scheduled', start_datetime: '2026-02-15 16:00:00'},
-    ]);
+    const [locations, setLocations] = useState([]);
+    const [matches, setMatches] = useState([]);
+    const [people, setPeople] = useState([])
 
-    const [locations] = useState([
-        { id: 1, name: 'Location 1' },
-        { id: 2, name: 'Location 2' },
-    ]);
 
-    const [people] = useState([
-        { id: 1, name: 'Jane Doe' },
-        { id: 2, name: 'John Smith' },
-    ]);
+    useEffect(() => {
+        const getMatches = async function () {
+            try {
+                // Make a GET request to the backend
+                const response = await fetch(backendURL + '/matches');
+                
+                // Convert the response into JSON format
+                const matches = await response.json();
+        
+                // Update the matches state with the response data
+                setMatches(matches);
+                
+            } catch (error) {
+                // If the API call fails, print the error to the console
+                console.log(error);
+            }
+        };
+        
+        getMatches()
+    }, [backendURL]);
+
 
     return (
         <div className="page-container">
-            <h1>Air Hockey Matches</h1>
+            <div>
+                <h1>Air Hockey Matches</h1>
+                
+                <p>
+                    Browse and manage competitive matches. View match details including location, type, status, and winner. Add, edit, or remove matches.
+                </p>
+            </div>
 
             <table className="data-table">
                 <thead>
                     <tr>
-                        <th>Match ID</th>
-                        <th>Location</th>
-                        <th>Winner</th>
-                        <th>Status</th>
-                        <th>Start Date & Time</th>
-                        <th>Actions</th>
+                        {
+                            matches?.length > 0 && Object.keys(matches[0])?.map((header, idx) => {
+                                if(header === 'start_datetime'){
+                                    return (
+                                        <th key={`header-${idx}`}>
+                                            { cap_words('start_time') }
+                                        </th>
+                                    )
+                                }
+                                else if(header === 'end_datetime'){
+                                    return (
+                                        <th key={`header-${idx}`}>
+                                            { cap_words('end_time') }
+                                        </th>
+                                    )
+                                }
+                                else if(header === 'winner_id'){
+                                    return (
+                                        <th key={`header-${idx}`}>
+                                            { cap_words('winner') }
+                                        </th>
+                                    )
+                                }
+                                else{
+                                    return (
+                                        <th key={`header-${idx}`}>
+                                            { cap_words(header) }
+                                        </th>
+                                    )
+                                }
+                            })
+                        }
+
+                        { matches?.length > 0 ? <th>Actions</th> : null}
                     </tr>
                 </thead>
                 <tbody>
-                    {matches.map((match) => (
-                        <tr key={match.match_id}>
-                            <td>{match.match_id}</td>
-                            <td>{match.location_name}</td>
-                            <td>{match.winner_name}</td>
-                            <td>{match.match_status}</td>
-                            <td>{match.start_datetime}</td>
-                            <td><button>Delete</button></td>
-                        </tr>
-                    ))}
+                    {
+                        matches?.map((match, index) => {
+                            let match_row = match
+                            delete match_row.match_id
+
+                            match_row.start_datetime = match.start_datetime ? new Date(match.start_datetime).toLocaleDateString(locale, { 
+                                hour: "numeric",
+                                minute: "numeric"
+                            }) : null
+
+                            console.log('end time:', match.end_datetime)
+                            
+                            match_row.end_datetime = match.end_datetime ? new Date(match.end_datetime).toLocaleDateString(locale, {
+                                hour: "numeric",
+                                minute: "numeric"
+                            }) : null
+
+                            return <TableRow key={`match-${index}`} rowObject={match_row} backendURL={backendURL} />
+                        })
+                    }
                 </tbody>
             </table>
 
