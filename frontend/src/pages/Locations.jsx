@@ -38,7 +38,7 @@ function Locations(props) {
         };
 
         getLocations()
-    }, [backendURL, locations]);
+    }, [backendURL]);
 
 
     return (
@@ -48,19 +48,40 @@ function Locations(props) {
             <table className="data-table">
                 <thead>
                     <tr>
-                        {locations?.length > 0 && Object.keys(locations[0])?.map((header, index) => (
-                            <th key={index}>{
-                                header === 'phone_num' ? 'Phone Number' : cap_words(header)
-                            }</th>
-                        ))}
+                        {locations?.length > 0 && Object.keys(locations[0])?.map((header, index) => {
+                            if(header === 'table_qty'){
+                                return (
+                                    <th key={index}>
+                                        { cap_words('table_quantity') }
+                                    </th>
+                                )
+                            }
+                            else if(header === 'phone_num'){
+                                return (
+                                    <th key={index}>
+                                        { cap_words('phone_number') }
+                                    </th>
+                                )
+                            }
+                            else{
+                                return (
+                                    <th key={index}>
+                                        { cap_words(header) }
+                                    </th>
+                                )
+                            }
+                        })}
                             <th>Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {locations?.map((person, index) => (
-                        <TableRow key={index} rowObject={person} backendURL={backendURL} />
-                    ))}
+                    {locations?.map((location, index) => {
+                        let location_row = location
+                        delete location_row.location_id
+                        
+                        return <TableRow key={index} rowObject={location_row} backendURL={backendURL} />
+                    })}
                 </tbody>
             </table>
             
