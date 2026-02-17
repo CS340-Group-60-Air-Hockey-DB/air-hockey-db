@@ -11,6 +11,16 @@ const match_queries = {
         SELECT * from matches_with_fks
         ORDER BY match_status;
     `,
+    select_all_match_locations: `
+        SELECT l.location_id, l.location_name FROM matches as m
+        INNER JOIN locations as l on l.location_id = m.location_id
+        ORDER BY l.location_name;
+    `,
+    select_all_match_people: `
+        SELECT p.person_id, CONCAT(p.first_name, ' ', p.last_name) as "name" FROM matches as m
+        INNER JOIN people as p on p.person_id = m.winner_id
+        ORDER BY p.first_name;
+    `,
     select_by_id: `
         SELECT * from matches
         WHERE match_id = :match_id;

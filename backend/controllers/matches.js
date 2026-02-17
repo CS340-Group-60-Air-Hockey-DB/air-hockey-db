@@ -16,10 +16,33 @@ const get_all_matches = async (req, res) => {
     } catch (error) {
         res.status(500).send("An error occurred while executing the database queries.");
     }
+}
 
+const get_all_match_locations = async (req, res) => {
+    try {
+        const [locations] = await db.query(match_queries.select_all_match_locations);
+
+        res.status(200).json(locations);
+
+    } catch (error) {
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+}
+
+const get_all_match_people = async (req, res) => {
+    try {
+        const [people] = await db.query(match_queries.select_all_match_people);
+
+        res.status(200).json(people);
+
+    } catch (error) {
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
 }
 
 
 module.exports = {
-    get_all_matches
+    get_all_matches,
+    get_all_match_locations,
+    get_all_match_people
 }

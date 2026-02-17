@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
 
-const { get_all_matches } = require("../controllers/matches")
+const { get_all_matches, get_all_match_locations, get_all_match_people } = require("../controllers/matches")
 
 
 router
     .get('/', get_all_matches)
+    .get('/locations', get_all_match_locations)
+    .get('/people', get_all_match_people)
 
 
 module.exports = router
