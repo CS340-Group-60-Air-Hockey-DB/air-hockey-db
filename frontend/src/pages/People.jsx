@@ -75,7 +75,7 @@ function People(props) {
                             }
                         })}
                         
-                        <th>Actions</th>
+                        { people?.length > 0 ? <th>Actions</th> : null}
                     </tr>
                 </thead>
 

@@ -77,7 +77,7 @@ function Locations(props) {
                                 )
                             }
                         })}
-                            <th>Actions</th>
+                        { locations?.length > 0 ? <th>Actions</th> : null}
                     </tr>
                 </thead>
 
