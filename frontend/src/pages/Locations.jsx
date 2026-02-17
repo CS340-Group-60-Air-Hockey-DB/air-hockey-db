@@ -43,7 +43,13 @@ function Locations(props) {
 
     return (
         <div className="page-container">
-            <h1>Air Hockey Venues</h1>
+            <div>
+                <h1>Locations</h1>
+                
+                <p>
+                    Browse locations where Air Hockey tables can be found and includes locations for venues of tournaments. Track table quantities, associated owner or business, venue details, and tournament locations. Add, edit, or remove locations.
+                </p>                
+            </div>
             
             <table className="data-table">
                 <thead>
