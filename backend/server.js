@@ -9,6 +9,11 @@ require('dotenv').config()
 const people_routes = require('./routes/people')
 const location_routes = require('./routes/locations')
 const match_routes = require('./routes/matches')
+const sets_routes = require('./routes/sets')
+const game_routes = require('./routes/games')
+const match_official_routes = require('./routes/match_officials')
+const player_match_routes = require('./routes/player_matches')
+const people_location_routes = require('./routes/people_locations')
 
 // Express
 const express = require('express');
@@ -34,6 +39,11 @@ app.get('/', (req, res) => {
 app.use('/people', people_routes)
 app.use('/locations', location_routes)
 app.use('/matches', match_routes)
+app.use('/sets', sets_routes)
+app.use('/games', game_routes)
+app.use('/match_officials', match_official_routes)
+app.use('/player_matches', player_match_routes)
+app.use('/people_locations', people_location_routes)
 
 // ########################################
 // ########## LISTENER

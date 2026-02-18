@@ -12,7 +12,8 @@ const pool = mysql.createPool({
     host              : 'classmysql.engr.oregonstate.edu',
     user              : process.env.DB_USER,
     password          : process.env.DB_PASSWORD,
-    database          : process.env.DB_NAME
+    database          : process.env.DB_NAME,
+    namedPlaceholders: true
 }).promise(); // This makes it so we can use async / await rather than callbacks
 
 // Export it for use in our application
