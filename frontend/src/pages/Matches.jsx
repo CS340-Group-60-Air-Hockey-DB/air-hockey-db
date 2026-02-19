@@ -15,7 +15,6 @@ function Matches(props) {
     // sample data for this phase
     const [locations, setLocations] = useState([]);
     const [matches, setMatches] = useState([]);
-    const [people, setPeople] = useState([])
 
 
     useEffect(() => {
@@ -49,27 +48,12 @@ function Matches(props) {
             }
         };
 
-        const getMatchPeople = async () => {
-            try {
-                const response = await fetch(backendURL + '/people');
-                
-                const match_players = await response.json();
-        
-                setPeople(match_players);
-                
-            } catch (error) {
-                console.log(error);
-            }
-        }
         
        if(locations?.length === 0){
             getMatchLocations()
        }
        if(matches?.length === 0){
             getMatches()
-       }
-       if(people?.length === 0){
-            getMatchPeople()
        }
     }, [backendURL]);
 
@@ -89,38 +73,29 @@ function Matches(props) {
                     <tr>
                         {
                             matches?.length > 0 && Object.keys(matches[0])?.map((header, idx) => {
-                                if(header === 'start_datetime'){
-                                    return (
-                                        <th key={`header-${idx}`}>
-                                            { cap_words('start_time') }
-                                        </th>
-                                    )
+                                let h = header
+                                if( header === 'match_id'){
+                                    h = 'match'
+                                }
+                                else if(header === 'start_datetime'){
+                                    h = 'start_time'
                                 }
                                 else if(header === 'end_datetime'){
-                                    return (
-                                        <th key={`header-${idx}`}>
-                                            { cap_words('end_time') }
-                                        </th>
-                                    )
+                                    h = 'end_time'
                                 }
                                 else if(header === 'winner_id'){
-                                    return (
-                                        <th key={`header-${idx}`}>
-                                            { cap_words('winner') }
-                                        </th>
-                                    )
+                                    h = 'winner'
                                 }
-                                else{
-                                    return (
-                                        <th key={`header-${idx}`}>
-                                            { cap_words(header) }
-                                        </th>
-                                    )
-                                }
+                                 
+                                return (
+                                    <th key={`header-${idx}`}>
+                                        { cap_words(h) }
+                                    </th>
+                                )
                             })
                         }
 
-                        { matches?.length > 0 ? <th>Actions</th> : null}
+                        { matches?.length > 0 && <th>Actions</th> }
                     </tr>
                 </thead>
                 <tbody>
