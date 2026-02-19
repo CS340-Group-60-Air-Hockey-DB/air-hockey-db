@@ -3,10 +3,8 @@ import AddSet from '../components/AddSet';
 import { useLocation } from 'react-router-dom';
 
 function Sets(props) {
-    const { backendURL, locale, setLocation } = props
-    const location = useLocation()
-
-    setLocation(location)
+    const { backendURL, locale, matches, sets, setUserLocation } = props
+    const userLocation = useLocation()
 
     // sample data for this phase
     const [sets, setSets] = useState([

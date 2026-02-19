@@ -3,10 +3,10 @@ import AddMatchOfficial from '../components/AddMatchOfficial';
 import { useLocation } from 'react-router-dom';
 
 function MatchOfficials(props) {
-    const { backendURL, locale, setLocation } = props
-    const location = useLocation()
+    const { backendURL, locale, matches, people, sets, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
+    setUserLocation(userLocation)
 
     // sample data for this phase
     const [matchOfficials, setMatchOfficials] = useState([

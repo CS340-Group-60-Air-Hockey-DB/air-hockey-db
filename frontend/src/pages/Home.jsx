@@ -1,10 +1,10 @@
 import { useLocation } from "react-router-dom";
 
 function Home(props) {
-    const { backendURL, locale, setLocation } = props
-    const location = useLocation()
+    const { backendURL, locale, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
+    setUserLocation(userLocation)
     
     return (
         <>

@@ -7,36 +7,11 @@ import cap_words from '../functions/cap_words';
 
 
 function People(props) {
-    const { backendURL, locale, setLocation } = props
-    const location = useLocation()
+    const { backendURL, locale, people, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
+    setUserLocation(userLocation)
 
-    // Set up a state variable `people` to store and display the backend response
-    const [people, setPeople] = useState([]);
-
-
-    // Load table on page load
-    useEffect(() => {
-        const getData = async function () {
-            try {
-                // Make a GET request to the backend
-                const response = await fetch(backendURL + '/people');
-                
-                // Convert the response into JSON format
-                const people = await response.json();
-        
-                // Update the people state with the response data
-                setPeople(people);
-                
-            } catch (error) {
-                // If the API call fails, print the error to the console
-                console.log(error);
-            }
-        };
-        
-        getData()
-    }, [backendURL]);
 
     return (
         <div>

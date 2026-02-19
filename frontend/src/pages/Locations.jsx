@@ -9,10 +9,10 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function Locations(props) {
-    const { backendURL, locale, setLocation } = props
-    const location = useLocation()
+    const { backendURL, locale, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
+    setUserLocation(userLocation)
 
     // including sample data for this phase
     const [locations, setLocations] = useState([]);

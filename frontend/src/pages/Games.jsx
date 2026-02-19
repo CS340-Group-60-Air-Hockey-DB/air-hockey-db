@@ -3,10 +3,10 @@ import AddGame from '../components/AddGame';
 import { useLocation } from 'react-router-dom';
 
 function Games(props) {
-    const { backendURL, locale, setLocation } = props
-    const location = useLocation()
+    const { backendURL, locale, matches, sets, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
+    setUserLocation(userLocation)
 
     // sample data for this phase
     const [games, setGames] = useState([

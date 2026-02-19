@@ -7,10 +7,10 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function Matches(props) {
-    const { backendURL, locale, setLocation } = props
-    const location = useLocation()
+    const { backendURL, locale, people, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
+    setUserLocation(userLocation)
 
     // sample data for this phase
     const [locations, setLocations] = useState([]);
