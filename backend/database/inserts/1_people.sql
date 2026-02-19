@@ -5,4 +5,4 @@ VALUES ('Alex', 'Adams', 'female', '1996-03-05', 'alexadams@email.com', '987-547
 ('Dylan', 'Moore', 'male', '2012-11-13', NULL, '336-555-4419', NULL, NULL, NULL, 'TX', 'USA', NULL),
 ('Natalie', 'Perez', 'female', '1993-07-27', 'natalie.perez@email.com', '305-555-9183', '670 Coral Way', NULL, 'Miami', 'FL', 'USA', '33145'),
 ('Quinn', 'Foster', 'prefer not to say', '1987-10-18', NULL, NULL, NULL, NULL, NULL, NULL, 'USA', NULL),
-('Aisling', 'OConnor', 'female', '1999-02-09', 'aoife.oconnor@example.ie', NULL, '3 Trinity Lane', NULL, 'Dublin', NULL, 'Ireland', 'D02 XY76');
+('Aisling', 'O''Connor', 'female', '1999-02-09', 'aoife.oconnor@example.ie', NULL, '3 Trinity Lane', NULL, 'Dublin', NULL, 'Ireland', 'D02 XY76');

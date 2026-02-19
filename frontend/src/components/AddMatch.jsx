@@ -1,11 +1,11 @@
-function AddMatch({ locations, people }) {
+function AddMatch({ locations }) {
     return (
-        <form>
+        <form id="add-form">
             <h2>Add a New Match</h2>
 
             <label>Location: </label>
             <select required>
-                {locations.map(loc => <option key={loc.id} value={loc.id}>{loc.name}</option>)}
+                {locations.map(loc => <option key={loc.location_id} value={loc.location_id}>{loc.location_name}</option>)}
             </select>
 
             <label> Type: </label>

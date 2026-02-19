@@ -7,64 +7,67 @@ import cap_words from '../functions/cap_words';
 
 
 function People(props) {
-    const { backendURL, setLocation } = props
-    const location = useLocation()
+    const { backendURL, locale, people, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
+    setUserLocation(userLocation)
 
-    // Set up a state variable `people` to store and display the backend response
-    const [people, setPeople] = useState([]);
-
-
-    // Load table on page load
-    useEffect(() => {
-        const getData = async function () {
-            try {
-                // Make a GET request to the backend
-                const response = await fetch(backendURL + '/people');
-                
-                // Convert the response into JSON format
-                const people = await response.json();
-        
-                // Update the people state with the response data
-                setPeople(people);
-                
-            } catch (error) {
-                // If the API call fails, print the error to the console
-                console.log(error);
-            }
-        };
-        
-        getData()
-    }, [backendURL, people]);
 
     return (
-        <>
-            <h1>Air Hockey Players</h1>
+        <div>
+            <div>
+                <h1>Community</h1>
+
+                <p>
+                    Browse and manage players, officials, and location owners in the air hockey community. Add, edit, or remove people from the database.
+                </p>
+            </div>
 
             <table>
                 <thead>
                     <tr>
-                        {people?.length > 0 && Object.keys(people[0])?.map((header, index) => (
-                            <th key={index}>{
-                                header === 'phone_num' ? 'Phone Number' : cap_words(header)
-                            }</th>
-                        ))}
-                            <th>Actions</th>
+                        {people?.length > 0 && Object.keys(people[0])?.map((header, index) => {
+                            if(header === 'dob'){
+                                return (
+                                    <th key={`header-${index}`}>
+                                        { cap_words('date_of_birth') }
+                                    </th>
+                                )
+                            }
+                            else if(header === 'phone_num'){
+                                return (
+                                    <th key={`header-${index}`}>
+                                        {cap_words('phone_number')}
+                                    </th>
+                                )
+                            }
+                            else{
+                                return (
+                                    <th key={`header-${index}`}>
+                                        { cap_words(header) }
+                                    </th>
+                                )
+                            }
+                        })}
                     </tr>
                 </thead>
 
                 <tbody>
-                    {people?.map((person, index) => (
-                        <TableRow key={index} rowObject={person} backendURL={backendURL} />
-                    ))}
+                    {people?.map((person, index) => {
+                        let person_row = person
+                        delete person_row.person_id
+                        let dob = new Date(person.dob)
+                        person_row.dob = dob.toLocaleDateString(locale)
+
+                        return <TableRow key={`person-${index}`} rowObject={person_row} backendURL={backendURL} />
+                    })}
 
                 </tbody>
             </table>
             
             <CreatePersonForm backendURL={backendURL} />
             <UpdatePersonForm people={people} backendURL={backendURL} />               
-        </>
+        </div>
     );
 
 } export default People;

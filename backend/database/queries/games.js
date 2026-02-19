@@ -4,7 +4,23 @@ const game_queries = {
         WHERE game_id = :game_id;
     `,
     select_all: `
-        SELECT * from games
+        SELECT game_id, m.match_id, g.set_id, game_num, 
+            player_1_score, player_2_score, game_status, 
+            (
+                CASE 
+                    WHEN player_1_score = 7 THEN CONCAT(p1.first_name, ' ', p1.last_name)
+                    WHEN player_2_score = 7 THEN CONCAT(p2.first_name, ' ', p2.last_name)
+                    ELSE NULL
+                END
+            ) as winner,
+            g.start_datetime, g.end_datetime
+        from games as g
+        JOIN sets as s on s.set_id = g.set_id
+        JOIN matches as m on m.match_id = s.match_id
+        JOIN player_matches AS pm1 ON pm1.match_id = m.match_id AND pm1.player_order = 'player_1'
+        JOIN player_matches AS pm2 ON pm2.match_id = m.match_id AND pm2.player_order = 'player_2'
+        JOIN people AS p1 ON p1.person_id = pm1.player_id
+        JOIN people AS p2 ON p2.person_id = pm2.player_id
         ORDER BY set_id;
     `,
     select_by_id: `

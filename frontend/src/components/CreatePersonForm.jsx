@@ -1,4 +1,4 @@
-const CreatePersonForm = ({ backendURL, refreshPeople }) => {
+const CreatePersonForm = ({ backendURL }) => {
 
     return (
         <>

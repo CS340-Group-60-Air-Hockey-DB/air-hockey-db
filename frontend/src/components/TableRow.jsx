@@ -1,13 +1,15 @@
-import DeletePersonForm from './DeletePersonForm';
+import DeleteBtn from './DeleteBtn';
 
-const TableRow = ({ rowObject, backendURL, refreshPeople }) => {
+const TableRow = ({ rowObject, backendURL, deleteBtn }) => {
     return (
         <tr>
             {Object.values(rowObject).map((value, index) => (
                 <td key={index}>{value}</td>
             ))}
             
-            <DeletePersonForm rowObject={rowObject} backendURL={backendURL} refreshPeople={refreshPeople} />
+            {
+                deleteBtn && <DeleteBtn rowObject={rowObject} backendURL={backendURL} />
+            }
         </tr>
     );
 };

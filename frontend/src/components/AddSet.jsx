@@ -1,15 +1,42 @@
+import { useState } from "react";
+
 function AddSet({ matches }) {
+    const [matchNum, setMatchNum] = useState(null)
+    const [setMax, setSetMax] = useState(null)
+
     return (
-        <form>
+        <form id="add-form">
             <h2>Add a New Set</h2>
 
-            <label>Select Match:</label>
-            <select required>
-                {matches.map(m => <option key={m.id} value={m.id}>{m.description}</option>)}
-            </select>
+            <label> Match: </label>
+                <select 
+                    required
+                    onChange={evt => {
+                        setMatchNum(evt.target.value[0])
+                        setSetMax(Array.from({ length: evt.target.value[2]}, (_, idx) => idx + 1))
+                    }}
+                >
+                    <option value="">Select a Match</option>
+                    {matches.map(m => 
+                        <option 
+                            key={m.match_id} 
+                            value={[m.match_id, m.set_max]}
+                        >
+                            {m.match_id}
+                        </option>
+                    )}
+                </select>
 
-            <label> Set Number: </label>
-            <input type="number" min="1" max="7" required />
+            {
+                matchNum && setMax && 
+                <div>
+                    <label> Set: </label>
+                        <select required>
+                            <option value="">{'Select a Set'}</option>
+                            {setMax.map((num, idx) => <option key={idx} value={num}>{num}</option>)}
+                        </select>
+                </div>
+            }
 
             <label> Status: </label>
             <select required>

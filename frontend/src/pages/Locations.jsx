@@ -1,6 +1,6 @@
 // This will include the person's first + last name of who owns the location
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddLocation from '../components/AddLocation';
 import UpdateLocation from '../components/UpdateLocation';
 import { useLocation } from 'react-router-dom';
@@ -9,10 +9,10 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function Locations(props) {
-    const { backendURL, setLocation } = props
-    const location = useLocation()
+    const { backendURL, people, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
+    setUserLocation(userLocation)
 
     // including sample data for this phase
     const [locations, setLocations] = useState([]);
@@ -33,34 +33,60 @@ function Locations(props) {
                 
             } catch (error) {
                 // If the API call fails, print the error to the console
-                console.log(error);
+                console.log('Error:', error);
             }
         };
 
         getLocations()
-    }, [backendURL, locations]);
+    }, [backendURL]);
 
 
     return (
         <div className="page-container">
-            <h1>Air Hockey Venues</h1>
+            <div>
+                <h1>Locations</h1>
+                
+                <p>
+                    Browse locations where Air Hockey tables can be found and includes locations for venues of tournaments. Track table quantities, associated owner or business, venue details, and tournament locations. Add, edit, or remove locations.
+                </p>                
+            </div>
             
             <table className="data-table">
                 <thead>
                     <tr>
-                        {locations?.length > 0 && Object.keys(locations[0])?.map((header, index) => (
-                            <th key={index}>{
-                                header === 'phone_num' ? 'Phone Number' : cap_words(header)
-                            }</th>
-                        ))}
-                            <th>Actions</th>
+                        {locations?.length > 0 && Object.keys(locations[0])?.map((header, index) => {
+                            if(header === 'table_qty'){
+                                return (
+                                    <th key={index}>
+                                        { cap_words('table_quantity') }
+                                    </th>
+                                )
+                            }
+                            else if(header === 'phone_num'){
+                                return (
+                                    <th key={index}>
+                                        { cap_words('phone_number') }
+                                    </th>
+                                )
+                            }
+                            else{
+                                return (
+                                    <th key={index}>
+                                        { cap_words(header) }
+                                    </th>
+                                )
+                            }
+                        })}
                     </tr>
                 </thead>
 
                 <tbody>
-                    {locations?.map((person, index) => (
-                        <TableRow key={index} rowObject={person} backendURL={backendURL} />
-                    ))}
+                    {locations?.map((location, index) => {
+                        let location_row = location
+                        delete location_row.location_id
+                        
+                        return <TableRow key={index} rowObject={location_row} backendURL={backendURL} />
+                    })}
                 </tbody>
             </table>
             
@@ -70,7 +96,7 @@ function Locations(props) {
             
             <hr />
 
-            <UpdateLocation locations={locations} />
+            <UpdateLocation locations={locations} people={people} />
 
         </div>
     )

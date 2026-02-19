@@ -1,6 +1,6 @@
 function AddLocation() {
     return (
-        <form className="add-form">
+        <form id="add-form">
             <h2>Add a New Location</h2>
             <input type="text" placeholder="Location Name" required />
             <input type="number" placeholder="Table Quantity" required />

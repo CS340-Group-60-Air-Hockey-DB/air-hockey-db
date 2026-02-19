@@ -1,16 +1,18 @@
-function AddPlayerToMatch({ matches, people}) {
+function AddPlayerToMatch({ matches, people }) {
     return (
-        <form>
+        <form id="add-form">
             <h2>Add Player to Match</h2>
 
             <label>Select Match:</label>
             <select required>
-                {matches.map(m => <option key={m.id} value={m.id}>{m.description}</option>)}
+                <option value="">Select a Match</option>
+                {matches.map(m => <option key={m.match_id} value={m.match_id}>{m.match_id}</option>)}
             </select>
 
             <label> Select Player: </label>
             <select required>
-                {people.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                <option value="">Select a Player</option>
+                {people.map(p => <option key={p.person_id} value={p.person_id}>{p.first_name + ' ' + p.last_name}</option>)}
             </select>
 
             <label> Starting Side: </label>

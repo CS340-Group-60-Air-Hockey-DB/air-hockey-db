@@ -137,21 +137,6 @@ CREATE OR REPLACE TABLE games(
         player_1_score BETWEEN 0 AND 7 AND 
         player_2_score BETWEEN 0 AND 7
     ),
-    constraint chk_player_end_scores CHECK (
-        game_status = 'completed' AND
-        (player_1_score = 7 AND player_2_score < 7) OR 
-        (player_1_score < 7 AND player_2_score = 7)
-    ),
-    constraint chk_winner CHECK (
-       (
-            game_status = 'completed' AND 
-            (player_1_score = 7 OR player_2_score = 7)
-        ) OR 
-       (
-            game_status != 'completed' AND 
-            (player_1_score != 7 AND player_2_score != 7)
-       )
-    ),
     CONSTRAINT chk_match_times CHECK (
         end_datetime IS NULL OR 
         end_datetime > start_datetime
@@ -222,7 +207,7 @@ VALUES ('Alex', 'Adams', 'female', '1996-03-05', 'alexadams@email.com', '987-547
 ('Dylan', 'Moore', 'male', '2012-11-13', NULL, '336-555-4419', NULL, NULL, NULL, 'TX', 'USA', NULL),
 ('Natalie', 'Perez', 'female', '1993-07-27', 'natalie.perez@email.com', '305-555-9183', '670 Coral Way', NULL, 'Miami', 'FL', 'USA', '33145'),
 ('Quinn', 'Foster', 'prefer not to say', '1987-10-18', NULL, NULL, NULL, NULL, NULL, NULL, 'USA', NULL),
-('Aisling', "O'Connor", 'female', '1999-02-09', 'aoife.oconnor@example.ie', NULL, '3 Trinity Lane', NULL, 'Dublin', NULL, 'Ireland', 'D02 XY76');
+('Aisling', 'O''Connor', 'female', '1999-02-09', 'aoife.oconnor@example.ie', NULL, '3 Trinity Lane', NULL, 'Dublin', NULL, 'Ireland', 'D02 XY76');
 
 ---------------
 -- locations --
@@ -233,23 +218,14 @@ VALUES (4, null, '919-329-9031', '1234 Foundation Lane', null, 'Raleigh', 'NC', 
 (0, 'events@grandplazahotel.com', '919-555-0298', '456 Hospitality Boulevard', null, 'Cary', 'NC', 'USA', '27511', 'other', 'Grand Plaza Hotel & Conference Center', 'Potential tournament venue, no permanent tables but large event space available'),
 (0, 'info@spacecitysports.com', '713-555-0891', '8500 Kirby Drive', null, 'Houston', 'TX', 'USA', '77054', 'other', 'Space City Sports Complex', 'Major sports venue, interested in hosting regional + world air hockey championships.');
 
+INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status, winner_id)
+VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challenge', null, 'completed', 1),
+(5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned', null),
+(7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled', null);
 
--------------
--- matches --
--------------
-INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
-VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challenge', null, 'completed'),
-(5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned'),
-(7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled');
-
-----------
--- sets --
-----------
-INSERT INTO sets(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
-VALUES 
--- Match 1
-(1, null, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
-(1, null, 2, '2026-02-01 14:55:10', '2026-02-01 15:19:45', 'completed'),
+INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
+VALUES (1, 1, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
+(1, 3, 2, '2026-02-01 14:55:10', '2026-02-01 15:17:50', 'completed'),
 (1, 1, 3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 
 -- Match 2
 (2, null, 1, '2024-01-15 19:00:00', null, 'abandoned'),
@@ -278,11 +254,10 @@ VALUES (7, 3, 1, 1, 'completed', '2026-02-01 14:31:39', '2026-02-01 14:36:15'),
 -- Games for Match 1 Set 2
 (3, 7, 2, 1, 'completed', '2026-02-01 14:55:10', '2026-02-01 14:59:05'),
 (7, 2, 2, 2, 'completed', '2026-02-01 14:59:35', '2026-02-01 15:03:10'),
-(7, 6, 2, 3, 'completed', '2026-02-01 15:03:40', '2026-02-01 15:08:25'),
+(6, 7, 2, 3, 'completed', '2026-02-01 15:03:40', '2026-02-01 15:08:25'),
 (5, 7, 2, 4, 'completed', '2026-02-01 15:08:55', '2026-02-01 15:13:40'),
-(7, 3, 2, 5, 'completed', '2026-02-01 15:14:10', '2026-02-01 15:17:50'),
-(7, 4, 2, 6, 'completed', '2026-02-01 15:18:20', '2026-02-01 15:19:45'),
--- Games for Match 1 Set 3
+(3, 7, 2, 5, 'completed', '2026-02-01 15:14:10', '2026-02-01 15:17:50'),
+-- Games for Set 3
 (7, 1, 3, 1, 'completed', '2026-02-01 15:21:33', '2026-02-01 15:25:20'),
 (5, 7, 3, 2, 'completed', '2026-02-01 15:25:50', '2026-02-01 15:30:35'),
 (7, 5, 3, 3, 'completed', '2026-02-01 15:31:05', '2026-02-01 15:35:50'),

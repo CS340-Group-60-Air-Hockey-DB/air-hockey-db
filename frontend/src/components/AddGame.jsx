@@ -1,22 +1,59 @@
-import React from 'react';
+import { useState } from 'react';
 
-function AddGame({ sets }) {
+function AddGame({ matches }) {
+    const [matchNum, setMatchNum] = useState(null)
+    const [setMax, setSetMax] = useState(null)
+    const gameNumArr = Array.from({ length: 7}, (_, idx) => idx + 1)
+    
     return (
-        <form>
+        <form id="add-form">
             <h2>Add a New Game</h2>
 
-            <label>Select Set:</label>
-            <select required>
-                {sets.map(s => <option key={s.id} value={s.id}>{s.description}</option>)}
-            </select>
+            <label> Match: </label>
+                <select 
+                    required
+                    onChange={evt => {
+                        setMatchNum(evt.target.value[0])
+                        setSetMax(Array.from({ length: evt.target.value[2]}, (_, idx) => idx + 1))
+                    }}
+                >
+                    <option value="">Select a Match</option>
+                    {matches.map(m => 
+                        <option 
+                            key={m.match_id} 
+                            value={[m.match_id, m.set_max]}
+                        >
+                            {m.match_id}
+                        </option>
+                    )}
+                </select>
 
-            <label>Game Number:</label>
-            <input type="number" min="1" max="7" required />
+            {
+                matchNum && setMax && 
+                <div>
+                    <label> Set: </label>
+                        <select required>
+                            <option value="">{'Select a Set'}</option>
+                            {setMax.map((num, idx) => <option key={idx} value={num}>{num}</option>)}
+                        </select>
+                </div>
+            }
+
+            <label>Game Number: </label>
+                <select required>
+                    <option value="">{'Select the Game Number'}</option>
+                        {gameNumArr.map((num, idx) => <option key={idx} value={num}>{num}</option>)}
+                    </select>
 
             <br /><br />
 
-            <label>Player 1 Score:</label>
-            <input type="number" min="0" max="7"required />
+            <label>Player 1 Score: </label>
+            <input 
+                type="number" 
+                min="0" 
+                max="7"
+                required 
+            />
 
             <label>Player 2 Score:</label>
             <input type="number" min="0" max="7"required />

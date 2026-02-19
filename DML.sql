@@ -124,7 +124,7 @@ INSERT INTO people_locations(person_id, location_id)
 VALUES (:person_id, :location_id);
 
 ----- READ -----
--- Not needed for a junction table.
+SELECT * FROM people_locations;
 
 ----- UPDATE -----
 UPDATE people_locations
@@ -150,6 +150,43 @@ VALUES (:set_max, :faceoff_type, :start_datetime, :end_datetime, :location_id, :
 -- Get all data
 SELECT * from matches
 ORDER BY match_status;
+
+-- Get data by ID
+SELECT * from matches
+WHERE match_id = :match_id;
+
+-- Get all data from matches with foreign keys view
+CREATE OR REPLACE VIEW matches_with_fks AS
+    SELECT
+        l.location_name,
+        CONCAT (p.first_name, ' ', p.last_name) as "winner",
+        m.start_datetime,
+        m.end_datetime,
+        m.set_max,
+        m.faceoff_type,
+        m.match_type,
+        m.match_status,
+        m.note
+    from
+        matches as m
+        LEFT JOIN locations as l on l.location_id = m.location_id
+        LEFT JOIN people as p on p.person_id = m.winner_id
+    ORDER BY
+        m.start_datetime;
+        
+SELECT * from matches_with_fks
+ORDER BY match_status;
+
+-- Get all locations in matches
+SELECT l.location_id, l.location_name FROM matches as m
+INNER JOIN locations as l on l.location_id = m.location_id
+ORDER BY l.location_name;
+
+-- Get all people in matches
+SELECT p.person_id, CONCAT(p.first_name, ' ', p.last_name) as "name" FROM matches as m
+INNER JOIN player_matches as pm on pm.match_id = m.match_id 
+INNER JOIN people as p on p.person_id = pm.player_id
+ORDER BY p.first_name;
 
 ----- UPDATE -----
 UPDATE matches
@@ -177,8 +214,19 @@ VALUES (:match_id, :winner_id, :set_num, :start_datetime, :end_datetime, :set_st
 
 ----- READ -----
 -- Get all data
-SELECT * from "sets"
+SELECT match_id,
+    CONCAT(p.first_name, ' ', p.last_name) as winner, 
+    set_num,
+    start_datetime, 
+    end_datetime,
+    set_status as status
+from "sets"
+JOIN people as p on p.person_id = "sets".winner_id
 ORDER BY match_id;
+
+-- Get data by ID
+SELECT * from "sets"
+WHERE set_id = :set_id;
 
 ----- UPDATE -----
 UPDATE "sets"
@@ -204,8 +252,28 @@ VALUES (:player_1_score, :player_2_score, :set_id, :game_num, :game_status, :sta
 
 ----- READ -----
 -- Get all data
-SELECT * from games
+SELECT game_id, m.match_id, g.set_id, game_num, 
+    player_1_score, player_2_score, game_status, 
+    (
+        CASE 
+            WHEN player_1_score = 7 THEN CONCAT(p1.first_name, ' ', p1.last_name)
+            WHEN player_2_score = 7 THEN CONCAT(p2.first_name, ' ', p2.last_name)
+            ELSE NULL
+        END
+    ) as winner,
+    g.start_datetime, g.end_datetime
+from games as g
+JOIN sets as s on s.set_id = g.set_id
+JOIN matches as m on m.match_id = s.match_id
+JOIN player_matches AS pm1 ON pm1.match_id = m.match_id AND pm1.player_order = 'player_1'
+JOIN player_matches AS pm2 ON pm2.match_id = m.match_id AND pm2.player_order = 'player_2'
+JOIN people AS p1 ON p1.person_id = pm1.player_id
+JOIN people AS p2 ON p2.person_id = pm2.player_id
 ORDER BY set_id;
+
+-- Get data by ID
+SELECT * from games
+WHERE game_id = :game_id;
 
 ----- UPDATE -----
 UPDATE games
@@ -232,8 +300,15 @@ VALUES (:official_person_id, :set_id, :official_type);
 
 ----- READ -----
 -- Get all data
-SELECT * from match_officials
-ORDER BY set_id;
+SELECT CONCAT(p.first_name, ' ', p.last_name) as name,
+    mo.official_type,
+    m.match_id as match_num,
+    s.set_num
+from match_officials as mo
+JOIN "sets" as s on s.set_id = mo.set_id
+JOIN matches as m on m.match_id = s.match_id
+JOIN people as p on p.person_id = mo.official_person_id
+ORDER BY mo.set_id;
 
 ----- UPDATE -----
 UPDATE match_officials
@@ -256,7 +331,16 @@ VALUES (:player_id, :match_id, :starting_side, :player_order);
 
 ----- READ -----
 -- Get all data
-SELECT * from player_matches
+SELECT pm.match_id,
+    CONCAT(p.first_name, ' ', p.last_name) as "player_name",
+    CONCAT(p_opp.first_name, ' ', p_opp.last_name) as "opponent",
+    pm.player_order,
+    pm.starting_side
+from player_matches as pm
+JOIN people as p on p.person_id = pm.player_id
+JOIN player_matches as pm_opp on pm_opp.match_id = pm.match_id
+    AND pm_opp.player_id != pm.player_id
+JOIN people as p_opp on pm_opp.player_id = p_opp.person_id
 ORDER BY match_id;
 
 -- Get by match id

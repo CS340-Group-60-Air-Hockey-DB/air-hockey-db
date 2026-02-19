@@ -1,6 +1,9 @@
-import React from 'react';
+import { useState } from "react";
 
-function UpdateLocation({ locations = [] }) {
+function UpdateLocation({ locations = [], people }) {   
+    const [selectedPerson, setSelectedPerson] = useState('');
+    const personToUpdate = people.find(p => p.person_id === parseInt(selectedPerson));
+
     return (
         <div>
             <h2>Update Existing Location</h2>
@@ -18,6 +21,21 @@ function UpdateLocation({ locations = [] }) {
             <br /><br />
 
             <input type="text" placeholder="Update Location Name" required />
+
+            <select
+                name="update_person_id"
+                id="update_person_id"
+                value={selectedPerson}
+                onChange={(e) => setSelectedPerson(e.target.value)}
+            >
+                <option value="">Select a New Owner</option>
+                {people.map((person) => (
+                    <option key={person.person_id} value={person.person_id}>
+                        {person.first_name} {person.last_name}
+                    </option>
+                ))}
+            </select>
+
             <input type="number" placeholder="Update Table Quantity" required />
             <input type="email" placeholder="Update Email" />
             <input type="text" placeholder="Update Phone Number" />

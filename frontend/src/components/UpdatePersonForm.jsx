@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const UpdatePersonForm = ({ people, backendURL, refreshPeople }) => {
+const UpdatePersonForm = ({ people, backendURL }) => {
 
     const [selectedPerson, setSelectedPerson] = useState('');
     const personToUpdate = people.find(p => p.person_id === parseInt(selectedPerson));
@@ -19,7 +19,7 @@ const UpdatePersonForm = ({ people, backendURL, refreshPeople }) => {
                 <option value="">Select a Person</option>
                 {people.map((person) => (
                     <option key={person.person_id} value={person.person_id}>
-                        {person.person_id} - {person.first_name} {person.last_name}
+                        {person.first_name} {person.last_name}
                     </option>
                 ))}
             </select>

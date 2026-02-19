@@ -1,4 +1,8 @@
 const people_location_queries = {
+    select_all: `
+        SELECT * FROM people_locations;
+    `,
+    
     delete_by_ids: `
         DELETE FROM people_locations
         WHERE person_id = :person_id AND

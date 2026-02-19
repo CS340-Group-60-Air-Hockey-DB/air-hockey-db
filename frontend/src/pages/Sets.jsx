@@ -1,56 +1,75 @@
-import React, { useState } from 'react';
 import AddSet from '../components/AddSet';
 import { useLocation } from 'react-router-dom';
+import cap_words from '../functions/cap_words';
+import TableRow from '../components/TableRow';
 
 function Sets(props) {
-    const { setLocation } = props
-    const location = useLocation()
+    const { backendURL, locale, matches, sets, setUserLocation } = props
+    const userLocation = useLocation()
 
-    setLocation(location)
-
-    // sample data for this phase
-    const [sets, setSets] = useState([
-        { set_id: 1, match_id: 1, set_num: 1, set_status: 'completed', winner_name: 'Jane Doe' },
-        { set_id: 2, match_id: 1, set_num: 2, set_status: 'in_progress', winner_name: 'TBD' },
-    ])
-
-    const [matches] = useState([
-        { id: 1, description: 'Match 1' },
-        { id: 2, description: 'Match 2' },
-    ]);
+    setUserLocation(userLocation)
 
     return (
         <div className="page-container">
-            <h1>Sets</h1>
+            <div>
+                <h1>Sets</h1>
+
+                <p>
+                    Browse and manage sets within matches. View set numbers, winners, status, and timing. Add, edit, or remove sets.
+                </p>
+            </div>
 
             <table className="data-table">
                 <thead>
                     <tr>
-                        <th>Set ID</th>
-                        <th>Match ID</th>
-                        <th>Set Number</th>
-                        <th>Status</th>
-                        <th>Winner</th>
-                        <th>Actions</th>
+                        {
+                            sets?.length > 0 && Object.keys(sets[0])?.map((header, idx) => {
+                                let h = header
+                                if(header === 'match_id'){
+                                    h = 'match'
+                                }
+                                return (
+                                    <th key={`${header}-${idx}`}>
+                                        { cap_words(h) }
+                                    </th>
+                                )
+                            })
+                        }
+                        { sets?.length > 0 && 
+                            <th>
+                                Actions
+                            </th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
-                    {sets.map((set) => (
-                        <tr key={set.set_id}>
-                            <td>{set.set_id}</td>
-                            <td>{set.match_id}</td>
-                            <td>{set.set_num}</td>
-                            <td>{set.set_status}</td>
-                            <td>{set.winner_name}</td>
-                            <td><button>Delete</button></td>
-                        </tr>
-                    ))}
+                    {sets.map((set, idx) => {
+                        let set_row = set
+                        delete set_row.set_id
+
+                        set_row.start_datetime = set.start_datetime ? new Date(set.start_datetime).toLocaleDateString(locale, { 
+                            hour: "numeric",
+                            minute: "numeric"
+                        }) : null
+                            
+                        set_row.end_datetime = set.end_datetime ? new Date(set.end_datetime).toLocaleDateString(locale, {
+                            hour: "numeric",
+                            minute: "numeric"
+                        }) : null
+
+                        return <TableRow
+                            key={idx}
+                            rowObject={set}
+                            backendURL={backendURL}
+                            deleteBtn={true}
+                        />
+                    })}
                 </tbody>
             </table>
 
             <hr />
 
-            <AddSet matches={matches} />
+            <AddSet matches={matches} backendURL={backendURL} />
 
         </div>
     );
