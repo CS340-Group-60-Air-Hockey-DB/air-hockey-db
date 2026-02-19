@@ -73,7 +73,6 @@ function Matches(props) {
        }
     }, [backendURL]);
 
-    console.log('MatcheS:', matches)
 
     return (
         <div className="page-container">
