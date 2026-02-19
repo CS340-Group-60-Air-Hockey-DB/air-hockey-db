@@ -1,6 +1,7 @@
 const create_matches_with_fks = `
     CREATE OR REPLACE VIEW matches_with_fks AS
     SELECT
+        m.match_id,
         l.location_name,
         CONCAT (p.first_name, ' ', p.last_name) as "winner",
         m.start_datetime,
