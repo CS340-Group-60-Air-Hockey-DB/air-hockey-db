@@ -32,13 +32,13 @@ const get_set_by_id = async (req, res) => {
         const [set] = await db.query(set_queries.select_by_id, { set_id });
 
         if (set.length === 0) {
-            return res.status(404).send("Set not found");        
+            return res.status(404).send("Set not found");
         }
 
-    res.status(200).json(set[0]);
+        res.status(200).json(set[0]);
 
-    }   catch (error) {
-    res.status(500).send("An error occurred while executing the database queries.");
+    } catch (error) {
+        res.status(500).send("An error occurred while executing the database queries.");
     }
 
 }
@@ -52,7 +52,7 @@ const update_set = async (req, res) => {
 
         await db.query(set_queries.update_by_id, data);
 
-        res.status(200).json({ message: "Update successful"});
+        res.status(200).json({ message: "Update successful" });
 
     } catch (error) {
         res.status(500).send("An error occurred while executing the database queries.");
