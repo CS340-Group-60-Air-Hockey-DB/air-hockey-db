@@ -89,6 +89,7 @@ function Games(props) {
                             key={`game-${idx}`} 
                             rowObject={game_row} 
                             backendURL={backendURL} 
+                            deleteBtn={true}
                         />
                     })}
                 </tbody>

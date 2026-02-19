@@ -49,8 +49,6 @@ function People(props) {
                                 )
                             }
                         })}
-                        
-                        { people?.length > 0 ? <th>Actions</th> : null}
                     </tr>
                 </thead>
 

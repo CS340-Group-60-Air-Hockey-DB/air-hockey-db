@@ -68,7 +68,7 @@ function PlayerMatches(props) {
                             pm_row.player_order = cap_words(pm.player_order)
                         }
 
-                        return <TableRow key={idx} rowObject={pm} backendURL={backendURL} />
+                        return <TableRow key={idx} rowObject={pm} backendURL={backendURL} deleteBtn={true} />
                     })}
                 </tbody>
             </table>

@@ -113,7 +113,7 @@ function Matches(props) {
                                 minute: "numeric"
                             }) : null
 
-                            return <TableRow key={`match-${index}`} rowObject={match_row} backendURL={backendURL} />
+                            return <TableRow key={`match-${index}`} rowObject={match_row} backendURL={backendURL} deleteBtn={true} />
                         })
                     }
                 </tbody>

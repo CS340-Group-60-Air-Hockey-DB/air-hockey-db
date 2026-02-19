@@ -61,6 +61,7 @@ function Sets(props) {
                             key={idx}
                             rowObject={set}
                             backendURL={backendURL}
+                            deleteBtn={true}
                         />
                     })}
                 </tbody>

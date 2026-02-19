@@ -73,6 +73,7 @@ function MatchOfficials(props) {
                             key={idx}
                             rowObject={mo}
                             backendURL={backendURL}
+                            deleteBtn={true}
                        />
                     })}
                 </tbody>
@@ -80,7 +81,7 @@ function MatchOfficials(props) {
             
             <hr />
 
-            <AddMatchOfficial people={people} matches={matches}/>
+            <AddMatchOfficial people={people} matches={matches} />
 
         </div>
     )
