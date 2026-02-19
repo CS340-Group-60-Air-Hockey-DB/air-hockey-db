@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Pages
@@ -23,44 +23,165 @@ const backendURL = `${backend_url}:${backendPort}`;
 
 
 function App() {
-  const [location, setLocation] = useState('')
   const userLocale = navigator.language
+
+    // React Global App States
+    const [userLocation, setUserLocation] = useState('')
+    const [matches, setMatches] = useState([])
+    const [people, setPeople] = useState([]);
+    const [sets, setSets] = useState([])
+  
+    useEffect(() => {
+          const getPeople = async function () {
+              try {
+                  // Make a GET request to the backend
+                  const response = await fetch(backendURL + '/people');
+                  
+                  // Convert the response into JSON format
+                  const people = await response.json();
+          
+                  // Update the people state with the response data
+                  setPeople(people);
+                  
+              } catch (error) {
+                  // If the API call fails, print the error to the console
+                  console.log(error);
+              }
+          };
+
+        const getMatches = async () => {
+            try{
+                const res = await fetch(backendURL + '/matches')
+
+                let data = await res.json()
+                data.sort((a, b) => a.match_id - b.match_id)
+
+                setMatches(data)
+            }
+            catch(error){
+                console.log('Error:', error)
+            }
+        }
+
+        const getSets = async () => {
+            try{
+                const res = await fetch(backendURL + '/sets')
+
+                let data = await res.json()
+
+                setSets(data)
+            }
+            catch(error){
+                console.log('Error:', error)
+            }
+        }
+
+          
+        if(people?.length === 0){
+            getPeople()
+        }
+        if(matches?.length === 0){
+            getMatches()
+        }
+        if(sets?.length === 0){
+            getSets()
+        }
+      }, [backendURL]);
 
     return (
         <>
-            <Navigation location={location.pathname}/>
+            <Navigation location={userLocation.pathname}/>
             <Routes>
                 <Route 
                     path="/" 
-                    element={<Home setLocation={setLocation} locale={userLocale} />} 
+                    element={
+                        <Home 
+                            setUserLocation={setUserLocation} 
+                            locale={userLocale} 
+                        />
+                    } 
                 />
                 <Route 
                     path="/people" 
-                    element={<People backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
+                    element={
+                        <People 
+                            backendURL={backendURL} 
+                            setUserLocation={setUserLocation} 
+                            locale={userLocale} 
+                            people={people}
+                        />
+                } 
                 />
                 <Route 
                     path='/locations' 
-                    element={<Locations backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
+                    element={
+                        <Locations 
+                            backendURL={backendURL} 
+                            setUserLocation={setUserLocation} 
+                            locale={userLocale} 
+                        />
+                    } 
                 />
                 <Route 
                     path='/matches' 
-                    element={<Matches backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
+                    element={
+                        <Matches 
+                            backendURL={backendURL} 
+                            setUserLocation={setUserLocation} 
+                            locale={userLocale} 
+                            people={people}
+                            matches={matches}
+                        />
+                    }
                 />
                 <Route 
                     path='/match_officials' 
-                    element={<MatchOfficials backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
+                    element={
+                        <MatchOfficials 
+                            backendURL={backendURL} 
+                            setUserLocation={setUserLocation} 
+                            locale={userLocale} 
+                            matches={matches}
+                            people={people}
+                            sets={sets}
+                        />
+                    }
                 />
                 <Route 
                     path='/player_matches' 
-                    element={<PlayerMatches backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
+                    element={
+                        <PlayerMatches 
+                            backendURL={backendURL} 
+                            setUserLocation={setUserLocation} 
+                            locale={userLocale}
+                            people={people} 
+                            matches={matches}
+                        />
+                    }
                 />
                 <Route 
                     path='/sets' 
-                    element={<Sets backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
+                    element={
+                        <Sets 
+                            backendURL={backendURL} 
+                            setUserLocation={setUserLocation} 
+                            locale={userLocale} 
+                            matches={matches}
+                            sets={sets}
+                        />
+                    }
                 />
                 <Route 
                     path='/games' 
-                    element={<Games backendURL={backendURL} setLocation={setLocation} locale={userLocale} />} 
+                    element={
+                        <Games 
+                            backendURL={backendURL} 
+                            setUserLocation={setUserLocation} 
+                            locale={userLocale} 
+                            matches={matches}
+                            sets={sets}
+                        />
+                    }
                 />
             </Routes>
             <Footer />
