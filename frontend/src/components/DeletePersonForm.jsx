@@ -1,4 +1,4 @@
-const DeletePersonForm = ({ rowObject, backendURL, refreshPeople }) => {
+const DeletePersonForm = ({ rowObject, backendURL }) => {
 
     return (
         <td>

@@ -1,4 +1,4 @@
-function AddMatch({ locations, people }) {
+function AddMatch({ locations }) {
     return (
         <form id="add-form">
             <h2>Add a New Match</h2>

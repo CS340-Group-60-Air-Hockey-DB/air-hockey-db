@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddPlayerToMatch from '../components/AddPlayerToMatch';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -6,7 +6,7 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function PlayerMatches(props) {
-    const { backendURL, locale, matches, people, setUserLocation } = props
+    const { backendURL, matches, people, setUserLocation } = props
     const userLocation = useLocation()
 
     setUserLocation(userLocation)

@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 
 function Home(props) {
-    const { backendURL, locale, setUserLocation } = props
+    const { setUserLocation } = props
     const userLocation = useLocation()
 
     setUserLocation(userLocation)

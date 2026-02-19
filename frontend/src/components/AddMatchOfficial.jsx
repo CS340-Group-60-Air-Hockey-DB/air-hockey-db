@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddMatchOfficial({ people, sets, matches }) {
+function AddMatchOfficial({ people, matches }) {
     const [matchNum, setMatchNum] = useState(null)
     const [setMax, setSetMax] = useState(null)
 

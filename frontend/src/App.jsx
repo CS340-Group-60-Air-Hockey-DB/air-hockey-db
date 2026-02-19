@@ -45,7 +45,7 @@ function App() {
                   
               } catch (error) {
                   // If the API call fails, print the error to the console
-                  console.log(error);
+                  console.log('Error:', error);
               }
           };
 

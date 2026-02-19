@@ -1,5 +1,4 @@
-function AddPlayerToMatch({ matches, people}) {
-    console.log('MatcheS:', matches)
+function AddPlayerToMatch({ matches, people }) {
     return (
         <form id="add-form">
             <h2>Add Player to Match</h2>

@@ -27,7 +27,7 @@ function Matches(props) {
                 setLocations(match_locations);
                 
             } catch (error) {
-                console.log(error);
+                console.log('Error:', error);
             }
         }
 
@@ -44,7 +44,7 @@ function Matches(props) {
                 
             } catch (error) {
                 // If the API call fails, print the error to the console
-                console.log(error);
+                console.log('Error:', error);
             }
         };
 
@@ -121,7 +121,7 @@ function Matches(props) {
 
             <hr />
 
-            <AddMatch locations={locations} people={people} />
+            <AddMatch locations={locations} />
             
             <hr />
 

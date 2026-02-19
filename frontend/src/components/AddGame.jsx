@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function AddGame({ matches, sets }) {
+function AddGame({ matches }) {
     const [matchNum, setMatchNum] = useState(null)
     const [setMax, setSetMax] = useState(null)
     const gameNumArr = Array.from({ length: 7}, (_, idx) => idx + 1)

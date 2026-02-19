@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddMatchOfficial from '../components/AddMatchOfficial';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -6,7 +6,7 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function MatchOfficials(props) {
-    const { backendURL, locale, matches, people, sets, setUserLocation } = props
+    const { backendURL, matches, people, setUserLocation } = props
     const userLocation = useLocation()
 
     setUserLocation(userLocation)
@@ -80,7 +80,7 @@ function MatchOfficials(props) {
             
             <hr />
 
-            <AddMatchOfficial people={people} sets={sets} matches={matches}/>
+            <AddMatchOfficial people={people} matches={matches}/>
 
         </div>
     )

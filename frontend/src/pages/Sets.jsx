@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import AddSet from '../components/AddSet';
 import { useLocation } from 'react-router-dom';
 import cap_words from '../functions/cap_words';
@@ -69,7 +68,7 @@ function Sets(props) {
 
             <hr />
 
-            <AddSet matches={matches} sets={sets} backendURL={backendURL} />
+            <AddSet matches={matches} backendURL={backendURL} />
 
         </div>
     );

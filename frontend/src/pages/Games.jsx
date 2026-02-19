@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddGame from '../components/AddGame';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -6,7 +6,7 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function Games(props) {
-    const { backendURL, locale, matches, sets, setUserLocation } = props
+    const { backendURL, locale, matches, setUserLocation } = props
     const userLocation = useLocation()
 
     setUserLocation(userLocation)
@@ -96,7 +96,7 @@ function Games(props) {
 
             <hr />
 
-            <AddGame matches={matches} sets={sets} />
+            <AddGame matches={matches} />
         </div>
     );
 }

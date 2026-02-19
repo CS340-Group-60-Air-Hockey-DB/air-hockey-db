@@ -1,7 +1,4 @@
-import React from 'react';
-
 function UpdateMatch({ matches, locations, people }) {
-    console.log('Update matches - match:', matches)
 
     return (
         <form>

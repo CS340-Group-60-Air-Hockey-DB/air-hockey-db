@@ -1,6 +1,4 @@
-import React from 'react';
-
-function UpdateLocation({ locations = [] }) {
+function UpdateLocation({ locations = [] }) {    
     return (
         <div>
             <h2>Update Existing Location</h2>

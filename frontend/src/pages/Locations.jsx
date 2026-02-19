@@ -1,6 +1,6 @@
 // This will include the person's first + last name of who owns the location
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddLocation from '../components/AddLocation';
 import UpdateLocation from '../components/UpdateLocation';
 import { useLocation } from 'react-router-dom';
@@ -9,7 +9,7 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function Locations(props) {
-    const { backendURL, locale, setUserLocation } = props
+    const { backendURL, setUserLocation } = props
     const userLocation = useLocation()
 
     setUserLocation(userLocation)
@@ -33,7 +33,7 @@ function Locations(props) {
                 
             } catch (error) {
                 // If the API call fails, print the error to the console
-                console.log(error);
+                console.log('Error:', error);
             }
         };
 
