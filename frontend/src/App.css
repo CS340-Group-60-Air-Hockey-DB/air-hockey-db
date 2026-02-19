@@ -124,9 +124,25 @@ nav .highlight {
   box-sizing: border-box;
 }
 
-/* ----- Tables ------- */
+/* ----- Tables ------ */
 table{
   justify-self: center;
+}
+
+/* ------ Forms ------ */
+/* Forms to Add Data */
+#add-form {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 90%;
+  width: max-content;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+}
+
+#add-form h2{
+  width: 100%;
 }
 
 /* ------ Footer ------ */

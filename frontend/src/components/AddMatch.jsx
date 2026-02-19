@@ -1,6 +1,6 @@
 function AddMatch({ locations, people }) {
     return (
-        <form>
+        <form id="add-form">
             <h2>Add a New Match</h2>
 
             <label>Location: </label>
