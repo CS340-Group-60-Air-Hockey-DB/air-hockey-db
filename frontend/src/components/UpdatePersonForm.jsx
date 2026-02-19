@@ -19,7 +19,7 @@ const UpdatePersonForm = ({ people, backendURL }) => {
                 <option value="">Select a Person</option>
                 {people.map((person) => (
                     <option key={person.person_id} value={person.person_id}>
-                        {person.person_id} - {person.first_name} {person.last_name}
+                        {person.first_name} {person.last_name}
                     </option>
                 ))}
             </select>

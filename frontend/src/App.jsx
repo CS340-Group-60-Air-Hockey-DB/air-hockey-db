@@ -119,6 +119,7 @@ function App() {
                             backendURL={backendURL} 
                             setUserLocation={setUserLocation} 
                             locale={userLocale} 
+                            people={people}
                         />
                     } 
                 />

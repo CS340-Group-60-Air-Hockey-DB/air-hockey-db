@@ -9,7 +9,7 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function Locations(props) {
-    const { backendURL, setUserLocation } = props
+    const { backendURL, people, setUserLocation } = props
     const userLocation = useLocation()
 
     setUserLocation(userLocation)
@@ -96,7 +96,7 @@ function Locations(props) {
             
             <hr />
 
-            <UpdateLocation locations={locations} />
+            <UpdateLocation locations={locations} people={people} />
 
         </div>
     )
