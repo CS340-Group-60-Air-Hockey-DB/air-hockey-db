@@ -12,39 +12,10 @@ function PlayerMatches(props) {
     setUserLocation(userLocation)
 
     // sample data for this phase
-    const [matches, setMatches] = useState([])
-    const [players, setPlayers] = useState([])
     const [playerMatches, setPlayerMatches] = useState([]);
 
 
     useEffect(() => {
-        const all_matches = async () => {
-            try{
-                const res = await fetch(backendURL + '/matches')
-
-                let data = await res.json()
-                data.sort((a, b) => a.match_id - b.match_id)
-
-                setMatches(data)
-            }
-            catch(error){
-                console.log('Error:', error)
-            }
-        }
-
-        const all_players = async () => {
-            try{
-                const res = await fetch(backendURL + '/people')
-
-                const data = await res.json()
-
-                setPlayers(data)
-            }
-            catch(error){
-                console.log('Error:', error)
-            }
-        }
-
         const all_player_matches = async () => {
             try{
                 const res = await fetch(backendURL + '/player_matches')
@@ -58,12 +29,6 @@ function PlayerMatches(props) {
             }
         }
 
-        if(matches?.length === 0){
-            all_matches()
-        }
-        if(players?.length === 0){
-            all_players()
-        }
         if(playerMatches?.length === 0){
             all_player_matches()
         }
@@ -93,7 +58,7 @@ function PlayerMatches(props) {
                                 )
                             })
                         }
-                        { playerMatches?.length > 0 ? <th>Actions</th> : null}
+                        { playerMatches?.length > 0 && <th>Actions</th> }
                     </tr>
                 </thead>
                 <tbody>
@@ -110,7 +75,7 @@ function PlayerMatches(props) {
 
             <hr />
 
-            <AddPlayerToMatch matches={matches} people={players} />
+            <AddPlayerToMatch matches={matches} people={people} />
             
         </div>
     )
