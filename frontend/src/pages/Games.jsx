@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import AddGame from '../components/AddGame';
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import cap_words from '../functions/cap_words';
+import TableRow from '../components/TableRow';
 
 function Games(props) {
     const { backendURL, locale, matches, sets, setUserLocation } = props
@@ -9,15 +12,20 @@ function Games(props) {
     setUserLocation(userLocation)
 
     // sample data for this phase
-    const [games, setGames] = useState([
-        { game_id: 1, set_id: 1, game_num: 1, p1_score: 7, p2_score: 5, status: 'completed' },
-        { game_id: 2, set_id: 1, game_num: 2, p1_score: 0, p2_score: 0, status: 'scheduled' }
-    ])
+    const [games, setGames] = useState([])
 
-    const [sets] = useState([
-        { id: 1, description: 'Set 1 of Match 1' },
-        { id: 2, description: 'Set 2 of Match 1' },
-    ]);
+    useEffect(() => {
+        const getGames = async () => {
+            const res = await fetch(backendURL + '/games')
+            const data = await res.json()
+
+            setGames(data)
+        }
+
+        if(games?.length === 0){
+            getGames()
+        }
+    }, [backendURL])
 
     return (
         <div className="page-container">
@@ -34,33 +42,61 @@ function Games(props) {
             <table className="data-table">
                 <thead>
                     <tr>
-                        <th>Game ID</th>
-                        <th>Set ID</th>
-                        <th>Game Number</th>
-                        <th>Player 1 Score</th>
-                        <th>Player 2 Score</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        {
+                            games?.length > 0 && Object.keys(games[0])?.map((header, idx) => {
+                                let h = header
+                                
+                                if(header === 'match_id'){
+                                    h = 'match'
+                                }
+                                if(header === 'set_id'){
+                                    h = 'set_num'
+                                }
+                                if(header === 'game_num'){
+                                    h = 'game_number'
+                                }
+
+                                return (
+                                    <th key={`${header}-${idx}`}>
+                                        { cap_words(h) }
+                                    </th>
+                                )
+                            })
+                        }
+                        { games?.length > 0 && 
+                            <th>
+                                Actions
+                            </th>    
+                        }
                     </tr>
                 </thead>
                 <tbody>
-                    {games.map((game) => (
-                        <tr key={game.game_id}>
-                            <td>{game.game_id}</td>
-                            <td>{game.set_id}</td>
-                            <td>{game.game_num}</td>
-                            <td>{game.p1_score}</td>
-                            <td>{game.p2_score}</td>
-                            <td>{game.status}</td>
-                            <td><button>Delete</button></td>
-                        </tr>
-                    ))}
+                    {games.map((game, idx) => {
+                        let game_row = game
+                        delete game_row.game_id
+
+                        game_row.start_datetime = game.start_datetime ? new Date(game.start_datetime).toLocaleDateString(locale, { 
+                            hour: "numeric",
+                            minute: "numeric"
+                        }) : null
+                            
+                        game_row.end_datetime = game.end_datetime ? new Date(game.end_datetime).toLocaleDateString(locale, {
+                            hour: "numeric",
+                            minute: "numeric"
+                        }) : null
+
+                        return <TableRow 
+                            key={`game-${idx}`} 
+                            rowObject={game_row} 
+                            backendURL={backendURL} 
+                        />
+                    })}
                 </tbody>
             </table>
 
             <hr />
 
-            <AddGame sets={sets} />
+            <AddGame matches={matches} sets={sets} />
         </div>
     );
 }
