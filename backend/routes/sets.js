@@ -3,7 +3,7 @@ const router = express.Router();
 
 const sets_controller = require('../controllers/sets.js');
 
-router.post('/', sets_controller.get_all_sets);
+router.get('/', sets_controller.get_all_sets);
 
 router.get('/:id', sets_controller.get_set_by_id);
 
