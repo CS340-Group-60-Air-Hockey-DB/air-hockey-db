@@ -5,7 +5,7 @@ const create_player_match = async (req, res) => {
     try {
         const data = req.body;
 
-        await db.query(player_match_queries.insert_official, data);
+        await db.query(player_match_queries.insert_player_match, data);
 
         res.status(201).json(data);
 
@@ -46,7 +46,7 @@ const get_by_match_id = async (req, res) => {
         const [results] = await db.query(player_match_queries.select_by_match_id, { match_id });
 
         res.status(200).json(results);
-    
+
     } catch (error) {
         res.status(500).send("An error occurred while fetching players for this match.");
     }
@@ -72,7 +72,7 @@ const delete_player_match = async (req, res) => {
     try {
         const player_match_id = req.params.id;
 
-        await db.query(player_match_queries.delete_by_id, {player_match_id});
+        await db.query(player_match_queries.delete_by_id, { player_match_id });
 
         res.status(204).send();
 

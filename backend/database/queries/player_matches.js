@@ -26,7 +26,7 @@ const player_match_queries = {
         WHERE match_id = :match_id
         ORDER BY match_id;
     `,
-    insert_official: `
+    insert_player_match: `
         INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
         VALUES (:player_id, :match_id, :starting_side, :player_order);
     `,
