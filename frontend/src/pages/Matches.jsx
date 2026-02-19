@@ -25,10 +25,7 @@ function Matches(props) {
                 
                 const match_locations = await response.json();
         
-                setLocations([
-                    { location_id: 0, location_name: 'select location' }, 
-                    ...match_locations
-                ]);
+                setLocations(match_locations);
                 
             } catch (error) {
                 console.log(error);
@@ -54,14 +51,11 @@ function Matches(props) {
 
         const getMatchPeople = async () => {
             try {
-                const response = await fetch(backendURL + '/matches/people');
+                const response = await fetch(backendURL + '/people');
                 
                 const match_players = await response.json();
         
-                setPeople([
-                    { person_id: 0, name: 'select player' },
-                    ...match_players
-                ]);
+                setPeople(match_players);
                 
             } catch (error) {
                 console.log(error);
@@ -79,6 +73,7 @@ function Matches(props) {
        }
     }, [backendURL]);
 
+    console.log('MatcheS:', matches)
 
     return (
         <div className="page-container">
@@ -133,7 +128,6 @@ function Matches(props) {
                     {
                         matches?.map((match, index) => {
                             let match_row = match
-                            delete match_row.match_id
 
                             match_row.start_datetime = match.start_datetime ? new Date(match.start_datetime).toLocaleDateString(locale, { 
                                 hour: "numeric",
