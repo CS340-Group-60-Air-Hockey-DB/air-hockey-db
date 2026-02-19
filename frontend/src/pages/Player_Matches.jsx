@@ -22,7 +22,8 @@ function PlayerMatches(props) {
             try{
                 const res = await fetch(backendURL + '/matches')
 
-                const data = await res.json()
+                let data = await res.json()
+                data.sort((a, b) => a.match_id - b.match_id)
 
                 setMatches(data)
             }
