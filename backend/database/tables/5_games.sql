@@ -14,21 +14,6 @@ CREATE OR REPLACE TABLE games(
         player_1_score BETWEEN 0 AND 7 AND 
         player_2_score BETWEEN 0 AND 7
     ),
-    constraint chk_player_end_scores CHECK (
-        game_status = 'completed' AND
-        (player_1_score = 7 AND player_2_score < 7) OR 
-        (player_1_score < 7 AND player_2_score = 7)
-    ),
-    constraint chk_winner CHECK (
-       (
-            game_status = 'completed' AND 
-            (player_1_score = 7 OR player_2_score = 7)
-        ) OR 
-       (
-            game_status != 'completed' AND 
-            (player_1_score != 7 AND player_2_score != 7)
-       )
-    ),
     CONSTRAINT chk_match_times CHECK (
         end_datetime IS NULL OR 
         end_datetime > start_datetime

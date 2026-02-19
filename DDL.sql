@@ -137,21 +137,6 @@ CREATE OR REPLACE TABLE games(
         player_1_score BETWEEN 0 AND 7 AND 
         player_2_score BETWEEN 0 AND 7
     ),
-    constraint chk_player_end_scores CHECK (
-        game_status = 'completed' AND
-        (player_1_score = 7 AND player_2_score < 7) OR 
-        (player_1_score < 7 AND player_2_score = 7)
-    ),
-    constraint chk_winner CHECK (
-       (
-            game_status = 'completed' AND 
-            (player_1_score = 7 OR player_2_score = 7)
-        ) OR 
-       (
-            game_status != 'completed' AND 
-            (player_1_score != 7 AND player_2_score != 7)
-       )
-    ),
     CONSTRAINT chk_match_times CHECK (
         end_datetime IS NULL OR 
         end_datetime > start_datetime
@@ -238,14 +223,9 @@ VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challen
 (5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned', null),
 (7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled', null);
 
-----------
--- sets --
-----------
-INSERT INTO sets(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
-VALUES 
--- Match 1
-(1, null, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
-(1, null, 2, '2026-02-01 14:55:10', '2026-02-01 15:19:45', 'completed'),
+INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
+VALUES (1, 1, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
+(1, 3, 2, '2026-02-01 14:55:10', '2026-02-01 15:17:50', 'completed'),
 (1, 1, 3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 
 -- Match 2
 (2, null, 1, '2024-01-15 19:00:00', null, 'abandoned'),
@@ -274,11 +254,10 @@ VALUES (7, 3, 1, 1, 'completed', '2026-02-01 14:31:39', '2026-02-01 14:36:15'),
 -- Games for Match 1 Set 2
 (3, 7, 2, 1, 'completed', '2026-02-01 14:55:10', '2026-02-01 14:59:05'),
 (7, 2, 2, 2, 'completed', '2026-02-01 14:59:35', '2026-02-01 15:03:10'),
-(7, 6, 2, 3, 'completed', '2026-02-01 15:03:40', '2026-02-01 15:08:25'),
+(6, 7, 2, 3, 'completed', '2026-02-01 15:03:40', '2026-02-01 15:08:25'),
 (5, 7, 2, 4, 'completed', '2026-02-01 15:08:55', '2026-02-01 15:13:40'),
-(7, 3, 2, 5, 'completed', '2026-02-01 15:14:10', '2026-02-01 15:17:50'),
-(7, 4, 2, 6, 'completed', '2026-02-01 15:18:20', '2026-02-01 15:19:45'),
--- Games for Match 1 Set 3
+(3, 7, 2, 5, 'completed', '2026-02-01 15:14:10', '2026-02-01 15:17:50'),
+-- Games for Set 3
 (7, 1, 3, 1, 'completed', '2026-02-01 15:21:33', '2026-02-01 15:25:20'),
 (5, 7, 3, 2, 'completed', '2026-02-01 15:25:50', '2026-02-01 15:30:35'),
 (7, 5, 3, 3, 'completed', '2026-02-01 15:31:05', '2026-02-01 15:35:50'),
