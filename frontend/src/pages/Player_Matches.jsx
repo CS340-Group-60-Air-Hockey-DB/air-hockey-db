@@ -51,9 +51,15 @@ function PlayerMatches(props) {
                     <tr>
                         {
                             playerMatches?.length > 0 && Object.keys(playerMatches[0])?.map((header, idx) => {
+                                let h = header
+
+                                if(header === 'match_id'){
+                                    h = 'match'
+                                }
+                                
                                 return ( 
                                     <th key={`header-${idx}`}>
-                                        { cap_words(header)}
+                                        { cap_words(h)}
                                     </th>
                                 )
                             })
