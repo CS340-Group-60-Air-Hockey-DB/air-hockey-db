@@ -1,44 +1,19 @@
-// This will include the person's first + last name of who owns the location
-
-import { useState } from 'react';
 import AddLocation from '../components/AddLocation';
 import UpdateLocation from '../components/UpdateLocation';
 import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
+
+// This will include the person's first + last name of who owns the location (as the owner)
 function Locations(props) {
-    const { backendURL, people, setUserLocation } = props
+    const { backendURL, locations, people, setUserLocation } = props
     const userLocation = useLocation()
 
     setUserLocation(userLocation)
 
-    // including sample data for this phase
-    const [locations, setLocations] = useState([]);
-
-
-    // Load table on page load
-    useEffect(() => {
-        const getLocations = async function () {
-            try {
-                // Make a GET request to the backend
-                const response = await fetch(backendURL + '/locations');
-                
-                // Convert the response into JSON format
-                const data = await response.json();
-        
-                // Update the locations state with the response data
-                setLocations(data);
-                
-            } catch (error) {
-                // If the API call fails, print the error to the console
-                console.log('Error:', error);
-            }
-        };
-
-        getLocations()
-    }, [backendURL]);
+    // Takes out location_id from the array
+    let locationsArr = locations?.map(({location_id, ...rest}) => rest)
 
 
     return (
@@ -54,7 +29,7 @@ function Locations(props) {
             <table className="data-table">
                 <thead>
                     <tr>
-                        {locations?.length > 0 && Object.keys(locations[0])?.map((header, index) => {
+                        {locationsArr?.length > 0 && Object.keys(locationsArr[0])?.map((header, index) => {
                             if(header === 'table_qty'){
                                 return (
                                     <th key={index}>
@@ -81,9 +56,8 @@ function Locations(props) {
                 </thead>
 
                 <tbody>
-                    {locations?.map((location, index) => {
+                    {locationsArr?.map((location, index) => {
                         let location_row = location
-                        delete location_row.location_id
                         
                         return <TableRow key={index} rowObject={location_row} backendURL={backendURL} />
                     })}
@@ -96,7 +70,7 @@ function Locations(props) {
             
             <hr />
 
-            <UpdateLocation locations={locations} people={people} />
+            <UpdateLocation locations={locationsArr} people={people} />
 
         </div>
     )

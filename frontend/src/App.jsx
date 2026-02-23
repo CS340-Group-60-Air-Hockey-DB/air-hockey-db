@@ -14,6 +14,8 @@ import MatchOfficials from './pages/Match_Officials';
 // Components
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+import getPeople from './fetch_funcs/people/getPeople';
+import getLocations from './fetch_funcs/locations/getLocations';
 
 // Define the backend port and URL for API requests
 const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
@@ -26,29 +28,16 @@ function App() {
   const userLocale = navigator.language
 
     // React Global App States
-    const [userLocation, setUserLocation] = useState('')
+    // Table States
+    const [locations, setLocations] = useState([]);
     const [matches, setMatches] = useState([])
     const [people, setPeople] = useState([]);
     const [sets, setSets] = useState([])
+    // User States
+    const [userLocation, setUserLocation] = useState('')
+
   
     useEffect(() => {
-          const getPeople = async function () {
-              try {
-                  // Make a GET request to the backend
-                  const response = await fetch(backendURL + '/people');
-                  
-                  // Convert the response into JSON format
-                  const people = await response.json();
-          
-                  // Update the people state with the response data
-                  setPeople(people);
-                  
-              } catch (error) {
-                  // If the API call fails, print the error to the console
-                  console.log('Error:', error);
-              }
-          };
-
         const getMatches = async () => {
             try{
                 const res = await fetch(backendURL + '/matches')
@@ -78,7 +67,10 @@ function App() {
 
           
         if(people?.length === 0){
-            getPeople()
+            getPeople(backendURL, setPeople)
+        }
+        if(locations?.length === 0){
+            getLocations(backendURL, setLocations)
         }
         if(matches?.length === 0){
             getMatches()
@@ -120,6 +112,7 @@ function App() {
                             setUserLocation={setUserLocation} 
                             locale={userLocale} 
                             people={people}
+                            locations={locations}
                         />
                     } 
                 />
