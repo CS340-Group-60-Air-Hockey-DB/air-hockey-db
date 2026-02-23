@@ -17,6 +17,7 @@ import Footer from './components/Footer';
 import getPeople from './fetch_funcs/people/getPeople';
 import getLocations from './fetch_funcs/locations/getLocations';
 import getMatches from './fetch_funcs/matches/getMatches';
+import getSets from './fetch_funcs/sets/getSets';
 
 // Define the backend port and URL for API requests
 const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
@@ -39,23 +40,7 @@ function App() {
 
   
     useEffect(() => {
-       
-
-        const getSets = async () => {
-            try{
-                const res = await fetch(backendURL + '/sets')
-
-                let data = await res.json()
-
-                setSets(data)
-            }
-            catch(error){
-                console.log('Error:', error)
-            }
-        }
-
-          
-        if(people?.length === 0){
+       if(people?.length === 0){
             getPeople(backendURL, setPeople)
         }
         if(locations?.length === 0){
@@ -65,7 +50,7 @@ function App() {
             getMatches(backendURL, setMatches)
         }
         if(sets?.length === 0){
-            getSets()
+            getSets(backendURL, setSets)
         }
       }, [backendURL]);
 
