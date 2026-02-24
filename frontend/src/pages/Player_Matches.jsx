@@ -1,35 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import AddPlayerToMatch from '../components/forms/player_matches/AddPlayerToMatch';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
+
+const header_map = {
+    match_id: 'match'
+}
+
+
 function PlayerMatches(props) {
-    const { backendURL, matches, people } = props
-    
+    const { backendURL, matches, people, playerMatches } = props
 
-    // sample data for this phase
-    const [playerMatches, setPlayerMatches] = useState([]);
-
-
-    useEffect(() => {
-        const all_player_matches = async () => {
-            try{
-                const res = await fetch(backendURL + '/player_matches')
-
-                const data = await res.json()
-
-                setPlayerMatches(data)
-            }
-            catch(error){
-                console.log('Error:', error)
-            }
-        }
-
-        if(playerMatches?.length === 0){
-            all_player_matches()
-        }
-    }, [backendURL])
-
+        
+    const headers = useMemo(() => {
+        if(!playerMatches?.length) return []
+        
+        return Object.keys(playerMatches[0])
+    }, [playerMatches])
+        
+    const rows = useMemo(() => {
+        if(!playerMatches?.length) return []
+        
+        return playerMatches.map(pm => ({
+            ...pm,
+            player_order: pm.player_order ? cap_words(pm.player_order) : pm.player_order
+        }))
+    }, [playerMatches])
     
     return (
         <div className="page-container">
@@ -46,32 +43,21 @@ function PlayerMatches(props) {
                 <thead>
                     <tr>
                         {
-                            playerMatches?.length > 0 && Object.keys(playerMatches[0])?.map((header, idx) => {
-                                let h = header
-
-                                if(header === 'match_id'){
-                                    h = 'match'
-                                }
-                                
-                                return ( 
-                                    <th key={`header-${idx}`}>
-                                        { cap_words(h)}
-                                    </th>
-                                )
-                            })
+                            headers.map((header, idx) => (
+                                <th key={`header-${idx}`}>
+                                    {cap_words(header_map[header] ?? header)}
+                                </th>
+                            ))
                         }
-                        { playerMatches?.length > 0 && <th>Actions</th> }
+                        { headers.length > 0 && <th>Actions</th> }
                     </tr>
                 </thead>
                 <tbody>
-                    {playerMatches.map((pm, idx) => {
-                        let pm_row = pm
-                        if(pm.player_order){
-                            pm_row.player_order = cap_words(pm.player_order)
+                    {
+                        rows.map((pm, idx) => {
+                            return <TableRow key={idx} rowObject={pm} backendURL={backendURL} deleteBtn={true} />
                         }
-
-                        return <TableRow key={idx} rowObject={pm} backendURL={backendURL} deleteBtn={true} />
-                    })}
+                    )}
                 </tbody>
             </table>
 

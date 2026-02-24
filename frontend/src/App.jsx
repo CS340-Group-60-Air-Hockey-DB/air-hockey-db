@@ -22,6 +22,7 @@ import getMatches from './fetch_funcs/matches/getMatches';
 import getSets from './fetch_funcs/sets/getSets';
 import getGames from './fetch_funcs/games/getGames';
 import getMatchOfficials from './fetch_funcs/match_officials/getMatchOfficials';
+import getPlayerMatches from './fetch_funcs/player_matches/getPlayerMatches';
 
 // Define the backend port and URL for API requests
 const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
@@ -40,6 +41,7 @@ function App() {
     const [matches, setMatches] = useState([])
     const [matchOfficials, setMatchOfficials] = useState([]);
     const [people, setPeople] = useState([]);
+    const [playerMatches, setPlayerMatches] = useState([]);
     const [sets, setSets] = useState([])
 
   
@@ -50,6 +52,7 @@ const refreshData = useCallback(() => {
     getMatchOfficials(backendURL, setMatchOfficials)
     getSets(backendURL, setSets);
     getGames(backendURL, setGames);
+    getPlayerMatches(backendURL, setPlayerMatches)
 }, [backendURL]);
 
 useEffect(() => {
@@ -122,6 +125,7 @@ useEffect(() => {
                             locale={userLocale}
                             people={people} 
                             matches={matches}
+                            playerMatches={playerMatches}
                         />
                     }
                 />
