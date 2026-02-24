@@ -1,18 +1,20 @@
+import { useMemo } from 'react';
 import AddGame from '../components/forms/games/AddGame';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
-import { useMemo } from 'react';
+
+
+const header_map = {
+    match_id: 'match',
+    set_id: 'set_number',
+    game_num: 'game_number'
+}
+
 
 function Games(props) {
     const { backendURL, games, locale, matches } = props
 
 {/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
-    const header_map = {
-        match_id: 'match',
-        set_id: 'set_number',
-        game_num: 'game_number'
-    }
-
     // Memoize headers + rows
     // Will only recalculate if the games table in the backend changes
     // Makes getting the table headers more efficient

@@ -5,14 +5,15 @@ import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 
+const header_map = {
+    table_qty: 'table_quantity',
+    phone_num: 'phone_number'
+}
+
+
 // This will include the person's first + last name of who owns the location (as the owner)
 function Locations(props) {
     const { backendURL, locations, people,  } = props
-    
-    const header_map = {
-                table_qty: 'table_quantity',
-                phone_num: 'phone_number'
-            }
         
     // Memoize headers + rows
     // Will only recalculate if the locations table in the backend changes

@@ -3,13 +3,15 @@ import AddMatchOfficial from '../components/forms/match_officials/AddMatchOffici
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
+
+const header_map = {
+    match_num: 'match_number',
+    set_num: 'set_number'
+}
+
+
 function MatchOfficials(props) {
     const { backendURL, matches, matchOfficials, people } = props
-    
-    const header_map = {
-                match_num: 'match_number',
-                set_num: 'set_number'
-            }
 
     // Memoize headers + rows
     // Will only recalculate if the match officials table in the backend changes

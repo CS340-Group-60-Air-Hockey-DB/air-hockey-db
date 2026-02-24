@@ -5,13 +5,14 @@ import UpdatePersonForm from '../components/forms/people/UpdatePersonForm';
 import cap_words from '../functions/cap_words';
 
 
+const header_map = {
+    dob: 'date_of_birth',
+    phone_num: 'phone_number'
+}
+
+
 function People(props) {
     const { backendURL, locale, people } = props
-
-    const header_map = {
-            dob: 'date_of_birth',
-            phone_num: 'phone_number'
-        }
     
         // Memoize headers + rows
         // Will only recalculate if the people table in the backend changes
