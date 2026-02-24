@@ -1,4 +1,6 @@
-function ResetPopup({setResetPopup}) {
+function ResetPopup(props) {
+    const { setResetPopup } = props
+
     return (
         <div id="reset-database-popup">
             <p>
@@ -6,11 +8,21 @@ function ResetPopup({setResetPopup}) {
             </p>
 
             <div id="reset-data-btns">
-                <button>
+                <button
+                    onClick={evt => {
+                        evt.preventDefault() 
+                        // Add in Stored Procedure Here
+                    }}
+                >
                     Yes, Reset the Database
                 </button>
 
-                <button>
+                <button
+                    onClick={evt => {
+                        evt.preventDefault() 
+                        setResetPopup(false)
+                    }}
+                >
                     No, Return to the Page
                 </button>
             </div>
