@@ -1,6 +1,5 @@
-import AddLocation from '../components/AddLocation';
-import UpdateLocation from '../components/UpdateLocation';
-
+import AddLocation from '../components/forms/locations/AddLocation';
+import UpdateLocation from '../components/forms/locations/UpdateLocation';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 

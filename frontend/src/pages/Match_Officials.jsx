@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import AddMatchOfficial from '../components/AddMatchOfficial';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import AddMatchOfficial from '../components/forms/match_officials/AddMatchOfficial';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 

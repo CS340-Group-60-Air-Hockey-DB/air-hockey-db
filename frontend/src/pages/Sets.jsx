@@ -1,4 +1,4 @@
-import AddSet from '../components/AddSet';
+import AddSet from '../components/forms/sets/AddSet';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 

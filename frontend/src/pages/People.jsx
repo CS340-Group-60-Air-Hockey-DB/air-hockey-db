@@ -1,6 +1,6 @@
 import TableRow from '../components/TableRow';
-import CreatePersonForm from '../components/CreatePersonForm';
-import UpdatePersonForm from '../components/UpdatePersonForm';
+import CreatePersonForm from '../components/forms/people/CreatePersonForm';
+import UpdatePersonForm from '../components/forms/people/UpdatePersonForm';
 import cap_words from '../functions/cap_words';
 
 

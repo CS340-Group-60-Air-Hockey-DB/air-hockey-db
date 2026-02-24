@@ -1,4 +1,4 @@
-import AddGame from '../components/AddGame';
+import AddGame from '../components/forms/games/AddGame';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 import { useMemo } from 'react';
