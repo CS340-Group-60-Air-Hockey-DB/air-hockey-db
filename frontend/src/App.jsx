@@ -14,6 +14,8 @@ import MatchOfficials from './pages/Match_Officials';
 // Components
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+
+// Fetch Functions
 import getPeople from './fetch_funcs/people/getPeople';
 import getLocations from './fetch_funcs/locations/getLocations';
 import getMatches from './fetch_funcs/matches/getMatches';
