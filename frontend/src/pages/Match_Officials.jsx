@@ -1,32 +1,10 @@
-import { useEffect, useState } from 'react';
 import AddMatchOfficial from '../components/forms/match_officials/AddMatchOfficial';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function MatchOfficials(props) {
-    const { backendURL, matches, people } = props
+    const { backendURL, matches, matchOfficials, people } = props
     
-
-    // sample data for this phase
-    const [matchOfficials, setMatchOfficials] = useState([]);
-
-    useEffect(() => {
-        const fetch_officials = async () => {
-            try{
-                const res = await fetch(backendURL + '/match_officials')
-
-                const data = await res.json()
-                setMatchOfficials(data)
-            }
-            catch(error){
-                console.log('Match Officials Fetch Error:', error)
-            }
-        }
-
-        if(!matchOfficials || matchOfficials.length === 0){
-            fetch_officials()
-        }
-    }, [backendURL])
 
     return (
         <div className="page-container">
