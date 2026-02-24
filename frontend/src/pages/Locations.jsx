@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import AddLocation from '../components/forms/locations/AddLocation';
 import UpdateLocation from '../components/forms/locations/UpdateLocation';
 import cap_words from '../functions/cap_words';
@@ -8,8 +9,30 @@ import TableRow from '../components/TableRow';
 function Locations(props) {
     const { backendURL, locations, people,  } = props
     
-    // Takes out location_id from the array
-    let locationsArr = locations?.map(({location_id, ...rest}) => rest)
+    const header_map = {
+                table_qty: 'table_quantity',
+                phone_num: 'phone_number'
+            }
+        
+    // Memoize headers + rows
+    // Will only recalculate if the locations table in the backend changes
+    // Makes getting the table headers more efficient
+    const headers = useMemo(() => {
+        if(!locations?.length) return []
+        
+        return Object.keys(locations[0]).filter(header => header !== 'location_id')
+    }, [locations])
+        
+    const rows = useMemo(() => {
+        if(!locations?.length) return []
+        
+        return locations?.map(person => {
+            // location_id will not show up in table
+            const { location_id, ...rest } = person
+                    
+            return { ...rest }
+        });
+    }, [locations])
 
 
     return (
@@ -25,38 +48,22 @@ function Locations(props) {
             <table className="data-table">
                 <thead>
                     <tr>
-                        {locationsArr?.length > 0 && Object.keys(locationsArr[0])?.map((header, index) => {
-                            if(header === 'table_qty'){
-                                return (
-                                    <th key={index}>
-                                        { cap_words('table_quantity') }
-                                    </th>
-                                )
-                            }
-                            else if(header === 'phone_num'){
-                                return (
-                                    <th key={index}>
-                                        { cap_words('phone_number') }
-                                    </th>
-                                )
-                            }
-                            else{
-                                return (
-                                    <th key={index}>
-                                        { cap_words(header) }
-                                    </th>
-                                )
-                            }
-                        })}
+                        {
+                            headers.map((header, idx) => (
+                                <th key={`header-${idx}`}>
+                                    {cap_words(header_map[header] ?? header)}
+                                </th>
+                                ))
+                        }
                     </tr>
                 </thead>
 
                 <tbody>
-                    {locationsArr?.map((location, index) => {
-                        let location_row = location
-                        
-                        return <TableRow key={index} rowObject={location_row} backendURL={backendURL} />
-                    })}
+                    {
+                        rows.map((location, index) => {
+                            return <TableRow key={index} rowObject={location} backendURL={backendURL} />
+                        })
+                     }
                 </tbody>
             </table>
             
@@ -66,7 +73,7 @@ function Locations(props) {
             
             <hr />
 
-            <UpdateLocation locations={locationsArr} people={people} />
+            <UpdateLocation locations={locations} people={people} />
 
         </div>
     )
