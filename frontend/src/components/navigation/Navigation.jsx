@@ -1,7 +1,6 @@
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
-function Navigation() {
-    const { pathname } = useLocation()
+function Navigation({location, setResetPopup}) {
 
     return (
         <nav id="app-nav">
@@ -15,7 +14,7 @@ function Navigation() {
             <a className={location === '/games' ? 'highlight': ''} href="/games">Games</a>
             <a 
                 onClick={() => {
-                    window.alert('Are you sure you want to reset the whole database?')
+                    setResetPopup(true)
                 }}
             >
                 Reset All Data
