@@ -97,6 +97,7 @@ useEffect(() => {
                             locale={userLocale} 
                             people={people}
                             matches={matches}
+                            locations={locations}
                         />
                     }
                 />
