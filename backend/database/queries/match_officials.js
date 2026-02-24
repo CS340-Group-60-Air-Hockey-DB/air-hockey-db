@@ -4,7 +4,8 @@ const match_official_queries = {
         WHERE match_official_id = :match_official_id;
     `,
     select_all: `
-        SELECT CONCAT(p.first_name, ' ', p.last_name) as name,
+        SELECT match_official_id, 
+            CONCAT(p.first_name, ' ', p.last_name) as name,
             mo.official_type,
             m.match_id as match_num,
             s.set_num

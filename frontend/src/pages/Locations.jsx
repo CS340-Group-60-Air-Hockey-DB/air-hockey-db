@@ -53,7 +53,7 @@ function Locations(props) {
                                 <th key={`header-${idx}`}>
                                     {cap_words(header_map[header] ?? header)}
                                 </th>
-                                ))
+                            ))
                         }
                     </tr>
                 </thead>
