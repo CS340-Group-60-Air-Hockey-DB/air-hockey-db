@@ -26,9 +26,9 @@ function Locations(props) {
     const rows = useMemo(() => {
         if(!locations?.length) return []
         
-        return locations?.map(person => {
+        return locations?.map(location => {
             // location_id will not show up in table
-            const { location_id, ...rest } = person
+            const { location_id, ...rest } = location
                     
             return { ...rest }
         });
