@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddMatch from '../components/AddMatch';
 import UpdateMatch from '../components/UpdateMatch';
-import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
-function Matches(props) {
-    const { backendURL, locale, people, setUserLocation } = props
-    const userLocation = useLocation()
 
-    setUserLocation(userLocation)
+function Matches(props) {
+    const { backendURL, locale, people } = props
+    
 
     // sample data for this phase
     const [locations, setLocations] = useState([]);

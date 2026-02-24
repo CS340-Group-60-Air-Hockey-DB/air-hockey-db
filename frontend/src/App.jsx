@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Pages
@@ -56,13 +56,12 @@ function App() {
 
     return (
         <>
-            <Navigation location={userLocation.pathname}/>
+            <Navigation />
             <Routes>
                 <Route 
                     path="/" 
                     element={
-                        <Home 
-                            setUserLocation={setUserLocation} 
+                        <Home  
                             locale={userLocale} 
                         />
                     } 
@@ -71,8 +70,7 @@ function App() {
                     path="/people" 
                     element={
                         <People 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             people={people}
                         />
@@ -82,8 +80,7 @@ function App() {
                     path='/locations' 
                     element={
                         <Locations 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             people={people}
                             locations={locations}
@@ -94,8 +91,7 @@ function App() {
                     path='/matches' 
                     element={
                         <Matches 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             people={people}
                             matches={matches}
@@ -106,8 +102,7 @@ function App() {
                     path='/match_officials' 
                     element={
                         <MatchOfficials 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             matches={matches}
                             people={people}
@@ -119,8 +114,7 @@ function App() {
                     path='/player_matches' 
                     element={
                         <PlayerMatches 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale}
                             people={people} 
                             matches={matches}
@@ -131,8 +125,7 @@ function App() {
                     path='/sets' 
                     element={
                         <Sets 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             matches={matches}
                             sets={sets}
@@ -143,8 +136,7 @@ function App() {
                     path='/games' 
                     element={
                         <Games 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             matches={matches}
                             sets={sets}

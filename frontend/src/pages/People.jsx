@@ -1,17 +1,12 @@
-import { useState, useEffect } from 'react';  // Importing useState for managing state in the component
 import TableRow from '../components/TableRow';
 import CreatePersonForm from '../components/CreatePersonForm';
 import UpdatePersonForm from '../components/UpdatePersonForm';
-import { useLocation } from 'react-router-dom';
 import cap_words from '../functions/cap_words';
 
 
 function People(props) {
-    const { backendURL, locale, people, setUserLocation } = props
-    const userLocation = useLocation()
-
-    setUserLocation(userLocation)
-
+    const { backendURL, locale, people } = props
+    
 
     return (
         <div>

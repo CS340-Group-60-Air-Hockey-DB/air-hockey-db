@@ -1,31 +1,46 @@
-import { useState } from 'react';
 import AddGame from '../components/AddGame';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
+import { useMemo } from 'react';
 
 function Games(props) {
-    const { backendURL, locale, matches, setUserLocation } = props
-    const userLocation = useLocation()
+    const { backendURL, games, locale, matches } = props
 
-    setUserLocation(userLocation)
+{/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
+    const header_map = {
+        match_id: 'match',
+        set_id: 'set_number',
+        game_num: 'game_number'
+    }
 
-    // sample data for this phase
-    const [games, setGames] = useState([])
+    // Memoize headers + rows
+    // Will only recalculate if the games table in the backend changes
+    // Makes getting the table headers more efficient
+    const headers = useMemo(() => {
+        if(!games?.length) return []
 
-    useEffect(() => {
-        const getGames = async () => {
-            const res = await fetch(backendURL + '/games')
-            const data = await res.json()
+        return Object.keys(games[0]).filter(header => header !== 'game_id')
+    }, [games])
 
-            setGames(data)
-        }
+    const rows = useMemo(() => {
+        if(!games?.length) return []
 
-        if(games?.length === 0){
-            getGames()
-        }
-    }, [backendURL])
+        return games?.map(game => {
+            // game_id will not show up in table
+            const { game_id, ...rest } = game;
+            
+            return {
+            ...rest,
+            start_datetime: rest.start_datetime
+                ? new Date(rest.start_datetime).toLocaleDateString(locale, { hour: 'numeric', minute: 'numeric' })
+                : null,
+            end_datetime: rest.end_datetime
+                ? new Date(rest.end_datetime).toLocaleDateString(locale, { hour: 'numeric', minute: 'numeric' })
+                : null
+            };
+        });
+    }, [games, locale])
+
 
     return (
         <div className="page-container">
@@ -39,29 +54,16 @@ function Games(props) {
                 </p>
             </div>
 
+{/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
             <table className="data-table">
                 <thead>
                     <tr>
                         {
-                            games?.length > 0 && Object.keys(games[0])?.map((header, idx) => {
-                                let h = header
-                                
-                                if(header === 'match_id'){
-                                    h = 'match'
-                                }
-                                if(header === 'set_id'){
-                                    h = 'set_num'
-                                }
-                                if(header === 'game_num'){
-                                    h = 'game_number'
-                                }
-
-                                return (
-                                    <th key={`${header}-${idx}`}>
-                                        { cap_words(h) }
+                            headers.map((header, idx) => (
+                                <th key={`${header}-${idx}`}>
+                                    { cap_words(header_map[header] ?? header) }
                                     </th>
-                                )
-                            })
+                            ))
                         }
                         { games?.length > 0 && 
                             <th>
@@ -71,23 +73,10 @@ function Games(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {games.map((game, idx) => {
-                        let game_row = game
-                        delete game_row.game_id
-
-                        game_row.start_datetime = game.start_datetime ? new Date(game.start_datetime).toLocaleDateString(locale, { 
-                            hour: "numeric",
-                            minute: "numeric"
-                        }) : null
-                            
-                        game_row.end_datetime = game.end_datetime ? new Date(game.end_datetime).toLocaleDateString(locale, {
-                            hour: "numeric",
-                            minute: "numeric"
-                        }) : null
-
+                    {rows?.map((game, idx) => {
                         return <TableRow 
                             key={`game-${idx}`} 
-                            rowObject={game_row} 
+                            rowObject={game} 
                             backendURL={backendURL} 
                             deleteBtn={true}
                         />

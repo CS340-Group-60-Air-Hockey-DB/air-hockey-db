@@ -1,17 +1,14 @@
 import AddLocation from '../components/AddLocation';
 import UpdateLocation from '../components/UpdateLocation';
-import { useLocation } from 'react-router-dom';
+
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 
 // This will include the person's first + last name of who owns the location (as the owner)
 function Locations(props) {
-    const { backendURL, locations, people, setUserLocation } = props
-    const userLocation = useLocation()
-
-    setUserLocation(userLocation)
-
+    const { backendURL, locations, people,  } = props
+    
     // Takes out location_id from the array
     let locationsArr = locations?.map(({location_id, ...rest}) => rest)
 

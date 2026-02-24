@@ -1,13 +1,10 @@
 import AddSet from '../components/AddSet';
-import { useLocation } from 'react-router-dom';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
 function Sets(props) {
-    const { backendURL, locale, matches, sets, setUserLocation } = props
-    const userLocation = useLocation()
-
-    setUserLocation(userLocation)
+    const { backendURL, locale, matches, sets } = props
+    
 
     return (
         <div className="page-container">
