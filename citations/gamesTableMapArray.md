@@ -4,6 +4,8 @@
 
 **AI Source URL:** claude.ai
 
+**Notes:** The result of memoization will be used in the other table pages as well.
+
 **Prompt used to generate table mapping:**
 
 How would you modify this code to make it more efficient? My thinking is that mapping 2 arrays isn't efficient and can be time + computatively exhausting. Is there a way to simplify it to only map once?
