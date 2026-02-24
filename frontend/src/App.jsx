@@ -18,6 +18,7 @@ import getPeople from './fetch_funcs/people/getPeople';
 import getLocations from './fetch_funcs/locations/getLocations';
 import getMatches from './fetch_funcs/matches/getMatches';
 import getSets from './fetch_funcs/sets/getSets';
+import getGames from './fetch_funcs/games/getGames';
 
 // Define the backend port and URL for API requests
 const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
@@ -31,28 +32,24 @@ function App() {
 
     // React Global App States
     // Table States
+    const [games, setGames] = useState([])
     const [locations, setLocations] = useState([]);
     const [matches, setMatches] = useState([])
     const [people, setPeople] = useState([]);
     const [sets, setSets] = useState([])
-    // User States
-    const [userLocation, setUserLocation] = useState('')
 
   
-    useEffect(() => {
-       if(people?.length === 0){
-            getPeople(backendURL, setPeople)
-        }
-        if(locations?.length === 0){
-            getLocations(backendURL, setLocations)
-        }
-        if(matches?.length === 0){
-            getMatches(backendURL, setMatches)
-        }
-        if(sets?.length === 0){
-            getSets(backendURL, setSets)
-        }
-      }, [backendURL]);
+const refreshData = useCallback(() => {
+    getPeople(backendURL, setPeople);
+    getLocations(backendURL, setLocations);
+    getMatches(backendURL, setMatches);
+    getSets(backendURL, setSets);
+    getGames(backendURL, setGames);
+}, [backendURL]);
+
+useEffect(() => {
+    refreshData();
+}, [refreshData]);
 
     return (
         <>
@@ -140,6 +137,7 @@ function App() {
                             locale={userLocale} 
                             matches={matches}
                             sets={sets}
+                            games={games}
                         />
                     }
                 />
