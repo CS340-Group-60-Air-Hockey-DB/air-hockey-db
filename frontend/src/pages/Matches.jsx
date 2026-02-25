@@ -1,63 +1,43 @@
-import React, { useState } from 'react';
-import AddMatch from '../components/AddMatch';
-import UpdateMatch from '../components/UpdateMatch';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
+import AddMatch from '../components/forms/matches/AddMatch';
+import UpdateMatch from '../components/forms/matches/UpdateMatch';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
+
+const header_map = {
+    match_id: 'match',
+    start_datetime: 'start_time',
+    end_datetime: 'end_time',
+    winner_id: 'winner'
+}
+
+
 function Matches(props) {
-    const { backendURL, locale, people, setUserLocation } = props
-    const userLocation = useLocation()
+    const { backendURL, locale, locations, matches, people } = props
 
-    setUserLocation(userLocation)
+    const headers = useMemo(() => {
+        if (!matches?.length) return []
 
-    // sample data for this phase
-    const [locations, setLocations] = useState([]);
-    const [matches, setMatches] = useState([]);
+        return Object.keys(matches[0])
+    }, [matches]);
 
+    const rows = useMemo(() => {
+        if(!matches?.length) return []
 
-    useEffect(() => {
-        const getMatchLocations = async () => {
-            try {
-                const response = await fetch(backendURL + '/matches/locations');
-                
-                const match_locations = await response.json();
-        
-                setLocations(match_locations);
-                
-            } catch (error) {
-                console.log('Error:', error);
-            }
-        }
+        return matches.map(match => ({
+            ...match,
+            start_datetime: match.start_datetime
+                ? new Date(match.start_datetime).toLocaleDateString(locale, { hour: 'numeric', minute: 'numeric' })
+                : null,
+            end_datetime: match.end_datetime
+                ? new Date(match.end_datetime).toLocaleDateString(locale, { hour: 'numeric', minute: 'numeric' })
+                : null
+        }))
 
-        const getMatches = async function () {
-            try {
-                // Make a GET request to the backend
-                const response = await fetch(backendURL + '/matches');
-                
-                // Convert the response into JSON format
-                const matches = await response.json();
-        
-                // Update the matches state with the response data
-                setMatches(matches);
-                
-            } catch (error) {
-                // If the API call fails, print the error to the console
-                console.log('Error:', error);
-            }
-        };
+    }, [matches, locale])
 
-        
-       if(locations?.length === 0){
-            getMatchLocations()
-       }
-       if(matches?.length === 0){
-            getMatches()
-       }
-    }, [backendURL]);
-
-
+    
     return (
         <div className="page-container">
             <div>
@@ -72,48 +52,20 @@ function Matches(props) {
                 <thead>
                     <tr>
                         {
-                            matches?.length > 0 && Object.keys(matches[0])?.map((header, idx) => {
-                                let h = header
-                                if( header === 'match_id'){
-                                    h = 'match'
-                                }
-                                else if(header === 'start_datetime'){
-                                    h = 'start_time'
-                                }
-                                else if(header === 'end_datetime'){
-                                    h = 'end_time'
-                                }
-                                else if(header === 'winner_id'){
-                                    h = 'winner'
-                                }
-                                 
-                                return (
-                                    <th key={`header-${idx}`}>
-                                        { cap_words(h) }
-                                    </th>
-                                )
-                            })
+                            headers.map((header, idx) => (
+                                <th key={`header-${idx}`}>
+                                    {cap_words(header_map[header] ?? header)}
+                                </th>
+                            ))
                         }
 
-                        { matches?.length > 0 && <th>Actions</th> }
+                        { headers.length > 0 && <th>Actions</th> }
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        matches?.map((match, index) => {
-                            let match_row = match
-
-                            match_row.start_datetime = match.start_datetime ? new Date(match.start_datetime).toLocaleDateString(locale, { 
-                                hour: "numeric",
-                                minute: "numeric"
-                            }) : null
-                            
-                            match_row.end_datetime = match.end_datetime ? new Date(match.end_datetime).toLocaleDateString(locale, {
-                                hour: "numeric",
-                                minute: "numeric"
-                            }) : null
-
-                            return <TableRow key={`match-${index}`} rowObject={match_row} backendURL={backendURL} deleteBtn={true} />
+                        rows.map((match, index) => {
+                            return <TableRow key={`match-${index}`} rowObject={match} backendURL={backendURL} deleteBtn={true} />
                         })
                     }
                 </tbody>

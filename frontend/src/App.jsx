@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Pages
@@ -15,6 +15,15 @@ import MatchOfficials from './pages/Match_Officials';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 
+// Fetch Functions
+import getPeople from './fetch_funcs/people/getPeople';
+import getLocations from './fetch_funcs/locations/getLocations';
+import getMatches from './fetch_funcs/matches/getMatches';
+import getSets from './fetch_funcs/sets/getSets';
+import getGames from './fetch_funcs/games/getGames';
+import getMatchOfficials from './fetch_funcs/match_officials/getMatchOfficials';
+import getPlayerMatches from './fetch_funcs/player_matches/getPlayerMatches';
+
 // Define the backend port and URL for API requests
 const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
 const backend_url = import.meta.env.VITE_BACKEND_URL || 'http://classwork.engr.oregonstate.edu'
@@ -26,77 +35,38 @@ function App() {
   const userLocale = navigator.language
 
     // React Global App States
-    const [userLocation, setUserLocation] = useState('')
+    // Table States
+    const [games, setGames] = useState([])
+    const [locations, setLocations] = useState([]);
     const [matches, setMatches] = useState([])
+    const [matchOfficials, setMatchOfficials] = useState([]);
     const [people, setPeople] = useState([]);
+    const [playerMatches, setPlayerMatches] = useState([]);
     const [sets, setSets] = useState([])
+
   
-    useEffect(() => {
-          const getPeople = async function () {
-              try {
-                  // Make a GET request to the backend
-                  const response = await fetch(backendURL + '/people');
-                  
-                  // Convert the response into JSON format
-                  const people = await response.json();
-          
-                  // Update the people state with the response data
-                  setPeople(people);
-                  
-              } catch (error) {
-                  // If the API call fails, print the error to the console
-                  console.log('Error:', error);
-              }
-          };
+const refreshData = useCallback(() => {
+    getPeople(backendURL, setPeople);
+    getLocations(backendURL, setLocations);
+    getMatches(backendURL, setMatches);
+    getMatchOfficials(backendURL, setMatchOfficials)
+    getSets(backendURL, setSets);
+    getGames(backendURL, setGames);
+    getPlayerMatches(backendURL, setPlayerMatches)
+}, [backendURL]);
 
-        const getMatches = async () => {
-            try{
-                const res = await fetch(backendURL + '/matches')
-
-                let data = await res.json()
-                data.sort((a, b) => a.match_id - b.match_id)
-
-                setMatches(data)
-            }
-            catch(error){
-                console.log('Error:', error)
-            }
-        }
-
-        const getSets = async () => {
-            try{
-                const res = await fetch(backendURL + '/sets')
-
-                let data = await res.json()
-
-                setSets(data)
-            }
-            catch(error){
-                console.log('Error:', error)
-            }
-        }
-
-          
-        if(people?.length === 0){
-            getPeople()
-        }
-        if(matches?.length === 0){
-            getMatches()
-        }
-        if(sets?.length === 0){
-            getSets()
-        }
-      }, [backendURL]);
+useEffect(() => {
+    refreshData();
+}, [refreshData]);
 
     return (
         <>
-            <Navigation location={userLocation.pathname}/>
+            <Navigation />
             <Routes>
                 <Route 
                     path="/" 
                     element={
-                        <Home 
-                            setUserLocation={setUserLocation} 
+                        <Home  
                             locale={userLocale} 
                         />
                     } 
@@ -105,8 +75,7 @@ function App() {
                     path="/people" 
                     element={
                         <People 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             people={people}
                         />
@@ -116,10 +85,10 @@ function App() {
                     path='/locations' 
                     element={
                         <Locations 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             people={people}
+                            locations={locations}
                         />
                     } 
                 />
@@ -127,11 +96,11 @@ function App() {
                     path='/matches' 
                     element={
                         <Matches 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             people={people}
                             matches={matches}
+                            locations={locations}
                         />
                     }
                 />
@@ -139,10 +108,10 @@ function App() {
                     path='/match_officials' 
                     element={
                         <MatchOfficials 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             matches={matches}
+                            matchOfficials={matchOfficials}
                             people={people}
                             sets={sets}
                         />
@@ -152,11 +121,11 @@ function App() {
                     path='/player_matches' 
                     element={
                         <PlayerMatches 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale}
                             people={people} 
                             matches={matches}
+                            playerMatches={playerMatches}
                         />
                     }
                 />
@@ -164,8 +133,7 @@ function App() {
                     path='/sets' 
                     element={
                         <Sets 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             matches={matches}
                             sets={sets}
@@ -176,11 +144,11 @@ function App() {
                     path='/games' 
                     element={
                         <Games 
-                            backendURL={backendURL} 
-                            setUserLocation={setUserLocation} 
+                            backendURL={backendURL}  
                             locale={userLocale} 
                             matches={matches}
                             sets={sets}
+                            games={games}
                         />
                     }
                 />

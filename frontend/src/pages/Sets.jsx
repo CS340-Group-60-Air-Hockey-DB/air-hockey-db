@@ -1,13 +1,43 @@
-import AddSet from '../components/AddSet';
-import { useLocation } from 'react-router-dom';
+import { useMemo } from 'react';
+import AddSet from '../components/forms/sets/AddSet';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
-function Sets(props) {
-    const { backendURL, locale, matches, sets, setUserLocation } = props
-    const userLocation = useLocation()
 
-    setUserLocation(userLocation)
+const header_map = {
+    match_id: 'match',
+    start_datetime: 'start_time',
+    end_datetime: 'end_time',
+    set_num: 'set_number'
+}
+
+
+function Sets(props) {
+    const { backendURL, locale, matches, sets } = props
+    
+    const headers = useMemo(() => {
+            if (!sets?.length) return []
+    
+            return Object.keys(sets[0]).filter(header => header !== 'set_id')
+        }, [sets]);
+    
+        const rows = useMemo(() => {
+            if(!sets?.length) return []
+    
+           return sets.map(set => {
+                const { set_id, ...rest } = set
+
+                return {
+                    ...rest,
+                    start_datetime: rest.start_datetime
+                        ? new Date(rest.start_datetime).toLocaleDateString(locale, { hour: 'numeric', minute: 'numeric' })
+                        : null,
+                    end_datetime: rest.end_datetime
+                        ? new Date(rest.end_datetime).toLocaleDateString(locale, { hour: 'numeric', minute: 'numeric' })
+                        : null
+                }
+            })
+        }, [sets, locale])
 
     return (
         <div className="page-container">
@@ -23,40 +53,18 @@ function Sets(props) {
                 <thead>
                     <tr>
                         {
-                            sets?.length > 0 && Object.keys(sets[0])?.map((header, idx) => {
-                                let h = header
-                                if(header === 'match_id'){
-                                    h = 'match'
-                                }
-                                return (
-                                    <th key={`${header}-${idx}`}>
-                                        { cap_words(h) }
-                                    </th>
-                                )
-                            })
+                            headers.map((header, idx) => (
+                                <th key={`header-${idx}`}>
+                                    {cap_words(header_map[header] ?? header)}
+                                </th>
+                            ))
                         }
-                        { sets?.length > 0 && 
-                            <th>
-                                Actions
-                            </th>
-                        }
+
+                        { headers.length > 0 && <th>Actions</th> }
                     </tr>
                 </thead>
                 <tbody>
-                    {sets.map((set, idx) => {
-                        let set_row = set
-                        delete set_row.set_id
-
-                        set_row.start_datetime = set.start_datetime ? new Date(set.start_datetime).toLocaleDateString(locale, { 
-                            hour: "numeric",
-                            minute: "numeric"
-                        }) : null
-                            
-                        set_row.end_datetime = set.end_datetime ? new Date(set.end_datetime).toLocaleDateString(locale, {
-                            hour: "numeric",
-                            minute: "numeric"
-                        }) : null
-
+                    { rows.map((set, idx) => {
                         return <TableRow
                             key={idx}
                             rowObject={set}

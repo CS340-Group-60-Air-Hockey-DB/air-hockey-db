@@ -1,44 +1,39 @@
-// This will include the person's first + last name of who owns the location
-
-import { useState } from 'react';
-import AddLocation from '../components/AddLocation';
-import UpdateLocation from '../components/UpdateLocation';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
+import AddLocation from '../components/forms/locations/AddLocation';
+import UpdateLocation from '../components/forms/locations/UpdateLocation';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
+
+const header_map = {
+    table_qty: 'table_quantity',
+    phone_num: 'phone_number'
+}
+
+
+// This will include the person's first + last name of who owns the location (as the owner)
 function Locations(props) {
-    const { backendURL, people, setUserLocation } = props
-    const userLocation = useLocation()
-
-    setUserLocation(userLocation)
-
-    // including sample data for this phase
-    const [locations, setLocations] = useState([]);
-
-
-    // Load table on page load
-    useEffect(() => {
-        const getLocations = async function () {
-            try {
-                // Make a GET request to the backend
-                const response = await fetch(backendURL + '/locations');
-                
-                // Convert the response into JSON format
-                const data = await response.json();
+    const { backendURL, locations, people,  } = props
         
-                // Update the locations state with the response data
-                setLocations(data);
-                
-            } catch (error) {
-                // If the API call fails, print the error to the console
-                console.log('Error:', error);
-            }
-        };
-
-        getLocations()
-    }, [backendURL]);
+    // Memoize headers + rows
+    // Will only recalculate if the locations table in the backend changes
+    // Makes getting the table headers more efficient
+    const headers = useMemo(() => {
+        if(!locations?.length) return []
+        
+        return Object.keys(locations[0]).filter(header => header !== 'location_id')
+    }, [locations])
+        
+    const rows = useMemo(() => {
+        if(!locations?.length) return []
+        
+        return locations?.map(location => {
+            // location_id will not show up in table
+            const { location_id, ...rest } = location
+                    
+            return { ...rest }
+        });
+    }, [locations])
 
 
     return (
@@ -54,39 +49,22 @@ function Locations(props) {
             <table className="data-table">
                 <thead>
                     <tr>
-                        {locations?.length > 0 && Object.keys(locations[0])?.map((header, index) => {
-                            if(header === 'table_qty'){
-                                return (
-                                    <th key={index}>
-                                        { cap_words('table_quantity') }
-                                    </th>
-                                )
-                            }
-                            else if(header === 'phone_num'){
-                                return (
-                                    <th key={index}>
-                                        { cap_words('phone_number') }
-                                    </th>
-                                )
-                            }
-                            else{
-                                return (
-                                    <th key={index}>
-                                        { cap_words(header) }
-                                    </th>
-                                )
-                            }
-                        })}
+                        {
+                            headers.map((header, idx) => (
+                                <th key={`header-${idx}`}>
+                                    {cap_words(header_map[header] ?? header)}
+                                </th>
+                            ))
+                        }
                     </tr>
                 </thead>
 
                 <tbody>
-                    {locations?.map((location, index) => {
-                        let location_row = location
-                        delete location_row.location_id
-                        
-                        return <TableRow key={index} rowObject={location_row} backendURL={backendURL} />
-                    })}
+                    {
+                        rows.map((location, index) => {
+                            return <TableRow key={index} rowObject={location} backendURL={backendURL} />
+                        })
+                     }
                 </tbody>
             </table>
             

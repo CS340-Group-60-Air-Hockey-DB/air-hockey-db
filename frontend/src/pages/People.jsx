@@ -1,17 +1,44 @@
-import { useState, useEffect } from 'react';  // Importing useState for managing state in the component
+import { useMemo } from 'react';
 import TableRow from '../components/TableRow';
-import CreatePersonForm from '../components/CreatePersonForm';
-import UpdatePersonForm from '../components/UpdatePersonForm';
-import { useLocation } from 'react-router-dom';
+import CreatePersonForm from '../components/forms/people/CreatePersonForm';
+import UpdatePersonForm from '../components/forms/people/UpdatePersonForm';
 import cap_words from '../functions/cap_words';
 
 
+const header_map = {
+    dob: 'date_of_birth',
+    phone_num: 'phone_number'
+}
+
+
 function People(props) {
-    const { backendURL, locale, people, setUserLocation } = props
-    const userLocation = useLocation()
-
-    setUserLocation(userLocation)
-
+    const { backendURL, locale, people } = props
+    
+        // Memoize headers + rows
+        // Will only recalculate if the people table in the backend changes
+        // Makes getting the table headers more efficient
+        const headers = useMemo(() => {
+            if(!people?.length) return []
+    
+            return Object.keys(people[0]).filter(header => header !== 'person_id')
+        }, [people])
+    
+        const rows = useMemo(() => {
+            if(!people?.length) return []
+    
+            return people?.map(person => {
+                // person_id will not show up in table
+                const { person_id, ...rest } = person
+                
+                return {
+                ...rest,
+                dob: rest.dob
+                    ? new Date(rest.dob).toLocaleDateString(locale)
+                    : null
+                };
+            });
+        }, [people, locale])
+    
 
     return (
         <div>
@@ -26,41 +53,24 @@ function People(props) {
             <table>
                 <thead>
                     <tr>
-                        {people?.length > 0 && Object.keys(people[0])?.map((header, index) => {
-                            if(header === 'dob'){
-                                return (
-                                    <th key={`header-${index}`}>
-                                        { cap_words('date_of_birth') }
-                                    </th>
-                                )
-                            }
-                            else if(header === 'phone_num'){
-                                return (
-                                    <th key={`header-${index}`}>
-                                        {cap_words('phone_number')}
-                                    </th>
-                                )
-                            }
-                            else{
-                                return (
-                                    <th key={`header-${index}`}>
-                                        { cap_words(header) }
-                                    </th>
-                                )
-                            }
-                        })}
+                        {
+                        headers.map((header, idx) => (
+                            <th key={`header-${idx}`}>
+                                {cap_words(header_map[header] ?? header)}
+                            </th>
+                            ))
+                        }
                     </tr>
                 </thead>
 
                 <tbody>
-                    {people?.map((person, index) => {
-                        let person_row = person
-                        delete person_row.person_id
-                        let dob = new Date(person.dob)
-                        person_row.dob = dob.toLocaleDateString(locale)
-
-                        return <TableRow key={`person-${index}`} rowObject={person_row} backendURL={backendURL} />
-                    })}
+                    { rows.map((person, index) => (
+                        <TableRow
+                            key={`person-${index}`} 
+                            rowObject={person} 
+                            backendURL={backendURL} 
+                        />
+                    ))}
 
                 </tbody>
             </table>
