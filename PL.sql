@@ -317,3 +317,103 @@ BEGIN
     SET FOREIGN_KEY_CHECKS = 1;
 END //
 DELIMITER ;
+
+
+------------
+-- people --
+------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+-- There is no DELETE for this table, as the community wants to keep data integrity for past matches
+
+
+---------------
+-- locations --
+---------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+-- There is no DELETE for this table, as the community wants to keep data integrity for past matches
+
+
+----------------------
+-- people_locations --
+----------------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+-------------
+-- matches --
+-------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+----------
+-- sets --
+----------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+-----------
+-- games --
+-----------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+
+---------------------
+-- match_officials --
+---------------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+
+--------------------
+-- player_matches --
+--------------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
