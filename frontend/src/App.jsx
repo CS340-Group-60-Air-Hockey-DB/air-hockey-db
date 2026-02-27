@@ -84,6 +84,17 @@ function App() {
             }
         }
 
+        const getLocations = async() => {
+            try{
+                const res = await fetch(backendURL + '/locations');
+
+                let data = await res.json();
+
+                setLocations(data);
+            } catch (error) {
+                console.log('Error fetching locations:', error);
+            }
+        }
           
         if(people?.length === 0){
             getPeople()
@@ -93,6 +104,9 @@ function App() {
         }
         if(sets?.length === 0){
             getSets()
+        }
+        if (locations?.length === 0) {
+            getLocations();
         }
       }, [backendURL]);
 
