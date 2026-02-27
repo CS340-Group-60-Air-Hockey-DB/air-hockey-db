@@ -6,6 +6,7 @@
 // ########## SETUP
 require('dotenv').config()
 
+const db_routes = require('./routes/db')
 const people_routes = require('./routes/people')
 const location_routes = require('./routes/locations')
 const match_routes = require('./routes/matches')
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
     return res.status(200).json("Health endpoint check")
 })
 
+app.use('/', db_routes)
 app.use('/people', people_routes)
 app.use('/locations', location_routes)
 app.use('/matches', match_routes)
