@@ -1,7 +1,7 @@
-const db = require('../db-connector');
+const db = require('../database/db-connector');
 
 const reset_database = (req, res) => {
-    const query = `CALL ResetDB();`;
+    const query = `CALL sp_reset_db();`;
 
     db.pool.query(query, (error, results) => {
         if (error) {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 // Pages
 import Home from './pages/Home';
@@ -21,7 +21,6 @@ const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
 const backend_url = import.meta.env.VITE_BACKEND_URL || 'http://classwork.engr.oregonstate.edu'
 
 const backendURL = `${backend_url}:${backendPort}`;
-
 
 function App() {
   const userLocale = navigator.language
@@ -96,6 +95,8 @@ function App() {
             getSets()
         }
       }, [backendURL]);
+
+    const userLocation = useLocation();
 
     return (
         <>

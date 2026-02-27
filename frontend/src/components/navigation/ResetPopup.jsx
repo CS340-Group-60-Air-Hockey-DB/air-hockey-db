@@ -3,8 +3,8 @@ function ResetPopup(props) {
 
     const handleResetConfirm = async () => {
         try {
-            const response = await fetch('/api/reset', {
-                method: 'POST',
+            const response = await fetch('http://classwork.engr.oregonstate.edu:63729/reset', {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }

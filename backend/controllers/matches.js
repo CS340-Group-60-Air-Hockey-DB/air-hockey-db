@@ -47,7 +47,7 @@ const delete_match = async(req, res) => {
         const query = `
             SET @rows_affected = 0;
             SET @error_message = '';
-            CALL sp_delete_match(?, @rows_affected, @error_mesage);
+            CALL sp_delete_match(?, @rows_affected, @error_message);
             SELECT @rows_affected AS rowsAffected, @error_message AS errorMessage;
         `;
 
