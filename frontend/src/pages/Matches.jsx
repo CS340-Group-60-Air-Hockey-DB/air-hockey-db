@@ -65,7 +65,15 @@ function Matches(props) {
                 <tbody>
                     {
                         rows.map((match, index) => {
-                            return <TableRow key={`match-${index}`} rowObject={match} backendURL={backendURL} deleteBtn={true} />
+                            return (
+                                <TableRow 
+                                    key={`match-${index}`} 
+                                    rowObject={match} 
+                                    backendURL={backendURL} 
+                                    deleteBtn={true}
+                                    handleDelete={() => handleDeleteMatch(match.match_id)} 
+                                />
+                            )
                         })
                     }
                 </tbody>

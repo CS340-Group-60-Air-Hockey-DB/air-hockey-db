@@ -40,9 +40,38 @@ const get_all_match_people = async (req, res) => {
     }
 }
 
+const delete_match = async(req, res) => {
+    try {
+        const matchID = req.params.id;
+
+        const query = `
+            SET @rows_affected = 0;
+            SET @error_message = '';
+            CALL sp_delete_match(?, @rows_affected, @error_mesage);
+            SELECT @rows_affected AS rowsAffected, @error_message AS errorMessage;
+        `;
+
+        const [results] = await db.query(query, [matchID]);
+        
+        // get results from the SELECT statement
+        const outcome = results[3][0];
+
+        if (outcome.rowsAffected === -99) {
+            return res.status(400).json({ error: outcome.errorMessage });
+        }
+
+        res.status(200).json({ message: "Match deleted successfully!" });
+
+    } catch (error) {
+        console.error("Error executing delete_match:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+}
+
 
 module.exports = {
     get_all_matches,
     get_all_match_locations,
-    get_all_match_people
+    get_all_match_people,
+    delete_match
 }

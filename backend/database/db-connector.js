@@ -13,7 +13,8 @@ const pool = mysql.createPool({
     user              : process.env.DB_USER,
     password          : process.env.DB_PASSWORD,
     database          : process.env.DB_NAME,
-    namedPlaceholders: true
+    namedPlaceholders: true,
+    multipleStatements: true
 }).promise(); // This makes it so we can use async / await rather than callbacks
 
 // Export it for use in our application
