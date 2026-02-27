@@ -1,6 +1,27 @@
 function ResetPopup(props) {
     const { setResetPopup } = props
 
+    const handleResetConfirm = async () => {
+        try {
+            const response = await fetch('/api/reset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                alert("Air Hockey Database has been successfully reset!");
+                window.location.reload();
+            } else {
+                alert("Failed to reset the database. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error during reset fetch:", error);
+            alert("An error occurred while trying to connect to the server.");
+        }
+    };
+
     return (
         <div id="reset-database-popup">
             <p>
@@ -11,7 +32,7 @@ function ResetPopup(props) {
                 <button
                     onClick={evt => {
                         evt.preventDefault() 
-                        // Add in Stored Procedure Here
+                        handleResetConfirm()
                     }}
                 >
                     Yes, Reset the Database
