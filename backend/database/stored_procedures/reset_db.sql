@@ -1,14 +1,3 @@
--- Competitive Air Hockey Database
--- Alexandria Duell and Rita Berglund (House of Pucks)
-
--- This file contains the complete PL (Procedural Language) for the database. 
-
--- The file was created fully by Rita + Alex
-
-
-------------------------
--- Reset the Database --
-------------------------
 DROP PROCEDURE IF EXISTS sp_reset_db;
 DELIMITER //
 
