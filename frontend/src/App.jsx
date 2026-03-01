@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 // Pages
@@ -215,6 +215,7 @@ function App() {
             {
                 resetPopup && 
                     <ResetPopup 
+                        backendURL={backendURL}
                         setResetPopup={setResetPopup}
                     />
             }
