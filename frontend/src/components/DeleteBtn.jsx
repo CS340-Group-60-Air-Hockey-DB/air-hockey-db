@@ -10,7 +10,7 @@ const DeleteBtn = ({ rowObject, backendURL }) => {
         const idKey = Object.keys(rowObject)[0];
         const idValue = rowObject[idKey];
 
-        if (!window.confirm(`Are you sure you want to delete ${idKey} #${idValue}?`)) {
+        if (!window.confirm(`Are you sure you want to delete the row?`)) {
             return;
         }
 
@@ -23,12 +23,14 @@ const DeleteBtn = ({ rowObject, backendURL }) => {
                 alert("Deleted successfully!");
                 window.location.reload();
             } else {
-                const errorData = await response.json();
-                alert("Failed to delete.");
+                const error = await response.json();
+                console.log('Page URL:', currentPath, '\n\nError Deleting a Row:', error)
+
+                alert("An error occurred while trying to delete the row. Try again in a minute or two.");
             }
         } catch (error) {
-            console.error("Error deleting:", error);
-            alert("An error occurred connecting to the server.");
+            console.log('Page URL:', currentPath, '\n\nError Deleting a Row:', error)
+            alert("An error occurred while trying to delete the row. Try again in a minute or two.");
         }
 
     };
