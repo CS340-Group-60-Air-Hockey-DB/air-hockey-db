@@ -14,7 +14,7 @@ const get_all_matches = async (req, res) => {
         res.status(200).json(matches);
 
     } catch (error) {
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).send("An error occurred while getting all the matches with foreign key data.");
     }
 }
 
@@ -25,7 +25,7 @@ const get_all_match_locations = async (req, res) => {
         res.status(200).json(locations);
 
     } catch (error) {
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).send("An error occurred while getting locations in matches.");
     }
 }
 
@@ -36,11 +36,11 @@ const get_all_match_people = async (req, res) => {
         res.status(200).json(people);
 
     } catch (error) {
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).send("An error occurred while getting people in matches.");
     }
 }
 
-const delete_match = async(req, res) => {
+const delete_match = async (req, res) => {
     try {
         const matchID = req.params.id;
 
@@ -52,7 +52,7 @@ const delete_match = async(req, res) => {
         `;
 
         const [results] = await db.query(query, [matchID]);
-        
+
         // get results from the SELECT statement
         const outcome = results[3][0];
 
@@ -64,7 +64,7 @@ const delete_match = async(req, res) => {
 
     } catch (error) {
         console.error("Error executing delete_match:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).send(`An error occurred while deleting the match with id: ${matchID}`);
     }
 }
 
