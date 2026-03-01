@@ -1,10 +1,11 @@
 function ResetPopup(props) {
-    const { setResetPopup } = props
+    const { backendURL, setResetPopup } = props
+    
 
     const handleResetConfirm = async () => {
         try {
-            const response = await fetch('http://classwork.engr.oregonstate.edu:63729/reset', {
-                method: 'GET',
+            const response = await fetch(`${backendURL}/reset`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 }
