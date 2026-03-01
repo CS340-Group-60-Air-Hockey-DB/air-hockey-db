@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 // Pages
@@ -15,6 +15,16 @@ import MatchOfficials from './pages/Match_Officials';
 import Navigation from './components/navigation/Navigation';
 import Footer from './components/Footer';
 import ResetPopup from './components/navigation/ResetPopup';
+
+// Fetch Functions
+import getPeople from './fetch_funcs/people/getPeople';
+import getLocations from './fetch_funcs/locations/getLocations';
+import getMatches from './fetch_funcs/matches/getMatches';
+import getSets from './fetch_funcs/sets/getSets';
+import getGames from './fetch_funcs/games/getGames';
+import getMatchOfficials from './fetch_funcs/match_officials/getMatchOfficials';
+import getPlayerMatches from './fetch_funcs/player_matches/getPlayerMatches';
+
 
 // Define the backend port and URL for API requests
 const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
@@ -37,78 +47,20 @@ function App() {
 
     // Reset Database State
     const [resetPopup, setResetPopup] = useState(false)
+ 
+    const refreshData = useCallback(() => {
+        getPeople(backendURL, setPeople);
+        getLocations(backendURL, setLocations);
+        getMatches(backendURL, setMatches);
+        getMatchOfficials(backendURL, setMatchOfficials)
+        getSets(backendURL, setSets);
+        getGames(backendURL, setGames);
+        getPlayerMatches(backendURL, setPlayerMatches)
+    }, [backendURL]);
 
-  
     useEffect(() => {
-          const getPeople = async function () {
-              try {
-                  // Make a GET request to the backend
-                  const response = await fetch(backendURL + '/people');
-                  
-                  // Convert the response into JSON format
-                  const people = await response.json();
-          
-                  // Update the people state with the response data
-                  setPeople(people);
-                  
-              } catch (error) {
-                  // If the API call fails, print the error to the console
-                  console.log('Error:', error);
-              }
-          };
-
-        const getMatches = async () => {
-            try{
-                const res = await fetch(backendURL + '/matches')
-
-                let data = await res.json()
-                data.sort((a, b) => a.match_id - b.match_id)
-
-                setMatches(data)
-            }
-            catch(error){
-                console.log('Error:', error)
-            }
-        }
-
-        const getSets = async () => {
-            try{
-                const res = await fetch(backendURL + '/sets')
-
-                let data = await res.json()
-
-                setSets(data)
-            }
-            catch(error){
-                console.log('Error:', error)
-            }
-        }
-
-        const getLocations = async() => {
-            try{
-                const res = await fetch(backendURL + '/locations');
-
-                let data = await res.json();
-
-                setLocations(data);
-            } catch (error) {
-                console.log('Error fetching locations:', error);
-            }
-        }
-          
-        if(people?.length === 0){
-            getPeople()
-        }
-        if(matches?.length === 0){
-            getMatches()
-        }
-        if(sets?.length === 0){
-            getSets()
-        }
-        if (locations?.length === 0) {
-            getLocations();
-        }
-      }, [backendURL]);
+        refreshData();
+    }, [refreshData]);
 
     const userLocation = useLocation();
 
