@@ -71,7 +71,6 @@ function Matches(props) {
                                     rowObject={match} 
                                     backendURL={backendURL} 
                                     deleteBtn={true}
-                                    handleDelete={() => handleDeleteMatch(match.match_id)} 
                                 />
                             )
                         })
