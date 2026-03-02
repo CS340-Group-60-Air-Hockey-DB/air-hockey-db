@@ -107,22 +107,25 @@ function UpdateMatch({ backendURL, locations, matches, refreshData}) {
 
             <div
                 id='update-form'
-                className='update-matches'
+                className={`update-matches`}
             >
-                <label
-                    htmlFor='select-match'
-                >
-                    Select Match:
-                    <select
-                        name='select-match' 
-                        required 
-                        value={selectedMatchId} 
-                        onChange={handleMatchSelect}
+                
+                <div id='select-only'>
+                    <label
+                        htmlFor='select-match'
                     >
-                        <option value="">Select a Match</option>
-                        {matches.sort((a, b) => a.match_id - b.match_id).map(m => <option key={m.match_id} value={m.match_id}>{m.match_id}</option>)}
-                    </select>
+                        Select Match:
+                        <select
+                            name='select-match' 
+                            required 
+                            value={selectedMatchId} 
+                            onChange={handleMatchSelect}
+                        >
+                            <option value="">Select a Match</option>
+                            {matches.sort((a, b) => a.match_id - b.match_id).map(m => <option key={m.match_id} value={m.match_id}>{m.match_id}</option>)}
+                        </select>
                     </label>
+                </div>
 
                 {
                     selectedMatchId && 

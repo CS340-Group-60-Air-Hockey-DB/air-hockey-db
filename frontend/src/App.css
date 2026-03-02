@@ -171,6 +171,21 @@ table{
 }
 
 /* ------ Forms ------ */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 90%;
+  width: max-content;
+  justify-self: center;
+  justify-content: center;
+  align-content: start;
+  align-items: center;
+}
+
+form h2{ 
+  width: 100%;
+}
+
 form label {
   margin: 5px;
   align-self: center;
@@ -196,6 +211,11 @@ form input, form select {
   width: 100%;
 }
 
+#select-only {
+  width: 100%;
+  align-self: start;
+}
+
 #update-form {
   display: flex;
   flex-wrap: wrap;
@@ -203,8 +223,8 @@ form input, form select {
   width: max-content;
   justify-self: center;
   align-items: center;
-  width: 700px;
-  height: 300px;
+  width: 650px;
+  height: 350px;
 }
 
 #update-form h2{
@@ -212,6 +232,7 @@ form input, form select {
 }
 
 #form-btn-div {
+  padding-top: 10px;
   width: 100%;
 }
 
@@ -223,7 +244,7 @@ form input, form select {
 }
 
 .note-textbox textarea {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 textarea {
