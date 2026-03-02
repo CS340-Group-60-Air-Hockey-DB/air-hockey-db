@@ -171,6 +171,16 @@ table{
 }
 
 /* ------ Forms ------ */
+form label {
+  margin: 5px;
+  align-self: center;
+  font-weight: bold;
+}
+
+form input, form select {
+  margin: 5px;
+}
+
 /* Forms to Add Data */
 #add-form {
   display: flex;
@@ -184,6 +194,45 @@ table{
 
 #add-form h2{
   width: 100%;
+}
+
+#update-form {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 90%;
+  width: max-content;
+  justify-self: center;
+  align-items: center;
+  width: 700px;
+  height: 300px;
+}
+
+#update-form h2{
+  width: 100%;
+}
+
+#form-btn-div {
+  width: 100%;
+}
+
+.note-textbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-self: start;
+  width: 100%;
+}
+
+.note-textbox textarea {
+  margin-top: 10px;
+}
+
+textarea {
+  max-width: 100%;
+  max-height: 400px;
+  min-height: 20px;
+  min-width: 100px;
+  width: 100%;
+  height: 50px;
 }
 
 /* ------ Footer ------ */
