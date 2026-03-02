@@ -14,6 +14,7 @@ const game_routes = require('./routes/games')
 const match_official_routes = require('./routes/match_officials')
 const player_match_routes = require('./routes/player_matches')
 const people_location_routes = require('./routes/people_locations')
+const reset_routes = require('./routes/reset')
 
 // Express
 const express = require('express');
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
     return res.status(200).json("Health endpoint check")
 })
 
+app.use('/reset', reset_routes)
 app.use('/people', people_routes)
 app.use('/locations', location_routes)
 app.use('/matches', match_routes)

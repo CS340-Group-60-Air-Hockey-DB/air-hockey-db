@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 // Pages
 import Home from './pages/Home';
@@ -12,8 +12,9 @@ import Games from './pages/Games';
 import MatchOfficials from './pages/Match_Officials';
 
 // Components
-import Navigation from './components/Navigation';
+import Navigation from './components/navigation/Navigation';
 import Footer from './components/Footer';
+import ResetPopup from './components/navigation/ResetPopup';
 
 // Fetch Functions
 import getPeople from './fetch_funcs/people/getPeople';
@@ -24,12 +25,12 @@ import getGames from './fetch_funcs/games/getGames';
 import getMatchOfficials from './fetch_funcs/match_officials/getMatchOfficials';
 import getPlayerMatches from './fetch_funcs/player_matches/getPlayerMatches';
 
+
 // Define the backend port and URL for API requests
 const backendPort = import.meta.env.VITE_PORT_BACKEND || 63729;
 const backend_url = import.meta.env.VITE_BACKEND_URL || 'http://classwork.engr.oregonstate.edu'
 
 const backendURL = `${backend_url}:${backendPort}`;
-
 
 function App() {
   const userLocale = navigator.language
@@ -44,24 +45,32 @@ function App() {
     const [playerMatches, setPlayerMatches] = useState([]);
     const [sets, setSets] = useState([])
 
-  
-const refreshData = useCallback(() => {
-    getPeople(backendURL, setPeople);
-    getLocations(backendURL, setLocations);
-    getMatches(backendURL, setMatches);
-    getMatchOfficials(backendURL, setMatchOfficials)
-    getSets(backendURL, setSets);
-    getGames(backendURL, setGames);
-    getPlayerMatches(backendURL, setPlayerMatches)
-}, [backendURL]);
+    // Reset Database State
+    const [resetPopup, setResetPopup] = useState(false)
+ 
+    const refreshData = useCallback(() => {
+        getPeople(backendURL, setPeople);
+        getLocations(backendURL, setLocations);
+        getMatches(backendURL, setMatches);
+        getMatchOfficials(backendURL, setMatchOfficials)
+        getSets(backendURL, setSets);
+        getGames(backendURL, setGames);
+        getPlayerMatches(backendURL, setPlayerMatches)
+    }, [backendURL]);
 
-useEffect(() => {
-    refreshData();
-}, [refreshData]);
+    useEffect(() => {
+        refreshData();
+    }, [refreshData]);
+
+    const userLocation = useLocation();
 
     return (
         <>
-            <Navigation />
+            <Navigation 
+                location={userLocation.pathname}
+                setResetPopup={setResetPopup}
+            />
+            
             <Routes>
                 <Route 
                     path="/" 
@@ -154,6 +163,14 @@ useEffect(() => {
                 />
             </Routes>
             <Footer />
+
+            {
+                resetPopup && 
+                    <ResetPopup 
+                        backendURL={backendURL}
+                        setResetPopup={setResetPopup}
+                    />
+            }
         </>
     );
 

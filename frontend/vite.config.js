@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     server: {
       port: parseInt(env.VITE_PORT_FRONTEND) || 51739,
+      allowedHosts: ['classwork.engr.oregonstate.edu'],
       host: true,
       strictPort: true
     }

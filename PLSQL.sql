@@ -1,0 +1,549 @@
+-- Competitive Air Hockey Database
+-- Alexandria Duell and Rita Berglund (House of Pucks)
+
+-- This file contains the complete PL (Procedural Language) for the database. 
+
+-- The file was created fully by Rita + Alex
+
+
+------------------------
+-- Reset the Database --
+------------------------
+DROP PROCEDURE IF EXISTS sp_reset_db;
+DELIMITER //
+
+CREATE PROCEDURE sp_reset_db()
+BEGIN
+    ----------------------------------------------------------------------
+    -- Disable foreign key checks to allow dropping tables in any order --
+    ----------------------------------------------------------------------
+    SET FOREIGN_KEY_CHECKS = 0;
+
+    ---------------------
+    -- Drop all tables --
+    ---------------------
+    DROP TABLE IF EXISTS people_locations;
+    DROP TABLE IF EXISTS player_matches;
+    DROP TABLE IF EXISTS match_officials;
+    DROP TABLE IF EXISTS games;
+    DROP TABLE IF EXISTS `sets`;
+    DROP TABLE IF EXISTS matches;
+    DROP TABLE IF EXISTS locations;
+    DROP TABLE IF EXISTS people;
+
+    -----------------------
+    -- Create all tables --
+    -----------------------
+    CREATE OR REPLACE TABLE people(
+        person_id int(11) auto_increment unique NOT NULL,
+        first_name varchar(50) NOT NULL,
+        last_name varchar(50) NOT NULL,
+        gender enum('female', 'male', 'other', 'prefer not to say'),
+        dob Date,
+        email varchar(255) unique,
+        phone_num varchar(25),
+        street_address_1 varchar(255),
+        street_address_2 varchar(255),
+        city varchar(255),
+        state varchar(255),
+        country varchar(255) NOT NULL default "USA",
+        zip_code varchar(255),
+
+        primary key (person_id)
+    );
+
+    CREATE OR REPLACE TABLE locations (
+        location_id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+        table_qty int(11) NOT NULL DEFAULT 0,
+        email varchar(255) UNIQUE,
+        phone_num varchar(25),
+        street_address_1 varchar(255) NOT NULL,
+        street_address_2 varchar(255),
+        city varchar(255) NOT NULL,
+        state varchar(255) NOT NULL,
+        country varchar(255) NOT NULL,
+        zip_code varchar(255) NOT NULL,
+        type_of_address enum('residential', 'commercial', 'club', 'bar', 'other') NOT NULL,
+        location_name varchar(255),
+        notes varchar(10000),
+        PRIMARY KEY (location_id),
+        CONSTRAINT unique_address UNIQUE (
+            street_address_1,
+            street_address_2,
+            city,
+            state,
+            country,
+            zip_code
+        )
+    );
+
+    CREATE OR REPLACE TABLE matches (
+        match_id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+        location_id int(11) NOT NULL,
+        winner_id int(11) NULL,
+        set_max tinyint(4) NOT NULL DEFAULT 3,
+        faceoff_type enum('standard', 'puck flip') NOT NULL DEFAULT 'standard',
+        start_datetime datetime NOT NULL,
+        end_datetime datetime NULL,
+        match_type enum('challenge', 'tournament', 'league', 'other') NOT NULL,
+        match_status enum('scheduled', 'in_progress', 'completed', 'abandoned') NOT NULL DEFAULT 'scheduled',
+        note varchar(10000) NULL,
+        PRIMARY KEY (match_id),
+        FOREIGN KEY (location_id) REFERENCES locations(location_id) 
+            ON UPDATE CASCADE,
+        FOREIGN KEY (winner_id) REFERENCES people(person_id) 
+            ON UPDATE CASCADE,
+        CONSTRAINT chk_set_max CHECK (set_max IN (3, 5, 7)),
+        CONSTRAINT chk_match_times CHECK (end_datetime IS NULL OR end_datetime > start_datetime)
+    );
+
+    CREATE OR REPLACE TABLE `sets` (
+        set_id int(11) auto_increment not null unique,
+        match_id int(11) not null,
+        winner_id int(11),
+        set_num tinyint(4) not null,
+        start_datetime datetime,
+        end_datetime datetime,
+        set_status enum ('scheduled', 'in_progress', 'completed', 'abandoned') not NULL default 'scheduled',
+
+        primary key (set_id),
+
+        foreign key (match_id) references matches(match_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+        foreign key (winner_id) references people(person_id) 
+            ON UPDATE CASCADE,
+
+        constraint chk_set_num check (set_num between 1 and 7),
+        constraint chk_match_times check (
+            end_datetime IS NULL or 
+            end_datetime > start_datetime
+        ),
+        constraint unique_match_set UNIQUE (match_id, set_num)
+
+        -- Needed Constraints left (via API Endpoint Function Check or a Database Trigger):
+            -- - A set must contain at least 4 games when completed
+            -- - set_num cannot exceed the parent match's set_max value
+    );
+
+    CREATE OR REPLACE TABLE games(
+        game_id int(11) auto_increment UNIQUE NOT NULL,
+        player_1_score tinyint(4) NOT NULL DEFAULT 0,
+        player_2_score tinyint(4) NOT NULL DEFAULT 0,
+        set_id int(11) NOT NULL,
+        game_num tinyint(4) NOT NULL,
+        game_status enum ('scheduled', 'in_progress', 'completed', 'abandoned') not NULL default 'scheduled',
+        start_datetime datetime,
+        end_datetime datetime,
+
+        primary key (game_id),
+        foreign key (set_id) references sets(set_id) 
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+        constraint chk_player_scores CHECK (
+            player_1_score BETWEEN 0 AND 7 AND 
+            player_2_score BETWEEN 0 AND 7
+        ),
+        CONSTRAINT chk_match_times CHECK (
+            end_datetime IS NULL OR 
+            end_datetime > start_datetime
+        )
+    );
+
+    CREATE OR REPLACE TABLE match_officials (
+        match_official_id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+        official_person_id int(11) NOT NULL,
+        set_id int(11) NOT NULL,
+        official_type enum('referee', 'witness') NOT NULL,
+        PRIMARY KEY (match_official_id),
+        FOREIGN KEY (official_person_id) REFERENCES people(person_id) 
+            ON UPDATE CASCADE,
+        FOREIGN KEY (set_id) REFERENCES sets(set_id)
+            ON DELETE CASCADE 
+            ON UPDATE CASCADE
+    );
+
+    CREATE OR REPLACE TABLE player_matches(
+        player_match_id int(11) NOT NULL auto_increment,
+        player_id int(11) NOT NULL,
+        match_id int(11) NOT NULL,
+        starting_side enum('left', 'right') NOT NULL,
+        player_order enum('player_1', 'player_2') NOT NULL,
+
+        primary key (player_match_id),
+
+        foreign key (player_id) references people(person_id) 
+            ON UPDATE CASCADE,
+        foreign key (match_id) references matches(match_id) 
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+
+        constraint unique_player_match unique (player_id, match_id)
+    );
+
+    CREATE OR REPLACE TABLE people_locations(
+        person_location_id int(11) auto_increment UNIQUE NOT NULL,
+        person_id int(11) NOT NULL,
+        location_id int(11) NOT NULL,
+
+        primary key (person_location_id),
+        foreign key (person_id) REFERENCES people(person_id) 
+            ON UPDATE CASCADE,
+        foreign key (location_id) REFERENCES locations(location_id) 
+            ON UPDATE CASCADE
+    );
+
+
+    ------------------------------------
+    -- Insert sample data into tables --
+    ------------------------------------
+    -- The data below represents three matches with different outcomes:
+    --   Match 1 (completed): Alex Adams vs Evan Cole at Paddle Palace Bar, Feb 1 2026
+    --       Officials Quinn Foster and Aisling O'Connor officiated various sets
+    --       Alex Adam wins 2 out of 3 sets
+    --   Match 2 (abandoned): Natalie Perez vs Aisling O'Connor tournament that was cancelled
+    --   Match 3 (scheduled): Casey Martinez vs Quinn Foster at The Foundation, May 11 2026
+
+    ------------
+    -- people --
+    ------------
+    INSERT INTO people(first_name, last_name, gender, dob, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code)
+    VALUES ('Alex', 'Adams', 'female', '1996-03-05', 'alexadams@email.com', '987-547-4251', '6827 Glenwood Ave', null, 'Raleigh', 'NC', 'USA', '27603'),
+    ('Casey', 'Martinez', 'male', '2001-03-25', 'casey.martinez@example.com', NULL, '789 Pine Rd', 'Apt 5C', 'Chicago', 'IL', 'USA', '60616'),
+    ('Evan', 'Cole', NULL, '2010-12-01', NULL, NULL, NULL, NULL, NULL, 'NC', 'USA', NULL),
+    ('Dylan', 'Moore', 'male', '2012-11-13', NULL, '336-555-4419', NULL, NULL, NULL, 'TX', 'USA', NULL),
+    ('Natalie', 'Perez', 'female', '1993-07-27', 'natalie.perez@email.com', '305-555-9183', '670 Coral Way', NULL, 'Miami', 'FL', 'USA', '33145'),
+    ('Quinn', 'Foster', 'prefer not to say', '1987-10-18', NULL, NULL, NULL, NULL, NULL, NULL, 'USA', NULL),
+    ('Aisling', 'O''Connor', 'female', '1999-02-09', 'aoife.oconnor@example.ie', NULL, '3 Trinity Lane', NULL, 'Dublin', NULL, 'Ireland', 'D02 XY76');
+
+    ---------------
+    -- locations --
+    ---------------
+    INSERT INTO locations(table_qty, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code, type_of_address, location_name, notes)
+    VALUES (4, null, '919-329-9031', '1234 Foundation Lane', null, 'Raleigh', 'NC', 'USA', '27603', 'residential', 'The Foundation', null),
+    (1, 'contact@paddlepalace.com', '919-555-0142', '789 Brewhouse Lane', 'Suite 2B', 'Durham', 'NC', 'USA', '27701', 'bar', 'The Paddle Palace Bar & Grill', 'Air hockey table in the game room area, popular weekend spot'),
+    (0, 'events@grandplazahotel.com', '919-555-0298', '456 Hospitality Boulevard', null, 'Cary', 'NC', 'USA', '27511', 'other', 'Grand Plaza Hotel & Conference Center', 'Potential tournament venue, no permanent tables but large event space available'),
+    (0, 'info@spacecitysports.com', '713-555-0891', '8500 Kirby Drive', null, 'Houston', 'TX', 'USA', '77054', 'other', 'Space City Sports Complex', 'Major sports venue, interested in hosting regional + world air hockey championships.');
+
+    INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status, winner_id)
+    VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challenge', null, 'completed', 1),
+    (5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned', null),
+    (7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled', null);
+
+    INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
+    VALUES (1, 1, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
+    (1, 3, 2, '2026-02-01 14:55:10', '2026-02-01 15:17:50', 'completed'),
+    (1, 1, 3, '2026-02-01 15:21:33', '2026-02-01 15:48:06', 'completed'), 
+    -- Match 2
+    (2, null, 1, '2024-01-15 19:00:00', null, 'abandoned'),
+    (2, null, 2, null, null, 'abandoned'),
+    (2, null, 3, null, null, 'abandoned'),
+    (2, null, 4, null, null, 'abandoned'),
+    (2, null, 5, null, null, 'abandoned'),
+    -- Match 3
+    (3, null, 1, '2026-05-11 18:00:00', null, 'scheduled'),
+    (3, null, 2, null, null, 'scheduled'),
+    (3, null, 3, null, null, 'scheduled'),
+    (3, null, 4, null, null, 'scheduled'),
+    (3, null, 5, null, null, 'scheduled'),
+    (3, null, 6, null, null, 'scheduled'),
+    (3, null, 7, null, null, 'scheduled');
+
+    -----------
+    -- games --
+    -----------
+    INSERT INTO games(player_1_score, player_2_score, set_id, game_num, game_status, start_datetime, end_datetime)
+    -- Games for Match 1 Set 1 
+    VALUES (7, 3, 1, 1, 'completed', '2026-02-01 14:31:39', '2026-02-01 14:36:15'),
+    (7, 6, 1, 2, 'completed', '2026-02-01 14:36:45', '2026-02-01 14:43:20'),
+    (7, 3, 1, 3, 'completed', '2026-02-01 14:43:50', '2026-02-01 14:47:35'),
+    (7, 5, 1, 4, 'completed', '2026-02-01 14:48:05', '2026-02-01 14:53:22'),
+    -- Games for Match 1 Set 2
+    (3, 7, 2, 1, 'completed', '2026-02-01 14:55:10', '2026-02-01 14:59:05'),
+    (7, 2, 2, 2, 'completed', '2026-02-01 14:59:35', '2026-02-01 15:03:10'),
+    (6, 7, 2, 3, 'completed', '2026-02-01 15:03:40', '2026-02-01 15:08:25'),
+    (5, 7, 2, 4, 'completed', '2026-02-01 15:08:55', '2026-02-01 15:13:40'),
+    (3, 7, 2, 5, 'completed', '2026-02-01 15:14:10', '2026-02-01 15:17:50'),
+    -- Games for Set 3
+    (7, 1, 3, 1, 'completed', '2026-02-01 15:21:33', '2026-02-01 15:25:20'),
+    (5, 7, 3, 2, 'completed', '2026-02-01 15:25:50', '2026-02-01 15:30:35'),
+    (7, 5, 3, 3, 'completed', '2026-02-01 15:31:05', '2026-02-01 15:35:50'),
+    (7, 1, 3, 4, 'completed', '2026-02-01 15:36:20', '2026-02-01 15:39:45'),
+    (4, 7, 3, 5, 'completed', '2026-02-01 15:40:15', '2026-02-01 15:44:30'),
+    (6, 7, 3, 6, 'completed', '2026-02-01 15:44:55', '2026-02-01 15:49:45'),
+    (7, 6, 3, 7, 'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06');
+
+    ---------------------
+    -- match_officials --
+    ---------------------
+    INSERT INTO match_officials (official_person_id, set_id, official_type)
+    VALUES 
+    -- Officials are only for Match 1
+    (6, 1, 'referee'),
+    (6, 2, 'referee'),
+    (7, 3, 'referee'),
+    (7, 1, 'witness'),
+    (7, 2, 'witness'),
+    (6, 3, 'witness');
+
+    --------------------
+    -- player_matches --
+    --------------------
+    INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
+    VALUES 
+    -- Match 1
+    (1, 1, 'left', 'player_1'),
+    (3, 1, 'right', 'player_2'),
+
+    -- Match 2
+    (5, 2, 'left', 'player_1'),
+    (7, 2, 'right', 'player_2'),
+
+    -- Match 3
+    (2, 3, 'left', 'player_1'),
+    (6, 3, 'right', 'player_2');
+
+    ----------------------
+    -- people_locations --
+    ----------------------
+    INSERT INTO people_locations(person_id, location_id)
+    VALUES (1, 1),
+    (3, 2),
+    (4, 4);
+
+    -------------------------------
+    -- Enable foreign key checks --
+    -------------------------------
+    SET FOREIGN_KEY_CHECKS = 1;
+END //
+DELIMITER ;
+
+
+------------
+-- people --
+------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+-- There is no DELETE for this table, as the community wants to keep data integrity for past matches
+
+
+---------------
+-- locations --
+---------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+-- There is no DELETE for this table, as the community wants to keep data integrity for past matches
+
+
+----------------------
+-- people_locations --
+----------------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+-------------
+-- matches --
+-------------
+----- CREATE -----
+DROP PROCEDURE IF EXISTS sp_add_match;
+DELIMITER //
+
+CREATE PROCEDURE sp_add_match(
+    IN m_set_max tinyint(4),
+    IN m_faceoff_type enum('standard', 'puck flip'),
+    IN m_start_datetime datetime,
+    IN m_end_datetime datetime,
+    IN l_location_id int(11),
+    IN m_match_type enum('challenge', 'tournament', 'league', 'other'),
+    IN m_note varchar(10000),
+    IN m_match_status enum('scheduled', 'in_progress', 'completed', 'abandoned'),
+    OUT match_id int(11)
+)
+BEGIN
+-- In case of an error, set the match_id to -99
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            SET match_id = -99;
+            ROLLBACK;
+        END;
+
+    START TRANSACTION;
+        -- Insert Values
+        -- COALESCE makes the default value of the attribute if an enum is null
+        -- NULLIF on m_note inserts null if the m_note string is empty
+            INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
+            VALUES (COALESCE(m_set_max, 3), COALESCE(m_faceoff_type, 'standard'), m_start_datetime, m_end_datetime, l_location_id, m_match_type, NULLIF(m_note, ''), COALESCE(m_match_status, 'scheduled'));
+
+        -- Get the last inserted id 
+            SET match_id = LAST_INSERT_ID();
+    COMMIT;
+END //
+DELIMITER ;
+
+----- UPDATE -----
+-- Winner id will be a trigger and should not be inserted
+DROP PROCEDURE IF EXISTS sp_update_match;
+DELIMITER //
+
+CREATE PROCEDURE sp_update_match(
+    IN m_match_id int(11),
+    IN m_set_max tinyint(4),
+    IN m_faceoff_type enum('standard', 'puck flip'),
+    IN m_start_datetime datetime,
+    IN m_end_datetime datetime,
+    IN l_location_id int(11),
+    IN m_match_type enum('challenge', 'tournament', 'league', 'other'),
+    IN m_note varchar(10000),
+    IN m_match_status enum('scheduled', 'in_progress', 'completed', 'abandoned'),
+    OUT rows_affected int(11),
+    OUT error_message varchar(255)
+)
+BEGIN
+    DECLARE match_exists boolean;
+
+-- In case of an error, set the rows_affected to -99
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            SET rows_affected = -99;
+            GET DIAGNOSTICS CONDITION 1
+                error_message = MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+
+    START TRANSACTION;
+    -- Validate match with id exists
+        SELECT COUNT(*) INTO match_exists 
+            FROM matches 
+        WHERE match_id = m_match_id;
+        
+        IF match_exists = 0 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Match not found';
+        END IF;
+
+        UPDATE matches
+        SET
+        -- Not nullable fields; will result the current data as the default value
+            set_max = COALESCE(m_set_max, set_max),
+            faceoff_type = COALESCE(m_faceoff_type, faceoff_type),
+            start_datetime = COALESCE(m_start_datetime, start_datetime),
+            location_id = COALESCE(l_location_id, location_id),
+            match_type = COALESCE(m_match_type, match_type),
+            match_status = COALESCE(m_match_status, match_status),
+        -- Nullable fields: NULL input clears the field
+            end_datetime = m_end_datetime,
+            note = NULLIF(m_note, ''),
+        -- Change winner_id to null if match status changes from 'completed'
+            winner_id = CASE
+                            WHEN m_match_status != 'completed' THEN null
+                            ELSE winner_id
+                        END
+        WHERE match_id = m_match_id;
+
+        SET rows_affected = ROW_COUNT();
+    COMMIT;
+END //
+DELIMITER ;
+
+----- DELETE -----
+DROP PROCEDURE IF EXISTS sp_delete_match;
+DELIMITER //
+
+CREATE PROCEDURE sp_delete_match(
+    IN m_match_id int(11),
+    OUT rows_affected int(11),
+    OUT error_message varchar(255)
+)
+BEGIN
+    DECLARE match_exists boolean;
+
+-- In case of an error, set the rows_affected to -99
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            SET rows_affected = -99;
+            GET DIAGNOSTICS CONDITION 1
+                error_message = MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+
+    START TRANSACTION;
+    -- Validate match with id exists
+        SELECT COUNT(*) INTO match_exists 
+            FROM matches 
+        WHERE match_id = m_match_id;
+        
+        IF match_exists = 0 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Match not found';
+        END IF;
+
+        DELETE FROM matches
+        WHERE match_id = m_match_id;
+
+        SET rows_affected = ROW_COUNT();
+    COMMIT;
+END //
+DELIMITER ;
+
+----------
+-- sets --
+----------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+-----------
+-- games --
+-----------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+
+---------------------
+-- match_officials --
+---------------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----
+
+
+
+--------------------
+-- player_matches --
+--------------------
+----- CREATE -----
+
+
+----- UPDATE -----
+
+
+----- DELETE -----

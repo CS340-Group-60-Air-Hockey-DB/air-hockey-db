@@ -81,6 +81,47 @@ nav .highlight {
     box-shadow: 5px 5px rgba(0,0,0,0.3);
 }
 
+/* ----- Reset Database Popup ----- */
+#reset-database-popup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 30%;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid var(--red);
+  background: var(--baby-blue);
+  padding: 10px;
+  place-items: center;
+  color: white;
+}
+
+#reset-database-popup p, 
+#reset-data-btns {
+  display: flex;
+}
+
+#reset-database-popup p {
+  width: 100%;
+  place-content: center;
+} 
+
+#reset-data-btns {
+  gap: 20px;
+  place-content: space-around;
+}
+
+#reset-data-btns button {
+  background: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+
 /* ----- Home Page ----- */
 #home-description{
   border: 10px solid #b4a7d6;
@@ -148,4 +189,5 @@ table{
 /* ------ Footer ------ */
 footer{
   margin: 100px 0 50px 0;
+  width: 100%;
 }
