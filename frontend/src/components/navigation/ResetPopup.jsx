@@ -1,5 +1,5 @@
 function ResetPopup(props) {
-    const { backendURL, setResetPopup } = props
+    const { backendURL, refreshData, setResetPopup } = props
     
 
     const handleResetConfirm = async () => {
@@ -13,7 +13,8 @@ function ResetPopup(props) {
             
             if (response.ok) {
                 alert("Air Hockey Database has been successfully reset!");
-                window.location.reload();
+                refreshData()
+                setResetPopup(false)
             } else {
                 alert("Failed to reset the database. Please try again.");
             }

@@ -56,7 +56,7 @@ function App() {
         getSets(backendURL, setSets);
         getGames(backendURL, setGames);
         getPlayerMatches(backendURL, setPlayerMatches)
-    }, [backendURL]);
+    }, []);
 
     useEffect(() => {
         refreshData();
@@ -170,6 +170,7 @@ function App() {
                     <ResetPopup 
                         backendURL={backendURL}
                         setResetPopup={setResetPopup}
+                        refreshData={refreshData}
                     />
             }
         </>

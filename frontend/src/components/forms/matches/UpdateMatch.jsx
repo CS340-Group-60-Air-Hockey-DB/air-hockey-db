@@ -92,6 +92,7 @@ function UpdateMatch({ backendURL, locations, matches, refreshData}) {
             if (response.ok) {
                 alert("Match updated successfully!");
                 refreshData()
+                clearForm()
             } else {
                 alert("Failed to update match. Please try again.");
             }
