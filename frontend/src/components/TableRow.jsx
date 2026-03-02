@@ -1,6 +1,6 @@
 import DeleteBtn from './DeleteBtn';
 
-const TableRow = ({ rowObject, backendURL, deleteBtn }) => {
+const TableRow = ({ rowObject, backendURL, deleteBtn, refreshData }) => {
     return (
         <tr>
             {Object.values(rowObject).map((value, index) => (
@@ -8,7 +8,12 @@ const TableRow = ({ rowObject, backendURL, deleteBtn }) => {
             ))}
             
             {
-                deleteBtn && <DeleteBtn rowObject={rowObject} backendURL={backendURL} />
+                deleteBtn && 
+                <DeleteBtn 
+                    rowObject={rowObject} 
+                    backendURL={backendURL} 
+                    refreshData={refreshData}
+                />
             }
         </tr>
     );

@@ -71,6 +71,7 @@ function Matches(props) {
                                     rowObject={match} 
                                     backendURL={backendURL} 
                                     deleteBtn={true}
+                                    refreshData={refreshData}
                                 />
                             )
                         })
