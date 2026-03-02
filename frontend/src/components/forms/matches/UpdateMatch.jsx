@@ -3,7 +3,7 @@ import getInputDatetime from '../../../functions/input_datetime';
 import { faceoff_type_arr, match_status_arr, match_type_arr, set_max_arr } from '../../../ common_variables';
 
 
-function UpdateMatch({ backendURL, locations, matches}) {
+function UpdateMatch({ backendURL, locations, matches, refreshData}) {
     const [selectedMatchId, setSelectedMatchId] = useState('');
     const [faceoffType, setFaceoffType] = useState('standard');
     const [locationId, setLocationId] = useState('');
@@ -91,7 +91,7 @@ function UpdateMatch({ backendURL, locations, matches}) {
 
             if (response.ok) {
                 alert("Match updated successfully!");
-                // window.location.reload();
+                refreshData()
             } else {
                 alert("Failed to update match. Please try again.");
             }

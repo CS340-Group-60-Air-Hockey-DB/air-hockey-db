@@ -110,6 +110,7 @@ function App() {
                             people={people}
                             matches={matches}
                             locations={locations}
+                            refreshData={refreshData}
                         />
                     }
                 />
