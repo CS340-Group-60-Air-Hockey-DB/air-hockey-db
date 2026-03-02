@@ -1,7 +1,14 @@
+import { useEffect } from "react"
+
 
 function Home(props) {
-    const { } = props
+    const { instructionModal, setInstructionModal } = props
     
+    useEffect(() => {
+        if(!instructionModal){
+            setInstructionModal(true)
+        }
+    }, [])
     
     return (
         <>
@@ -91,6 +98,54 @@ function Home(props) {
                     </p>
                 </div>
             </div>
+
+            {/* Step 4 instructions - will take out for step 5 and beyond */}
+            {
+                instructionModal &&
+                    <div id="step4">
+                        <h1>
+                            To Know the Reset Worked
+                        </h1>
+                        <p>
+                            <ol>
+                                <li>
+                                    Go to the Matches page.
+                                </li>
+                                <li>
+                                    To make a change, either:
+                                        <ul>
+                                            <li>
+                                                Update a row with the update form at the bottom of the page.
+                                            </li>
+                                            <li>
+                                                Delete a row.
+                                            </li>
+                                        </ul>
+                                </li>
+                                <li>
+                                        Click on the Reset All Data button in the navigation (top right).
+                                </li>
+                                <li>
+                                    Click the "Yes, Reset the Database" to confirm.
+                                </li>
+                                <li>
+                                    If the reset worked, the original data will be restored and the change(s) you made will be gone.
+                                </li>
+                            </ol>
+                        </p>
+
+                        <div id="reset-data-btns">
+                            <button
+                                onClick={evt => {
+                                    evt.preventDefault() 
+                                    setInstructionModal(false)
+                                }}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+            }
         </>
     )
 } export default Home;
