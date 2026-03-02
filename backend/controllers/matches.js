@@ -68,10 +68,45 @@ const delete_match = async (req, res) => {
     }
 }
 
+const update_match = async (req, res) => {
+    try {
+        const match_id = req.params.id;
+        const { location_id, winner_id, match_status, end_datetime } = req.body;
+
+        // clean up data
+        const safe_location_id = location_id === "" ? null : location_id;
+        const safe_winner_id = winner_id === "" ? null : winner_id;
+
+        let safe_end_datetime = null;
+        if (end_datetime && end_datetime !== "") {
+            safe_end_datetime = end_datetime.replace('T', ' ') + '.00';
+        }
+
+        const query = `
+            UPDATE matches
+            SET location_id = ?,
+                winner_id = ?,
+                match_status = ?,
+                end_datetime = ?
+            WHERE match_id = ?;
+        `
+
+        const values = [safe_location_id, safe_winner_id, match_status, safe_end_datetime, match_id];
+
+        await db.query(query, values);
+
+        res.status(200).send("Match updated successfully");
+
+    } catch (error) {
+        console.error("Error updating match:", error);
+        res.status(500).send("An error occurred while updating the match.");
+    }
+}
 
 module.exports = {
     get_all_matches,
     get_all_match_locations,
     get_all_match_people,
-    delete_match
+    delete_match,
+    update_match
 }

@@ -84,7 +84,7 @@ function Matches(props) {
             
             <hr />
 
-            <UpdateMatch matches={matches} locations={locations} people={people} />
+            <UpdateMatch matches={matches} locations={locations} people={people} backendURL={backendURL} />
 
         </div>
     )
