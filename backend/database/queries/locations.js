@@ -12,7 +12,7 @@ const location_queries = {
         from locations as l
         JOIN people_locations as pl on pl.location_id = l.location_id
         INNER JOIN people as p on p.person_id = pl.person_id
-        WHERE p.person_id = :person_id
+        WHERE p.person_id = ?
         ORDER BY l.location_name;
     `,
     insert_location: `
