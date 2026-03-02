@@ -79,13 +79,6 @@ const update_match = async (req, res) => {
         curr_match = curr_match[0][0]
 
         // clean up data
-        const safe_location_id = location_id === "" ? null : location_id;
-        const safe_winner_id = winner_id === "" ? null : winner_id;
-
-        let safe_end_datetime = null;
-        if (end_datetime && end_datetime !== "") {
-            safe_end_datetime = end_datetime.replace('T', ' ') + '.00';
-        }
         let safe_end_datetime = end_datetime ?
             end_datetime : curr_match.end_datetime
 
