@@ -81,19 +81,8 @@ const update_match = async (req, res) => {
         if (end_datetime && end_datetime !== "") {
             safe_end_datetime = end_datetime.replace('T', ' ') + '.00';
         }
-
-        const query = `
-            UPDATE matches
-            SET location_id = ?,
-                winner_id = ?,
-                match_status = ?,
-                end_datetime = ?
-            WHERE match_id = ?;
-        `
-
-        const values = [safe_location_id, safe_winner_id, match_status, safe_end_datetime, match_id];
-
-        await db.query(query, values);
+        const query = `CALL sp_update_match (?, ?, ?, ?, ?, ?, ?, ?, ?, @rows_affected, @error_message);
+        SELECT @rows_affected, @error_message;`
 
         res.status(200).send("Match updated successfully");
 
