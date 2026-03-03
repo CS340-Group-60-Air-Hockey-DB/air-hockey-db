@@ -37,6 +37,19 @@ BEGIN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Match not found';
         END IF;
 
+        -- Validate enum inputs
+        IF m_match_type IS NOT NULL AND m_match_type NOT IN ('challenge', 'tournament', 'league', 'other') THEN
+            SIGNAL SQLSTATE '42000' SET MESSAGE_TEXT = 'Invalid match_type value. Value must be one of: challenge, tournament, league, other';
+        END IF;
+
+        IF m_match_status IS NOT NULL AND m_match_status NOT IN ('scheduled', 'in_progress', 'completed', 'abandoned') THEN
+            SIGNAL SQLSTATE '42000' SET MESSAGE_TEXT = 'Invalid match_status value. Value must be one of: scheduled, in_progress, completed, abandoned';
+        END IF;
+
+        IF m_faceoff_type IS NOT NULL AND m_faceoff_type NOT IN ('standard', 'puck flip') THEN
+            SIGNAL SQLSTATE '42000' SET MESSAGE_TEXT = 'Invalid faceoff_type value. Value must be one of: standard, puck_flip';
+        END IF;
+
         UPDATE matches
         SET
         -- Not nullable fields; will result the current data as the default value

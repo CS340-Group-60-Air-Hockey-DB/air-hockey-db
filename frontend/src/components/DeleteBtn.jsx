@@ -1,4 +1,4 @@
-const DeleteBtn = ({ rowObject, backendURL }) => {
+const DeleteBtn = ({ rowObject, backendURL, refreshData }) => {
 
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -21,7 +21,7 @@ const DeleteBtn = ({ rowObject, backendURL }) => {
 
             if (response.ok) {
                 alert("Deleted successfully!");
-                window.location.reload();
+                refreshData()
             } else {
                 const error = await response.json();
                 console.log('Page URL:', currentPath, '\n\nError Deleting a Row:', error)

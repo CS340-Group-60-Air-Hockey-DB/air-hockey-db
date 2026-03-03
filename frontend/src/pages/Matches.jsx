@@ -14,7 +14,7 @@ const header_map = {
 
 
 function Matches(props) {
-    const { backendURL, locale, locations, matches, people } = props
+    const { backendURL, locale, locations, matches, refreshData } = props
 
     const headers = useMemo(() => {
         if (!matches?.length) return []
@@ -71,6 +71,7 @@ function Matches(props) {
                                     rowObject={match} 
                                     backendURL={backendURL} 
                                     deleteBtn={true}
+                                    refreshData={refreshData}
                                 />
                             )
                         })
@@ -84,7 +85,12 @@ function Matches(props) {
             
             <hr />
 
-            <UpdateMatch matches={matches} locations={locations} people={people} />
+            <UpdateMatch 
+                backendURL={backendURL} 
+                locations={locations} 
+                matches={matches} 
+                refreshData={refreshData}
+            />
 
         </div>
     )
