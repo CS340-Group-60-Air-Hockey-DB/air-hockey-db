@@ -33,9 +33,12 @@ const backend_url = import.meta.env.VITE_BACKEND_URL || 'http://classwork.engr.o
 const backendURL = `${backend_url}:${backendPort}`;
 
 function App() {
-  const userLocale = navigator.language
+    const userLocale = navigator.language
 
     // React Global App States
+    // Step 4 instructions - will take out for step 5 and beyond
+    const [instructionModal, setInstructionModal] = useState(false)
+
     // Table States
     const [games, setGames] = useState([])
     const [locations, setLocations] = useState([]);
@@ -77,6 +80,8 @@ function App() {
                     element={
                         <Home  
                             locale={userLocale} 
+                            instructionModal={instructionModal}
+                            setInstructionModal={setInstructionModal}
                         />
                     } 
                 />
