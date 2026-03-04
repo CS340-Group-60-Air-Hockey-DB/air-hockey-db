@@ -24,5 +24,18 @@ th {background-color: var(--dark-blue)}
 tr:nth-child(even) {background-color: var(--dark-blue);}
 tr:nth-child(odd) {background-color: var(--light-blue);}
 .cuForm { margin-left: 32px;}
-input, select { margin-bottom: 4px;margin-right: 12px;}
+input, select { 
+    margin-bottom: 4px;
+    margin-right: 12px;
+    background-color: var(--silver);
+}
 a {margin-left: 16px;}
+
+/* ------ Page Styling ------ */
+#page-styles {
+    max-width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-self: center;
+    justify-content: center;
+}

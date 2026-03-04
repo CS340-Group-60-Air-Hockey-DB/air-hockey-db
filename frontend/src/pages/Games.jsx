@@ -45,7 +45,7 @@ function Games(props) {
 
 
     return (
-        <div className="page-container">
+        <div id='page-styles'>
             <div>
                 <h1>
                     Games

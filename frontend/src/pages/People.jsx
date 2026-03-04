@@ -41,7 +41,7 @@ function People(props) {
     
 
     return (
-        <div>
+        <div id='page-styles'>
             <div>
                 <h1>Community</h1>
 
