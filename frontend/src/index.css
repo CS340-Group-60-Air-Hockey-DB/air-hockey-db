@@ -5,14 +5,24 @@ body {
     background-color: var(--background-blue);
 }
 h1, h2 { margin-left: 16px;}
-table {border-collapse: collapse;margin-left: 32px;}
+
+/* ----- Tables ------ */
+table{
+    justify-self: center;
+    width: 100%;
+    border: 5px solid var(--silver);
+    color: white;
+    border-collapse: collapse;
+}
+
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid black;
     padding: 12px;
     text-align: center;
 }
-th {background-color: #f2f2f2;}
-tr:nth-child(even) {background-color: #f9f9f9;}
+th {background-color: var(--dark-blue)}
+tr:nth-child(even) {background-color: var(--dark-blue);}
+tr:nth-child(odd) {background-color: var(--light-blue);}
 .cuForm { margin-left: 32px;}
 input, select { margin-bottom: 4px;margin-right: 12px;}
 a {margin-left: 16px;}

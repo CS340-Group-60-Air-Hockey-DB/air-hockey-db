@@ -210,11 +210,6 @@ nav .highlight {
   box-sizing: border-box;
 }
 
-/* ----- Tables ------ */
-table{
-  justify-self: center;
-}
-
 /* ------ Forms ------ */
 form {
   display: flex;
