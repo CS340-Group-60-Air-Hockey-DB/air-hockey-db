@@ -20,7 +20,10 @@ th, td {
     padding: 12px;
     text-align: center;
 }
-th {background-color: var(--dark-blue)}
+th {
+    background-color: var(--dark-blue);
+    border-bottom: 5px solid var(--silver); 
+}
 tr:nth-child(even) {background-color: var(--dark-blue);}
 tr:nth-child(odd) {background-color: var(--light-blue);}
 .cuForm { margin-left: 32px;}
