@@ -169,7 +169,7 @@ nav .highlight {
 
 /* ----- Home Page ----- */
 #home-description{
-  border: 10px solid #b4a7d6;
+  border: 10px solid var(--light-purple);
   padding: 10px 30px;
   margin-bottom: 100px;
   width: 70%;
@@ -181,7 +181,7 @@ nav .highlight {
 }
 
 #page-descriptions{
-  border: 10px solid #b4a7d6;
+  border: 10px solid var(--light-purple);
   padding: 20px 30px;
   width: 70%;
   display: flex;
