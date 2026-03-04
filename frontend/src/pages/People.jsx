@@ -75,6 +75,16 @@ function People(props) {
                 </tbody>
             </table>
             
+            <div id='btn-row'>
+                <button
+                    id='add-person'
+                    className='add-btn'
+                    onClick={() => setAddModal(true)}
+                >
+                    Add Person
+                </button>
+            </div>
+
             <CreatePersonForm backendURL={backendURL} />
             <UpdatePersonForm people={people} backendURL={backendURL} />               
         </div>
