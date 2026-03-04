@@ -87,14 +87,11 @@ function People(props) {
                 </button>
             </div>
 
-            <CreatePersonForm backendURL={backendURL} />
             <UpdatePersonForm people={people} backendURL={backendURL} />     
 
             {
                 addModal && 
-                    <div>
-                        
-                    </div>
+                    <CreatePersonForm backendURL={backendURL} />
             }          
         </div>
     );
