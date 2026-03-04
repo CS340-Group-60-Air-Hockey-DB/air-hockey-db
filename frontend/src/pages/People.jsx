@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import TableRow from '../components/TableRow';
 import CreatePersonForm from '../components/forms/people/CreatePersonForm';
 import UpdatePersonForm from '../components/forms/people/UpdatePersonForm';
@@ -13,6 +13,8 @@ const header_map = {
 
 function People(props) {
     const { backendURL, locale, people } = props
+
+    const [addModal, setAddModal] = useState(false)
     
         // Memoize headers + rows
         // Will only recalculate if the people table in the backend changes
@@ -86,7 +88,14 @@ function People(props) {
             </div>
 
             <CreatePersonForm backendURL={backendURL} />
-            <UpdatePersonForm people={people} backendURL={backendURL} />               
+            <UpdatePersonForm people={people} backendURL={backendURL} />     
+
+            {
+                addModal && 
+                    <div>
+                        
+                    </div>
+            }          
         </div>
     );
 
