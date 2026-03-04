@@ -3,8 +3,14 @@
     --red: #C2141D;
     --yellow: #FFD933;
     --baby-blue: #437BBF;
+    --light-purple: #b4a7d6;
+    --dark-blue: #335695;
+    --background-blue: #131f35;
+    --light-blue: #1499EB;
+    --light-purple: #b4a7d6;
     --lime-green: #dfffae;
     --lime-green-border: #58B827;
+    --silver: #EEEFEA;
 }
 
 #root {
