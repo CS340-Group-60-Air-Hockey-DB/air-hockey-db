@@ -46,6 +46,10 @@ const CreatePersonForm = ({ backendURL }) => {
     return (
         <div className="modals">
             <div id="modal-header">
+                <button id="modal-cancel">
+                    X
+                </button>
+
                 <h2>
                     Add New Person
                 </h2>
