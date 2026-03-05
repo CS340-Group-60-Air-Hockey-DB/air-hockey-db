@@ -41,6 +41,13 @@ function People(props) {
             });
         }, [people, locale])
     
+        // On key down "esc", close modal
+        window.addEventListener('keydown', (evt) => {
+            if(evt.key === 'Escape'){
+                setAddModal(false)
+            }
+        })
+
 
     return (
         <div id='page-styles'>
@@ -91,7 +98,11 @@ function People(props) {
 
             {
                 addModal && 
-                    <CreatePersonForm backendURL={backendURL} />
+                    <CreatePersonForm 
+                        backendURL={backendURL}
+                        setAddModal={setAddModal}
+                    />
+
             }          
         </div>
     );
