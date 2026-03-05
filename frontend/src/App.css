@@ -245,15 +245,28 @@ footer{
 .modals button {
   display: flex;
   background: white;
-  border: 4px solid var(--lime-green-border);
-  border-radius: 30px;
+  border: 4px solid var(--red);
+  border-radius: 100%;
+  aspect-ratio: 1 / 1;
   padding: 10px;
   cursor: pointer;
   font-size: 15px;
+  align-items: center;
 }
 
 .modals button:hover {
-  background: var(--lime-green);
+    text-decoration: none;
+    background-color: var(--lime-green);
+    border-color: var(--lime-green-border);
+}
+.modals button .highlight {
+    text-decoration: none;
+    background-color: var(--yellow);
+    border: 5px solid var(--lime-green-border);
+    box-shadow:  none;
+}
+.modals button:hover {
+    box-shadow: 5px 5px rgba(0,0,0,0.3);
 }
 
 #modal-btn-row {
