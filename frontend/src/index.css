@@ -29,6 +29,8 @@ tr:nth-child(odd) {background-color: var(--light-blue);}
 .cuForm { 
     margin: 20px;
 }
+
+/* ------ Form Inputs ------ */
 input, select { 
     margin-bottom: 4px;
     margin-right: 12px;
