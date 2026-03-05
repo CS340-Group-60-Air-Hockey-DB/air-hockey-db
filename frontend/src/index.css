@@ -26,7 +26,9 @@ th {
 }
 tr:nth-child(even) {background-color: var(--dark-blue);}
 tr:nth-child(odd) {background-color: var(--light-blue);}
-.cuForm { margin-left: 32px;}
+.cuForm { 
+    margin: 20px;
+}
 input, select { 
     margin-bottom: 4px;
     margin-right: 12px;
