@@ -6,6 +6,11 @@ body {
 }
 h1, h2 { margin-left: 16px;}
 
+/* ------ All Buttons ------ */
+button {
+    cursor: pointer;
+}
+
 /* ----- Tables ------ */
 table{
     justify-self: center;
@@ -40,7 +45,8 @@ a {margin-left: 16px;}
 
 /* ------ Page Styling ------ */
 #page-styles {
-    max-width: 90%;
+    max-width: 100%;
+    padding: 0 100px;
     display: flex;
     flex-wrap: wrap;
     justify-self: center;
