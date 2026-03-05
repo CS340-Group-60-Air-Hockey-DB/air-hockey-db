@@ -1,5 +1,48 @@
 const CreatePersonForm = ({ backendURL }) => {
 
+    // Needed because the form's automatic form validation + scrolling, does not show the use the input field that is invalid due to the header being sticky
+    const handleBlankInput = () => {
+        // Scroll to the first required blank input
+        const form = document.getElementById('add-person-form')
+        const firstInvalidInput = form.querySelector(':invalid')
+
+        if(firstInvalidInput){
+            const modal = document.querySelector('.modals')
+            const header = document.getElementById('modal-header');
+            const headerHeight = header ? header.offsetHeight : 0;
+            const elementTop = firstInvalidInput.getBoundingClientRect().top 
+                         + modal.scrollTop 
+                         - modal.getBoundingClientRect().top
+
+            window.scrollTo({
+                top: elementTop - headerHeight - 16,
+                behavior: 'smooth'
+            })
+
+            firstInvalidInput.focus()
+
+            // Wait for the scrolling to the required input field finishes
+            // Then show the validation tooltip
+            setTimeout(() => {
+                firstInvalidInput.reportValidity();
+            }, 0)
+            return true
+        }
+
+        return false
+    }
+
+    const handleSubmit = (evt) => {
+        evt.preventDefault()
+
+        // Calls the function + handles if the function returns true (an invalid input)
+        if(handleBlankInput()){
+            return
+        }
+
+        
+    }
+
     return (
         <div className="modals">
             <div id="modal-header">
@@ -11,9 +54,14 @@ const CreatePersonForm = ({ backendURL }) => {
                     Fill in the details below. Any field with <span className="asterisk">*</span> are required.
                 </p>
             </div>
-            
 
-            <form className='cuForm'>
+            <form 
+                id="add-person-form"
+                className='cuForm'
+                onSubmit={handleSubmit}
+                // Disable the forms auto validation for scrolling in the handleSubmit function above
+                noValidate
+            >
                 {/* Personal Info */}
                 <div className="section">
                     <p className="section-label">
@@ -177,7 +225,9 @@ const CreatePersonForm = ({ backendURL }) => {
                 </div>
             
                 <div id="modal-btn-row">
-                    <button type="submit" value="Add Person">
+                    <button 
+                        type="submit"
+                    >
                         Add Person
                     </button>
                 </div>
