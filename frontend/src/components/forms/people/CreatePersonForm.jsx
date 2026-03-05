@@ -40,7 +40,7 @@ const CreatePersonForm = ({ backendURL }) => {
             return
         }
 
-        
+
     }
 
     return (
@@ -51,7 +51,10 @@ const CreatePersonForm = ({ backendURL }) => {
                 </h2>
 
                 <p>
-                    Fill in the details below. Any field with <span className="asterisk">*</span> are required.
+                    Fill in the details below by scrolling to add a new person to the community. 
+                </p>
+                <p>
+                    Any fields with <span className="asterisk">*</span> are required.
                 </p>
             </div>
 
