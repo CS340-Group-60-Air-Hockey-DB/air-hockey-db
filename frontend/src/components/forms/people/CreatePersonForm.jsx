@@ -1,4 +1,6 @@
 import { useState } from "react";
+import addPerson from "../../../fetch_funcs/people/addPerson";
+
 const CreatePersonForm = (props) => {
     const { backendURL, setAddModal } = props
 
@@ -78,7 +80,16 @@ const CreatePersonForm = (props) => {
             return
         }
 
+        let person_res = await addPerson(backendURL, personData)
 
+        if(person_res.status === 201){
+            alert(`${personData.first_name} ${personData.last_name} was added to the database.`)
+            setPersonData({})
+            setAddModal(false)
+        }
+        else{
+            alert('Person was not able to be added to the database. Please try again or contact the administrator.')
+        }
     }
 
     return (
