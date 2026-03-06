@@ -1,5 +1,8 @@
+import { useState } from "react";
 const CreatePersonForm = (props) => {
     const { backendURL, setAddModal } = props
+
+    const [personData, setPersonData] = useState({})
 
     // Needed because the form's automatic form validation + scrolling, does not show the use the input field that is invalid due to the header being sticky
     const handleBlankInput = () => {
@@ -33,7 +36,41 @@ const CreatePersonForm = (props) => {
         return false
     }
 
-    const handleSubmit = (evt) => {
+    const handleInputOnChange = (evt) => {
+        evt.preventDefault()
+        const { name, value } = evt.target
+
+        if(name === 'phone_num'){
+            switch(value.length){
+                case 3:
+                     setPersonData({
+                        ...personData,
+                        [name]: value + "-"
+                    })
+                    break;
+                case 7:
+                     setPersonData({
+                        ...personData,
+                        [name]: value + "-"
+                    })
+                    break;
+                default: 
+                     setPersonData({
+                        ...personData,
+                        [name]: value
+                    })
+                    break;
+            }
+        }
+        else{
+            setPersonData({
+                ...personData,
+                [name]: value
+            })
+        }
+    }
+
+    const handleSubmit = async (evt) => {
         evt.preventDefault()
 
         // Calls the function + handles if the function returns true (an invalid input)
@@ -96,6 +133,8 @@ const CreatePersonForm = (props) => {
                                     id="first_name"
                                     required
                                     autoFocus
+                                    value={personData.first_name ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
 
@@ -106,6 +145,8 @@ const CreatePersonForm = (props) => {
                                     name="last_name"
                                     id="last_name"
                                     required
+                                    value={personData.last_name ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
                         </div>
@@ -115,11 +156,14 @@ const CreatePersonForm = (props) => {
                                 <select
                                     name="gender"
                                     id="gender"
+                                    value={personData.gender ?? ''}
+                                    onChange={handleInputOnChange}
                                 >
-                                    <option value="prefer not to say">Prefer not to say</option>
+                                    <option value=''> Select a Gender </option>
                                     <option value="female">Female</option>
                                     <option value="male">Male</option>
                                     <option value="other">Other</option>
+                                    <option value="prefer not to say">Prefer not to say</option>
                                 </select>
                             </label>
 
@@ -129,6 +173,8 @@ const CreatePersonForm = (props) => {
                                     name="dob"
                                     id="dob"
                                     required
+                                    value={personData.dob ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
                         </div>
@@ -147,15 +193,22 @@ const CreatePersonForm = (props) => {
                                     type="email"
                                     name="email"
                                     id="email"
+                                    value={personData.email ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
 
-                            <label htmlFor="phone_num">Phone
+                            <label htmlFor="phone_num">Phone Number (ex: 123-456-7890)
                                 <input
-                                    placeholder="(xxx) xxx - xxxx"
+                                    placeholder="xxx-xxx-xxxx"
+                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+                                    minLength="10" 
+                                    maxLength="12"
                                     type="tel"
                                     name="phone_num"
                                     id="phone_num"
+                                    value={personData.phone_num ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
                         </div>
@@ -179,6 +232,8 @@ const CreatePersonForm = (props) => {
                                     type="text"
                                     name="street_address_1"
                                     id="street_address_1"
+                                    value={personData.street_address_1 ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
                         </div>
@@ -196,6 +251,8 @@ const CreatePersonForm = (props) => {
                                     type="text"
                                     name="street_address_2"
                                     id="street_address_2"
+                                    value={personData.street_address_2 ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
                         </div>
@@ -207,6 +264,8 @@ const CreatePersonForm = (props) => {
                                     type="text"
                                     name="city"
                                     id="city"
+                                    value={personData.city ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
 
@@ -216,6 +275,8 @@ const CreatePersonForm = (props) => {
                                     type="text"
                                     name="state"
                                     id="state"
+                                    value={personData.state ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
                         </div>
@@ -227,8 +288,9 @@ const CreatePersonForm = (props) => {
                                     type="text"
                                     name="country"
                                     id="country"
-                                    defaultValue="USA"
                                     required
+                                    value={personData.country ?? 'USA'}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
 
@@ -238,6 +300,8 @@ const CreatePersonForm = (props) => {
                                     type="text"
                                     name="zip_code"
                                     id="zip_code"
+                                    value={personData.zip_code ?? ''}
+                                    onChange={handleInputOnChange}
                                 />
                             </label>
                         </div>
