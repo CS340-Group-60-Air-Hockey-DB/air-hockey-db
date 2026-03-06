@@ -33,10 +33,10 @@ BEGIN
     -- Validate Input
     -- Names
         If p_first_name IS NULL OR TRIM(p_first_name) = '' THEN
-            SIGNAL SQLSTATE '42000' SET MESSAGE_TEXT = 'First name must be provided.';
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'First name must be provided.';
         END IF;
         IF p_last_name IS NULL OR TRIM(p_last_name) = '' THEN
-            SIGNAL SQLSTATE '42000' SET MESSAGE_TEXT = 'Last name must be provided.';
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Last name must be provided.';
         END IF;
     -- Email must contain @ and a dot after it
         IF p_email IS NOT NULL AND p_email NOT REGEXP '^[^@]+@[^@]+\.[^@]+$' THEN
