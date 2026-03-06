@@ -180,10 +180,66 @@ const update_match = async (req, res) => {
     }
 }
 
+const create_match = async (req, res) => {
+    try {
+        const { 
+            location_id, 
+            winner_id,
+            set_max,
+            faceoff_type,
+            start_datetime,
+            end_datetime,
+            match_type,
+            match_status,
+            note
+        } = req.body;
+
+        const safe_winner_id = winner_id === "" ? null : winner_id;
+        const safe_end_datetime = end_datetime === "" ? null : end_datetime;
+        const safe_note = note === "" ? null : note;
+
+        const query = `
+            INSERT INTO matches (
+                location_id,
+                winner_id,
+                set_max,
+                faceoff_type,
+                start_datetime,
+                end_datetime,
+                match_type,
+                match_status,
+                note
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+        `;
+
+        const values = [
+            location_id,
+            safe_winner_id,
+            set_max,
+            faceoff_type,
+            start_datetime,
+            safe_end_datetime,
+            match_type,
+            match_status,
+            safe_note
+        ];
+
+        const [result] = await db.query(query, values);
+        
+        res.status(201).json({ message: "Match created successfully!", id: result.insertId});
+    
+    } catch (error) {
+        console.error("Error creating match:", error);
+        res.status(500).json({ error: "Failed to create match" });
+    }
+};
+
 module.exports = {
     get_all_matches,
     get_all_match_locations,
     get_all_match_people,
     delete_match,
-    update_match
+    update_match,
+    create_match
 }
