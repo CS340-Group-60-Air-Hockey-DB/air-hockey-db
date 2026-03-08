@@ -24,7 +24,7 @@ function AddMatch({ backendURL, locations, people, onAdd }) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${backendURL}/api/matches`, {
+            const response = await fetch(`${backendURL}/matches`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
