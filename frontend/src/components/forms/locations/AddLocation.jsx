@@ -27,7 +27,7 @@ function AddLocation({ backendURL, onAdd }) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${backendURL}/api/locations`, {
+            const response = await fetch(`${backendURL}/locations`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -64,7 +64,7 @@ function UpdateLocation({ backendURL, locations, refreshData }) {
         }
 
         try {
-            const response = await fetch(`${backendURL}/api/locations/${selectedLocationId}`, {
+            const response = await fetch(`${backendURL}/locations/${selectedLocationId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
