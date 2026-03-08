@@ -74,7 +74,7 @@ function Locations(props) {
             
             <hr />
 
-            <UpdateLocation locations={locations} people={people} />
+            <UpdateLocation backendURL={backendURL} locations={locations} refreshData={refreshData} />
 
         </div>
     )
