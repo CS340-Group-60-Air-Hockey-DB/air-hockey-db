@@ -70,7 +70,7 @@ function Locations(props) {
             
             <hr />
 
-            <AddLocation onAdd={refreshData} />
+            <AddLocation backendURL={backendURL} onAdd={refreshData} />
             
             <hr />
 

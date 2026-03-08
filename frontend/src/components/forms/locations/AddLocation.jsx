@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function AddLocation({ onAdd }) {
+function AddLocation({ backendURL, onAdd }) {
     const [formData, setFormData] = useState({
         location_name: '',
         table_qty: '',
@@ -27,7 +27,7 @@ function AddLocation({ onAdd }) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_PORT_BACKEND}/api/locations`, {
+            const response = await fetch(`${backendURL}/api/locations`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
