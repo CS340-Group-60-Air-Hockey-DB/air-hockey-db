@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function AddMatch({ locations, people, onAdd }) {
+function AddMatch({ backendURL, locations, people, onAdd }) {
     const [formData, setFormData] = useState({
         location_id: '',
         winner_id: '',
@@ -24,7 +24,7 @@ function AddMatch({ locations, people, onAdd }) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_PORT_BACKEND}/api/matches`, {
+            const response = await fetch(`${backendURL}/api/matches`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
