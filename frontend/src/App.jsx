@@ -103,6 +103,7 @@ function App() {
                             locale={userLocale} 
                             people={people}
                             locations={locations}
+                            refreshData={refreshData}
                         />
                     } 
                 />

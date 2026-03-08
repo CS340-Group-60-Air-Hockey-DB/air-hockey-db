@@ -13,7 +13,7 @@ const header_map = {
 
 // This will include the person's first + last name of who owns the location (as the owner)
 function Locations(props) {
-    const { backendURL, locations, people,  } = props
+    const { backendURL, locations, people, refreshData } = props
         
     // Memoize headers + rows
     // Will only recalculate if the locations table in the backend changes
@@ -70,7 +70,7 @@ function Locations(props) {
             
             <hr />
 
-            <AddLocation />
+            <AddLocation onAdd={refreshData} />
             
             <hr />
 
