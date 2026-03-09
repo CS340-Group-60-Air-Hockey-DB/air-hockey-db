@@ -10,7 +10,7 @@ const header_map = {
 
 
 function PlayerMatches(props) {
-    const { backendURL, matches, people, playerMatches } = props
+    const { backendURL, matches, people, playerMatches, refreshData } = props
 
         
     const headers = useMemo(() => {
@@ -55,7 +55,7 @@ function PlayerMatches(props) {
                 <tbody>
                     {
                         rows.map((pm, idx) => {
-                            return <TableRow key={idx} rowObject={pm} backendURL={backendURL} deleteBtn={true} />
+                            return <TableRow key={idx} rowObject={pm} backendURL={backendURL} deleteBtn={true} refreshData={refreshData} />
                         }
                     )}
                 </tbody>
@@ -63,7 +63,7 @@ function PlayerMatches(props) {
 
             <hr />
 
-            <AddPlayerToMatch matches={matches} people={people} />
+            <AddPlayerToMatch backendURL={backendURL} matches={matches} people={people} onAdd={refreshData} />
             
         </div>
     )
