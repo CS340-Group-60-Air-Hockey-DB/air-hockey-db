@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function UpdateLocation({ backendURL, locations, refreshData }) {   
+function UpdateLocation({ backendURL, locations, peopleList, refreshData }) {   
     const [selectedLocationId, setSelectedLocationId] = useState('');
 
     const [formData, setFormData] = useState({
@@ -15,7 +15,8 @@ function UpdateLocation({ backendURL, locations, refreshData }) {
         country: '',
         zip_code: '',
         type_of_address: '',
-        notes: ''
+        notes: '',
+        person_id: ''
     });
 
     // autofill form if new location is selected from dropdown
@@ -36,14 +37,16 @@ function UpdateLocation({ backendURL, locations, refreshData }) {
                     country: loc.country || '',
                     zip_code: loc.zip_code || '',
                     type_of_address: loc.type_of_address || '',
-                    notes: loc.notes || ''
+                    notes: loc.notes || '',
+                    person_id: loc.person_id || ''
                 });
             }
         } else {
             setFormData({
                 location_name: '', table_qty: '', email: '', phone_num: '',
                 street_address_1: '', street_address_2: '', city: '', state: '',
-                country: '', zip_code: '', type_of_address: '', notes: ''
+                country: '', zip_code: '', type_of_address: '', notes: '',
+                person_id: ''
             });
         }
     }, [selectedLocationId, locations]);
@@ -127,6 +130,15 @@ function UpdateLocation({ backendURL, locations, refreshData }) {
                 <option value="other">Other</option>
             </select>
             
+            <select name="person_id" value={formData.person_id} onChange={handleChange}>
+                <option value="">Select an Owner</option>
+                {peopleList && peopleList.map(person => (
+                    <option key={person.person_id} value={person.person_id}>
+                        {person.first_name} {person.last_name}
+                    </option>
+                ))}
+            </select>
+
             <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Notes (Optional)" maxLength="10000" />
 
             <button type="submit">Update Location</button>
