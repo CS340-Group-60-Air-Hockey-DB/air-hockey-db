@@ -12,7 +12,7 @@ const header_map = {
 
 
 function People(props) {
-    const { backendURL, locale, people } = props
+    const { backendURL, locale, people, refreshData } = props
 
     const [addModal, setAddModal] = useState(false)
     
@@ -100,6 +100,7 @@ function People(props) {
                 addModal && 
                     <CreatePersonForm 
                         backendURL={backendURL}
+                        refreshData={refreshData}
                         setAddModal={setAddModal}
                     />
 

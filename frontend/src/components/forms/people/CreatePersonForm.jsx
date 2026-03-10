@@ -2,7 +2,7 @@ import { useState } from "react";
 import addPerson from "../../../fetch_funcs/people/addPerson";
 
 const CreatePersonForm = (props) => {
-    const { backendURL, setAddModal } = props
+    const { backendURL, refreshData, setAddModal } = props
 
     const [personData, setPersonData] = useState({})
 
@@ -86,9 +86,10 @@ const CreatePersonForm = (props) => {
             alert(`${personData.first_name} ${personData.last_name} was added to the database.`)
             setPersonData({})
             setAddModal(false)
+            refreshData()
         }
         else{
-            alert('Person was not able to be added to the database. Please try again or contact the administrator.')
+            alert(`Person was not able to be added to the database:\n${person_res.error} \n\nPlease try again or contact the administrator.`)
         }
     }
 

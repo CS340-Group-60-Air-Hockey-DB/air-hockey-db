@@ -92,6 +92,7 @@ function App() {
                             backendURL={backendURL}  
                             locale={userLocale} 
                             people={people}
+                            refreshData={refreshData}
                         />
                 } 
                 />
