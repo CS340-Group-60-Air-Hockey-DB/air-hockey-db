@@ -13,15 +13,21 @@ button {
 
 /* ----- Tables ------ */
 table{
+    display: block;
     justify-self: center;
-    width: 100%;
+    max-width: 90%;
+    max-height: 500px;
+    overflow-y: scroll;
     border: 5px solid var(--silver);
     color: white;
-    border-collapse: collapse;
+    border-collapse: separate;
 }
 
+thead th{
+    position: sticky;
+    top: 0px;
+}
 th, td {
-    border: 1px solid black;
     padding: 12px;
     text-align: center;
 }
