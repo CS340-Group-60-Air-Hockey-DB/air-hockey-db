@@ -36,7 +36,7 @@ const add_person = async (req, res) => {
         }
 
         return res.status(500).send({
-            message: "An error occurred while adding the match.",
+            message: "An error occurred while adding the person.",
             error
         });
     }
