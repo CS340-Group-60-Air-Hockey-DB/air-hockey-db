@@ -3,12 +3,25 @@ import { useState } from 'react';
 const UpdatePersonForm = (props) => {
     const { backendURL, people, refreshData, setUpdateModal } = props
 
-    const [selectedPerson, setSelectedPerson] = useState('');
-    const updatePerson = people.find(p => p.person_id === parseInt(selectedPerson));
+    const [updatePerson, setUpdatePerson] = useState({});
+
+    const handleSelectPerson = evt => {
+        let person_id = parseInt(evt.target.value)
+        let person = people.find(p => p.person_id === person_id)
+
+        if(person){
+            person = person.dob ? 
+                { ...person, dob: person.dob.split('T')[0]}
+                : person
+        }
+        setUpdatePerson(person)
+    }
+
 
     const handleInputOnChange = () => {
 
     }
+    
     
     const handleSubmit = () => {
 
@@ -67,14 +80,14 @@ const UpdatePersonForm = (props) => {
                                 name="update_person_id"
                                 id="update_person_id"
                                 required
-                                value={selectedPerson}
-                                onChange={(e) => setSelectedPerson(e.target.value)}
+                                value={updatePerson?.person_id}
+                                onChange={handleSelectPerson}
                             >
                                 <option value="">
                                     Select a Person
                                 </option>
                                 {
-                                    people.map((person) => (
+                                    people?.map((person) => (
                                         <option 
                                             key={person.person_id} 
                                             value={person.person_id}
@@ -88,7 +101,7 @@ const UpdatePersonForm = (props) => {
                     </div>
                     
                 {
-                    selectedPerson && 
+                    Object.keys(updatePerson).length > 0 && 
                     <>
                         {/* Personal Info */}
                         <div className="section">
