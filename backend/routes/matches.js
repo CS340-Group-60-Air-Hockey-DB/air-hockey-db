@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const matchesController = require('../controllers/matches');
 
 const { 
     get_all_matches, 
     get_all_match_locations, 
     get_all_match_people,
     delete_match,
-    update_match
+    update_match,
+    create_match
  } = require("../controllers/matches")
 
 
@@ -17,7 +17,7 @@ router
     .get('/players', get_all_match_people)
     .delete('/:id', delete_match)
     .put('/:id', update_match)
-    .post('/', matchesController.create_match);
+    .post('/', create_match);
 
 
 module.exports = router

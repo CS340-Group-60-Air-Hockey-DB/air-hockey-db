@@ -49,7 +49,7 @@ function AddMatch({ backendURL, locations, people, onAdd }) {
             }
         } catch (error) {
             console.error("Failed to fetch:", error);
-            alert("Network error.")
+            alert("The match was unable to be created. Please try again or contact the administrator.")
         }
     };
 
