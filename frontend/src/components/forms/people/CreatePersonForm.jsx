@@ -42,6 +42,7 @@ const CreatePersonForm = (props) => {
         evt.preventDefault()
         const { name, value } = evt.target
 
+        // Automatically changes the phone number to the format: xxx-xxx-xxxx when typed in
         if(name === 'phone_num'){
             switch(value.length){
                 case 3:
