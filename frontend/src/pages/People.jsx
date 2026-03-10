@@ -94,7 +94,11 @@ function People(props) {
                 </button>
             </div>
 
-            <UpdatePersonForm people={people} backendURL={backendURL} />     
+            <UpdatePersonForm 
+                backendURL={backendURL}
+                people={people}
+                refreshData={refreshData}
+            />
 
             {
                 addModal && 

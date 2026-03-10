@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-const UpdatePersonForm = ({ people, backendURL }) => {
+const UpdatePersonForm = (props) => {
+    const { backendURL }) => {
 
     const [selectedPerson, setSelectedPerson] = useState('');
     const personToUpdate = people.find(p => p.person_id === parseInt(selectedPerson));
