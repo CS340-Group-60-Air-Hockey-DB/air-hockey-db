@@ -15,6 +15,8 @@ function People(props) {
     const { backendURL, locale, people, refreshData } = props
 
     const [addModal, setAddModal] = useState(false)
+    const [updateModal, setUpdateModal] = useState(false)
+
     
         // Memoize headers + rows
         // Will only recalculate if the people table in the backend changes
@@ -87,18 +89,20 @@ function People(props) {
             <div id='btn-row'>
                 <button
                     id='add-person'
-                    className='add-btn'
+                    className='default-btn'
                     onClick={() => setAddModal(true)}
                 >
                     Add Person
                 </button>
-            </div>
 
-            <UpdatePersonForm 
-                backendURL={backendURL}
-                people={people}
-                refreshData={refreshData}
-            />
+                <button
+                    id='update-person'
+                    className='default-btn'
+                    onClick={() => setUpdateModal(true)}
+                >
+                    Update Person
+                </button>
+            </div>
 
             {
                 addModal && 
@@ -108,7 +112,17 @@ function People(props) {
                         setAddModal={setAddModal}
                     />
 
-            }          
+            }     
+
+            {
+                updateModal && 
+                <UpdatePersonForm 
+                    backendURL={backendURL}
+                    people={people}
+                    refreshData={refreshData}
+                    setUpdateModal={setUpdateModal}
+                />
+            }     
         </div>
     );
 
