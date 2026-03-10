@@ -3,8 +3,14 @@
     --red: #C2141D;
     --yellow: #FFD933;
     --baby-blue: #437BBF;
+    --light-purple: #b4a7d6;
+    --dark-blue: #335695;
+    --background-blue: #131f35;
+    --light-blue: #1499EB;
+    --light-purple: #b4a7d6;
     --lime-green: #dfffae;
     --lime-green-border: #58B827;
+    --silver: #EEEFEA;
 }
 
 #root {
@@ -65,6 +71,7 @@ nav a {
     width: 125px;
     height: 125px;
     box-sizing: border-box;
+    color: black;
 }
 nav a:hover {
     text-decoration: none;
@@ -79,48 +86,6 @@ nav .highlight {
 }
 #app-nav a:hover {
     box-shadow: 5px 5px rgba(0,0,0,0.3);
-}
-
-/* ----- Reset Database Popup ----- */
-#reset-database-popup {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 30%;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 5px solid var(--red);
-  background: var(--baby-blue);
-  padding: 10px;
-  place-items: center;
-  color: white;
-}
-
-#reset-database-popup p, 
-#reset-data-btns {
-  display: flex;
-}
-
-#reset-database-popup p {
-  width: 100%;
-  place-content: center;
-  font-size: 20px;
-} 
-
-#reset-data-btns {
-  gap: 20px;
-  place-content: space-around;
-}
-
-#reset-data-btns button {
-  background: white;
-  border: none;
-  border-radius: 30px;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 15px;
 }
 
 /* Step 4 Instruction Modal */
@@ -163,7 +128,7 @@ nav .highlight {
 
 /* ----- Home Page ----- */
 #home-description{
-  border: 10px solid #b4a7d6;
+  border: 10px solid var(--light-purple);
   padding: 10px 30px;
   margin-bottom: 100px;
   width: 70%;
@@ -175,7 +140,7 @@ nav .highlight {
 }
 
 #page-descriptions{
-  border: 10px solid #b4a7d6;
+  border: 10px solid var(--light-purple);
   padding: 20px 30px;
   width: 70%;
   display: flex;
@@ -204,35 +169,203 @@ nav .highlight {
   box-sizing: border-box;
 }
 
-/* ----- Tables ------ */
-table{
-  justify-self: center;
-}
-
-/* ------ Forms ------ */
-form {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 90%;
-  width: max-content;
-  justify-self: center;
-  justify-content: center;
-  align-content: start;
-  align-items: center;
-}
-
-form h2{ 
+/* ------ Footer ------ */
+footer{
+  margin: 100px 0 50px 0;
   width: 100%;
 }
 
-form label {
-  margin: 5px;
-  align-self: center;
+/* ------ Add Buttons ------ */
+#btn-row {
+  display: flex;
+  width: 100%;
+  margin: 50px 0;
+  justify-content: center;
+}
+
+.add-btn {
+  background-color: var(--baby-blue);
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  border: var(--baby-blue);
+}
+
+/* ------ Common Modal Styling (Red Border, Blue Background) ------ */
+.modals {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: fit-content;
+  min-width: 30%;
+  max-width: 50%;
+  max-height: 600px;
+  width: max-content;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 6px solid var(--red);
+  background: var(--baby-blue);
+  color: white;
+  gap: 10px;
+  overflow: scroll;
+}
+
+#backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(2px);
+}
+
+.modals #modal-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--baby-blue);
+  width: 100%;
+  margin-top: -20px;
+  padding: 0 0 20px;
+}
+
+.modals p {
+  width: 100%;
+  place-content: center;
+  font-size: 20px;
+  margin-top: 0;
+  margin-bottom: 0; 
+} 
+
+.modals h1 {
+  width: 100%;
+  font-size: 34px;
+}
+
+.modals ol li {
+  text-align: start;
+  margin: 10px 0;
+}
+
+.modals ol li ul li{
+  margin: 5px 0;
+}
+
+.modals button:not(#modal-cancel) {
+  display: flex;
+  background: white;
+  border: 4px solid var(--red);
+  border-radius: 100%;
+  aspect-ratio: 1 / 1;
+  padding: 10px;
+  font-size: 15px;
+  align-items: center;
+}
+
+.modals button:not(#modal-cancel):hover {
+    text-decoration: none;
+    background-color: var(--lime-green);
+    border-color: var(--lime-green-border);
+}
+.modals button:not(#modal-cancel) .highlight {
+    text-decoration: none;
+    background-color: var(--yellow);
+    border: 5px solid var(--lime-green-border);
+    box-shadow:  none;
+}
+.modals button:not(#modal-cancel):hover {
+    box-shadow: 5px 5px rgba(0,0,0,0.3);
+}
+
+#modal-btn-row {
+  display: flex;
+  gap: 20px;
+  place-content: space-around;
+  margin-bottom: 20px;
+}
+
+.asterisk{
+  color: var(--red);
+}
+
+.modals #modal-header #modal-cancel{
+  text-align: end;
+  font-size: 18px;
+  margin: 20px 20px -20px;
+  display: inherit;
+  justify-self: end;
+  padding: 5px 10px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--silver);
+}
+
+/* --- Reset Modal --- */
+#reset-database-popup {
+  width: 30%;
+  gap: 20px;
+  padding-top: 30px;
+  top: 30%;
+  left: 50%;
+}
+
+#reset-database-popup #modal-btn-row button{
+  text-wrap: wrap;
+  width: 30%;
+}
+
+/* ------ Forms ------ */
+.cuForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  border: 3px solid var(--dark-blue);
+  border-radius: 10px;
+}
+
+.modals .section-label {
+  text-transform: uppercase;
+  font-size: 18px;
+  color: var(--silver);
   font-weight: bold;
 }
 
-form input, form select {
-  margin: 5px;
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+  justify-content: center;
+}
+
+.form-row input, 
+.form-row select {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--silver);
+  border-radius: 30px;
+  font-size: 14px;
+  outline-color: var(--light-blue);
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-row label {
+  display: flex; 
+  flex-wrap: wrap;
+  width: 45%;
+}
+
+.form-row .address-line {
+  width: 92%;
+}
+
+.section {
+  width: 80%;
+  margin: 20px 0;
 }
 
 /* Forms to Add Data */
@@ -247,56 +380,5 @@ form input, form select {
 }
 
 #add-form h2{
-  width: 100%;
-}
-
-#select-only {
-  width: 100%;
-  align-self: start;
-}
-
-#update-form {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 90%;
-  width: max-content;
-  justify-self: center;
-  align-items: center;
-  width: 650px;
-  height: 350px;
-}
-
-#update-form h2{
-  width: 100%;
-}
-
-#form-btn-div {
-  padding-top: 10px;
-  width: 100%;
-}
-
-.note-textbox {
-  display: flex;
-  flex-wrap: wrap;
-  justify-self: start;
-  width: 100%;
-}
-
-.note-textbox textarea {
-  margin-top: 5px;
-}
-
-textarea {
-  max-width: 100%;
-  max-height: 400px;
-  min-height: 20px;
-  min-width: 100px;
-  width: 100%;
-  height: 50px;
-}
-
-/* ------ Footer ------ */
-footer{
-  margin: 100px 0 50px 0;
   width: 100%;
 }

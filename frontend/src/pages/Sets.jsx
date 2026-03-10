@@ -40,7 +40,7 @@ function Sets(props) {
         }, [sets, locale])
 
     return (
-        <div className="page-container">
+        <div id='page-styles'>
             <div>
                 <h1>Sets</h1>
 

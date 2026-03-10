@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import TableRow from '../components/TableRow';
 import CreatePersonForm from '../components/forms/people/CreatePersonForm';
 import UpdatePersonForm from '../components/forms/people/UpdatePersonForm';
@@ -12,7 +12,9 @@ const header_map = {
 
 
 function People(props) {
-    const { backendURL, locale, people } = props
+    const { backendURL, locale, people, refreshData } = props
+
+    const [addModal, setAddModal] = useState(false)
     
         // Memoize headers + rows
         // Will only recalculate if the people table in the backend changes
@@ -39,9 +41,16 @@ function People(props) {
             });
         }, [people, locale])
     
+        // On key down "esc", close modal
+        window.addEventListener('keydown', (evt) => {
+            if(evt.key === 'Escape'){
+                setAddModal(false)
+            }
+        })
+
 
     return (
-        <div>
+        <div id='page-styles'>
             <div>
                 <h1>Community</h1>
 
@@ -75,8 +84,27 @@ function People(props) {
                 </tbody>
             </table>
             
-            <CreatePersonForm backendURL={backendURL} />
-            <UpdatePersonForm people={people} backendURL={backendURL} />               
+            <div id='btn-row'>
+                <button
+                    id='add-person'
+                    className='add-btn'
+                    onClick={() => setAddModal(true)}
+                >
+                    Add Person
+                </button>
+            </div>
+
+            <UpdatePersonForm people={people} backendURL={backendURL} />     
+
+            {
+                addModal && 
+                    <CreatePersonForm 
+                        backendURL={backendURL}
+                        refreshData={refreshData}
+                        setAddModal={setAddModal}
+                    />
+
+            }          
         </div>
     );
 

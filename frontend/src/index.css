@@ -1,16 +1,60 @@
 body {
     width: 100%;
     margin: 0;
+    color: var(--silver);
+    background-color: var(--background-blue);
 }
 h1, h2 { margin-left: 16px;}
-table {border-collapse: collapse;margin-left: 32px;}
+
+/* ------ All Buttons ------ */
+button {
+    cursor: pointer;
+}
+
+/* ----- Tables ------ */
+table{
+    display: block;
+    justify-self: center;
+    max-width: 90%;
+    max-height: 500px;
+    overflow-y: scroll;
+    border: 5px solid var(--silver);
+    color: white;
+    border-collapse: separate;
+}
+
+thead th{
+    position: sticky;
+    top: 0px;
+}
 th, td {
-    border: 1px solid #ddd;
     padding: 12px;
     text-align: center;
 }
-th {background-color: #f2f2f2;}
-tr:nth-child(even) {background-color: #f9f9f9;}
-.cuForm { margin-left: 32px;}
-input, select { margin-bottom: 4px;margin-right: 12px;}
+th {
+    background-color: var(--dark-blue);
+    border-bottom: 5px solid var(--silver); 
+}
+tr:nth-child(even) {background-color: var(--dark-blue);}
+tr:nth-child(odd) {background-color: var(--light-blue);}
+.cuForm { 
+    margin: 20px;
+}
+
+/* ------ Form Inputs ------ */
+input, select { 
+    margin-bottom: 4px;
+    margin-right: 12px;
+    background-color: var(--silver);
+}
 a {margin-left: 16px;}
+
+/* ------ Page Styling ------ */
+#page-styles {
+    max-width: 100%;
+    padding: 0 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-self: center;
+    justify-content: center;
+}
