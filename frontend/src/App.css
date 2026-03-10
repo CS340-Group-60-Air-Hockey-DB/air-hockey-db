@@ -330,6 +330,15 @@ footer{
   font-size: 18px;
   color: var(--silver);
   font-weight: bold;
+  width: 100%;
+}
+
+#modal-p-div {
+  display: flex;
+  flex-wrap: wrap;
+  width: 85%;
+  justify-self: center;
+  gap: 20px;
 }
 
 .form-row {
