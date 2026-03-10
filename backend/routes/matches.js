@@ -6,7 +6,8 @@ const {
     get_all_match_locations, 
     get_all_match_people,
     delete_match,
-    update_match
+    update_match,
+    create_match
  } = require("../controllers/matches")
 
 
@@ -16,6 +17,7 @@ router
     .get('/players', get_all_match_people)
     .delete('/:id', delete_match)
     .put('/:id', update_match)
+    .post('/', create_match);
 
 
 module.exports = router

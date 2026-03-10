@@ -180,10 +180,71 @@ const update_match = async (req, res) => {
     }
 }
 
+const create_match = async (req, res) => {
+    try {
+        const { 
+            location_id, 
+            set_max,
+            faceoff_type,
+            start_datetime,
+            end_datetime,
+            match_type,
+            match_status,
+            note
+        } = req.body;
+
+        const safe_end_datetime = !end_datetime || end_datetime === "" ? null : end_datetime;
+        const safe_note = !note || note === "" ? null : note;
+        const safe_start_datetime = !start_datetime || start_datetime === "" ? new Date() : start_datetime;
+
+        //backend validation
+        if (!location_id || isNaN(location_id) || parseInt(location_id) <= 0) {
+            return res.status(400).json({
+                message: "location_id must be a positive integer."
+            });
+        }
+
+        if (isNaN(new Date(safe_start_datetime).getTime())) {
+            return res.status(400).json({
+                message: "start_datetime must be a valid datetime value."
+            });
+        }
+
+        const query = `
+            CALL sp_add_match(?, ?, ?, ?, ?, ?, ?, ?, @match_id);
+            SELECT @match_id AS match_id;
+        `;
+
+        const values = [
+            set_max,
+            faceoff_type,
+            safe_start_datetime,
+            safe_end_datetime,
+            location_id,
+            match_type,
+            safe_note,
+            match_status
+        ];
+
+        const [result] = await db.query(query, values);
+        const outcome = result[1][0];
+
+        if (outcome.match_id === -99) {
+            return res.status(400).json({ error: "A database error occurred while creating the match." });
+        }
+        
+        res.status(201).json({ message: "Match created successfully!", id: outcome.insertId});
+    
+    } catch (error) {
+        res.status(500).json({ error, message: "Failed to create match" });
+    }
+};
+
 module.exports = {
     get_all_matches,
     get_all_match_locations,
     get_all_match_people,
     delete_match,
-    update_match
+    update_match,
+    create_match
 }
