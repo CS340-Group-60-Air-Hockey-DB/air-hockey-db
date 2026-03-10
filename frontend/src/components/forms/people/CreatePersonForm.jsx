@@ -97,6 +97,7 @@ const CreatePersonForm = (props) => {
     return (
         <div 
             id="backdrop"
+            // The onClick allows for the form modal to be exited if the user clicks outside of the modal
             onClick={evt => {
                 if(evt.target === evt.currentTarget){
                     setAddModal(false)
