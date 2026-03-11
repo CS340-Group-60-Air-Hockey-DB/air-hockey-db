@@ -23,7 +23,7 @@ const create_location = async (req, res) => {
     try {
         const {
             table_qty, email, phone_num, street_address_1, street_address_2,
-            city, state, country, zip_code, type_of_address, location_name, note
+            city, state, country, zip_code, type_of_address, location_name, note, person_id
         } = req.body;
 
         const safe_address_2 = street_address_2 === "" ? null : street_address_2;
@@ -37,6 +37,18 @@ const create_location = async (req, res) => {
         ];
 
         const [result] = await db.query(query, values);
+        const newLocationId = result.insertId;
+
+        // insert junction table record if owner was selected
+        if (person_id) {
+            const query2 = `
+                INSERT INTO people_locations (person_id, location_id)
+                VALUES (?, ?);
+            `
+
+            await db.query(query2, [person_id, newLocationId]);
+        }
+
         res.status(201).json({ message: "Location created successfully!", id: result.insertId});
 
     } catch (error) {
@@ -50,7 +62,7 @@ const update_location = async (req, res) => {
         const { id } = req.params;
         const {
             table_qty, email, phone_num, street_address_1, street_address_2, 
-            city, state, country, zip_code, type_of_address, location_name, note
+            city, state, country, zip_code, type_of_address, location_name, note, person_id
         } = req.body;
 
         const safe_address_2 = street_address_2 === "" ? null : street_address_2;
@@ -63,7 +75,19 @@ const update_location = async (req, res) => {
             city, state, country, zip_code, type_of_address, location_name, safe_note, id
         ];
 
-        const [result] = await db.query(query, values);
+        await db.query(query, values);
+
+        const deleteJunctionQuery = `DELETE FROM people_locations WHERE location_id = ?`;
+        await db.query(deleteJunctionQuery, [id]);
+
+        if (person_id && person_id !== "") {
+            const insertJunctionQuery = `
+                INSERT INTO people_locations (person_id, location_id)
+                VALUES (?, ?);
+            `;
+            await db.query(insertJunctionQuery, [person_id, id]);
+        }
+
         res.status(200).json({ message: "Location updated successfully!" });
 
     } catch (error) {
