@@ -23,23 +23,17 @@ const create_location = async (req, res) => {
     try {
         const {
             table_qty, email, phone_num, street_address_1, street_address_2,
-            city, state, country, zip_code, type_of_address, location_name, notes
+            city, state, country, zip_code, type_of_address, location_name, note
         } = req.body;
 
         const safe_address_2 = street_address_2 === "" ? null : street_address_2;
-        const safe_notes = notes === "" ? null : notes;
+        const safe_note = note === "" ? null : note;
 
-        const query = `
-            INSERT INTO locations (
-                table_qty, email, phone_num, street_address_1, street_address_2,
-                city, \`state\`, country, zip_code, type_of_address, location_name, notes
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-        `;
+        const query = `CALL sp_add_location(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
         const values = [
             table_qty, email, phone_num, street_address_1, safe_address_2,
-            city, state, country, zip_code, type_of_address, location_name, safe_notes
+            city, state, country, zip_code, type_of_address, location_name, safe_note
         ];
 
         const [result] = await db.query(query, values);
@@ -56,23 +50,17 @@ const update_location = async (req, res) => {
         const { id } = req.params;
         const {
             table_qty, email, phone_num, street_address_1, street_address_2, 
-            city, state, country, zip_code, type_of_address, location_name, notes
+            city, state, country, zip_code, type_of_address, location_name, note
         } = req.body;
 
         const safe_address_2 = street_address_2 === "" ? null : street_address_2;
-        const safe_notes = notes === "" ? null : notes;
+        const safe_note = note === "" ? null : note;
 
-        const query = `
-            UPDATE locations
-            SET table_qty = ?, email = ?, phone_num = ?, street_address_1 = ?,
-                street_address_2 = ?, city = ?, \`state\` = ?, country = ?,
-                zip_code = ?, type_of_address = ?, location_name = ?, notes = ?
-            WHERE location_id = ?;
-        `;
+        const query = `CALL sp_update_location(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
         const values = [
             table_qty, email, phone_num, street_address_1, safe_address_2, 
-            city, state, country, zip_code, type_of_address, location_name, safe_notes, id
+            city, state, country, zip_code, type_of_address, location_name, safe_note, id
         ];
 
         const [result] = await db.query(query, values);

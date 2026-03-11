@@ -15,7 +15,7 @@ function UpdateLocation({ backendURL, locations, refreshData }) {
         country: '',
         zip_code: '',
         type_of_address: '',
-        notes: ''
+        note: ''
     });
 
     // autofill form if new location is selected from dropdown
@@ -36,14 +36,14 @@ function UpdateLocation({ backendURL, locations, refreshData }) {
                     country: loc.country || '',
                     zip_code: loc.zip_code || '',
                     type_of_address: loc.type_of_address || '',
-                    notes: loc.notes || ''
+                    note: loc.note || ''
                 });
             }
         } else {
             setFormData({
                 location_name: '', table_qty: '', email: '', phone_num: '',
                 street_address_1: '', street_address_2: '', city: '', state: '',
-                country: '', zip_code: '', type_of_address: '', notes: ''
+                country: '', zip_code: '', type_of_address: '', note: ''
             });
         }
     }, [selectedLocationId, locations]);
@@ -114,6 +114,7 @@ function UpdateLocation({ backendURL, locations, refreshData }) {
             <input type="text" name="phone_num" value={formData.phone_num} onChange={handleChange} placeholder="Phone Number" />
             <input type="text" name="street_address_1" value={formData.street_address_1} onChange={handleChange} placeholder="Street Address 1" required/>
             <input type="text" name="street_address_2" value={formData.street_address_2} onChange={handleChange} placeholder="Street Address 2" />
+            <input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" required />
             <input type="text" name="state" value={formData.state} onChange={handleChange} placeholder="State" required />
             <input type="text" name="country" value={formData.country} onChange={handleChange} placeholder="Country" required />
             <input type="text" name="zip_code" value={formData.zip_code} onChange={handleChange} placeholder="Zip Code" required />
@@ -127,7 +128,7 @@ function UpdateLocation({ backendURL, locations, refreshData }) {
                 <option value="other">Other</option>
             </select>
             
-            <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Notes (Optional)" maxLength="10000" />
+            <textarea name="note" value={formData.note} onChange={handleChange} placeholder="Notes (Optional)" maxLength="10000" />
 
             <button type="submit">Update Location</button>
         </form>
