@@ -13,12 +13,8 @@ function AddLocation({ backendURL, onAdd, peopleList }) {
         country: '',
         zip_code: '',
         type_of_address: '',
-<<<<<<< HEAD
-        note: ''
-=======
-        notes: '',
+        note: '',
         person_id: ''
->>>>>>> cacbb911e09a49cb194839ef0cf5fb694ee05563
     });
 
     // handle input changes
