@@ -49,7 +49,7 @@ BEGIN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Person not found';
         END IF;
 
-    ---- Validate Input ----
+    -- -- Validate Input -- --
     -- Empty String Validation --
     -- Names
         If TRIM(p_first_name) = '' THEN
