@@ -16,17 +16,45 @@ const UpdatePersonForm = (props) => {
                 { ...person, dob: person.dob.split('T')[0]}
                 : person
         }
-        setUpdatePerson(person)
+
+        setPerson(person)
     }
 
+    const handleInputOnChange = (evt) => {
+        evt.preventDefault()
+        const { name, value } = evt.target
 
-    const handleInputOnChange = () => {
-
+        // Automatically changes the phone number to the format: xxx-xxx-xxxx when typed in
+        if(name === 'phone_num'){
+            switch(value.length){
+                case 3:
+                     setPerson({
+                        ...person,
+                        [name]: value + "-"
+                    })
+                    break;
+                case 7:
+                     setPerson({
+                        ...person,
+                        [name]: value + "-"
+                    })
+                    break;
+                default: 
+                     setPerson({
+                        ...person,
+                        [name]: value
+                    })
+                    break;
+            }
+        }
+        else{
+            setPerson({
+                ...person,
+                [name]: value
+            })
+        }
     }
     
-    
-    const handleSubmit = () => {
-
     }
 
 
