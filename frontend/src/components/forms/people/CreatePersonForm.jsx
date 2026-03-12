@@ -20,18 +20,18 @@ const CreatePersonForm = (props) => {
                          + modal.scrollTop 
                          - modal.getBoundingClientRect().top
 
-            window.scrollTo({
+            modal.scrollTo({
                 top: elementTop - headerHeight - 16,
                 behavior: 'smooth'
             })
 
-            firstInvalidInput.focus()
 
             // Wait for the scrolling to the required input field finishes
             // Then show the validation tooltip
             setTimeout(() => {
+                firstInvalidInput.focus()
                 firstInvalidInput.reportValidity();
-            }, 0)
+            }, 300)
             return true
         }
 
