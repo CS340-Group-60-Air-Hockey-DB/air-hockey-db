@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import updatePerson from '../../../fetch_funcs/people/updatePerson';
 
 const UpdatePersonForm = (props) => {
     const { backendURL, people, refreshData, setUpdateModal } = props
@@ -55,6 +56,58 @@ const UpdatePersonForm = (props) => {
         }
     }
     
+    // Needed because the form's automatic form validation + scrolling, does not show the use the input field that is invalid due to the header being sticky
+    const handleBlankInput = () => {
+        // Scroll to the first required blank input
+        const form = document.getElementById('update-person-form')
+        const firstInvalidInput = form.querySelector(':invalid')
+
+        if(firstInvalidInput){
+            const modal = document.querySelector('.modals')
+            const header = document.getElementById('modal-header');
+            const headerHeight = header ? header.offsetHeight : 0;
+            const elementTop = firstInvalidInput.getBoundingClientRect().top 
+                         + modal.scrollTop 
+                         - modal.getBoundingClientRect().top
+
+            modal.scrollTo({
+                top: elementTop - headerHeight - 16,
+                behavior: 'smooth'
+            })
+
+
+            // Wait for the scrolling to the required input field finishes
+            // Then show the validation tooltip
+            setTimeout(() => {
+                firstInvalidInput.focus()
+                firstInvalidInput.reportValidity();
+            }, 300)
+            return true
+        }
+
+        return false
+    }
+
+    const handleSubmit = async (evt) => {
+        evt.preventDefault()
+
+        // Calls the function + handles if the function returns true (an invalid input)
+        if(handleBlankInput()){
+            return
+        }
+
+        let person_res = await updatePerson(backendURL, person)
+
+        if(person_res.status === 201){
+            alert(`${person.first_name} ${person.last_name}'s information was updated.`)
+            
+            setPerson({})
+            setUpdateModal(false)
+            refreshData()
+        }
+        else{
+            alert(`Person was not able to be updated to the database:\n${person_res.message ?? person_res.error} \n\nPlease try again or contact the administrator.`)
+        }
     }
 
 
