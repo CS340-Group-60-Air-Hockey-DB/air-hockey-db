@@ -56,39 +56,37 @@ function Games(props) {
                 </p>
             </div>
 
-{/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
-            <table className="data-table">
-                <thead>
-                    <tr>
-                        {
-                            headers.map((header, idx) => (
-                                <th key={`${header}-${idx}`}>
-                                    { cap_words(header_map[header] ?? header) }
-                                    </th>
-                            ))
-                        }
-                        { games?.length > 0 && 
-                            <th>
-                                Actions
-                            </th>    
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows?.map((game, idx) => {
-                        return <TableRow 
-                            key={`game-${idx}`} 
-                            rowObject={game} 
-                            backendURL={backendURL} 
-                            deleteBtn={true}
-                        />
-                    })}
-                </tbody>
-            </table>
-
-            <hr />
-
-            <AddGame matches={matches} />
+            <div id='table-div'>
+                {/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
+                <table className="data-table">
+                    <thead>
+                        <tr>
+                            {
+                                headers.map((header, idx) => (
+                                    <th key={`${header}-${idx}`}>
+                                        { cap_words(header_map[header] ?? header) }
+                                        </th>
+                                ))
+                            }
+                            { games?.length > 0 && 
+                                <th>
+                                    Actions
+                                </th>    
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {rows?.map((game, idx) => {
+                            return <TableRow 
+                                key={`game-${idx}`} 
+                                rowObject={game} 
+                                backendURL={backendURL} 
+                                deleteBtn={true}
+                            />
+                        })}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

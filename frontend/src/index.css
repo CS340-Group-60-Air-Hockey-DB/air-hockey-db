@@ -41,6 +41,11 @@ tr:nth-child(odd) {background-color: var(--light-blue);}
     margin: 20px;
 }
 
+#table-div {
+    width: 100%;
+    /* border: 1px solid white; */
+}
+
 /* ------ Form Inputs ------ */
 input, select { 
     margin-bottom: 4px;
