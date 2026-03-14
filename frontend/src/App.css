@@ -227,6 +227,22 @@ footer{
   width: 100%;
   margin-top: -20px;
   padding: 0 0 20px;
+  z-index: 10;
+}
+
+.modals #modal-header h2 {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+#modal-p-div {
+  margin-top: 20px;
+  z-index: 9;
+}
+
+.modal-p-div-overflow {
+  position: relative;
+  z-index: 1;
 }
 
 .modals p {
@@ -287,6 +303,7 @@ footer{
 #modal-btn-row button {
   width: 110px;
   line-height: 20px;
+  justify-content: center;
 }
 
 .asterisk{
