@@ -82,7 +82,7 @@ function UpdateLocation({ backendURL, locations, peopleList, refreshData }) {
                 if (refreshData) refreshData();
             } else {
                 const err = await response.json();
-                alert(`Error: ${err.error || "Failed to update location"}`);
+                alert(`Error: ${err.message || "Failed to update location"}`);
             }
         } catch (error) {
             console.error("Failed to fetch:", error);
@@ -132,11 +132,27 @@ function UpdateLocation({ backendURL, locations, peopleList, refreshData }) {
             
             <select name="person_id" value={formData.person_id} onChange={handleChange}>
                 <option value="">Select an Owner</option>
-                {peopleList && peopleList.map(person => (
-                    <option key={person.person_id} value={person.person_id}>
-                        {person.first_name} {person.last_name}
-                    </option>
-                ))}
+                {peopleList && peopleList.map((person, idx) => {
+                    if(idx === 0){
+                        return (
+                            <>
+                            {/* BE will handle person_id = 'no owner' */}
+                                <option key={'no-owner'} value={'no owner'}>
+                                    No Owner or Unknown
+                                </option>
+                            
+                                <option key={person.person_id} value={person.person_id}>
+                                    {person.first_name} {person.last_name}
+                                </option>
+                            </>
+                        )
+                    }
+                    else{
+                        return <option key={person.person_id} value={person.person_id}>
+                            {person.first_name} {person.last_name}
+                        </option>
+                    }
+                })}
             </select>
 
             <textarea name="note" value={formData.note} onChange={handleChange} placeholder="Notes (Optional)" maxLength="10000" />

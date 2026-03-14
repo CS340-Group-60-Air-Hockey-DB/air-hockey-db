@@ -81,11 +81,27 @@ function AddLocation({ backendURL, onAdd, peopleList }) {
 
             <select name="person_id" value={formData.person_id} onChange={handleChange}>
                 <option value="">Select an Owner</option>
-                {peopleList && peopleList.map(person => (
-                    <option key={person.person_id} value={person.person_id}>
-                        {person.first_name} {person.last_name}
-                    </option>
-                ))}
+                {peopleList && peopleList.map((person, idx) => {
+                    if(idx === 0){
+                        return (
+                            <>
+                            {/* BE will handle person_id = 'no owner' */}
+                                <option key={'no-owner'} value={'no owner'}>
+                                    No Owner or Unknown
+                                </option>
+                            
+                                <option key={person.person_id} value={person.person_id}>
+                                    {person.first_name} {person.last_name}
+                                </option>
+                            </>
+                        )
+                    }
+                    else{
+                        return <option key={person.person_id} value={person.person_id}>
+                            {person.first_name} {person.last_name}
+                        </option>
+                    }
+                })}
             </select>
             
             <textarea name="note" value={formData.note} onChange={handleChange} placeholder="Notes (Optional)" maxLength="10000" />
