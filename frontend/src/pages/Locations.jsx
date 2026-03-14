@@ -13,7 +13,7 @@ const header_map = {
 
 // This will include the person's first + last name of who owns the location (as the owner)
 function Locations(props) {
-    const { backendURL, locations, people,  } = props
+    const { backendURL, locations, people, refreshData } = props
         
     // Memoize headers + rows
     // Will only recalculate if the locations table in the backend changes
@@ -21,7 +21,7 @@ function Locations(props) {
     const headers = useMemo(() => {
         if(!locations?.length) return []
         
-        return Object.keys(locations[0]).filter(header => header !== 'location_id')
+        return Object.keys(locations[0]).filter(header => header !== 'person_id' && header !== 'location_id')
     }, [locations])
         
     const rows = useMemo(() => {
@@ -29,7 +29,7 @@ function Locations(props) {
         
         return locations?.map(location => {
             // location_id will not show up in table
-            const { location_id, ...rest } = location
+            const { location_id, person_id,...rest } = location
                     
             return { ...rest }
         });
@@ -70,11 +70,11 @@ function Locations(props) {
             
             <hr />
 
-            <AddLocation />
+            <AddLocation backendURL={backendURL} onAdd={refreshData} peopleList={people} />
             
             <hr />
 
-            <UpdateLocation locations={locations} people={people} />
+            <UpdateLocation backendURL={backendURL} locations={locations} peopleList={people} refreshData={refreshData} />
 
         </div>
     )

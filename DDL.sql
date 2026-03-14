@@ -51,7 +51,7 @@ CREATE OR REPLACE TABLE locations (
     email varchar(255) UNIQUE,
     phone_num varchar(25),
     street_address_1 varchar(255) NOT NULL,
-    street_address_2 varchar(255),
+    street_address_2 varchar(255) NOT NULL DEFAULT '',
     city varchar(255) NOT NULL,
     state varchar(255) NOT NULL,
     country varchar(255) NOT NULL,
@@ -183,7 +183,9 @@ CREATE OR REPLACE TABLE people_locations(
     foreign key (person_id) REFERENCES people(person_id) 
         ON UPDATE CASCADE,
     foreign key (location_id) REFERENCES locations(location_id) 
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+
+    UNIQUE KEY unique_location (location_id)
 );
 
 
