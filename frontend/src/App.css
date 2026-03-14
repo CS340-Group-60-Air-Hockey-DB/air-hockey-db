@@ -242,8 +242,9 @@ form input, form select {
   max-width: 90%;
   width: max-content;
   justify-self: center;
-  justify-content: center;
   align-items: center;
+  width: 650px;
+  height: 350px;
 }
 
 #add-form h2{
