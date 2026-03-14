@@ -1,12 +1,39 @@
 import { useState } from 'react';
 
+import getAllGameSetsByMatchId from '../../../fetch_funcs/games/getAllGameSetsByMatchId';
+
+
 function AddGame(props) {
     const { backendURL, games, matches, refreshData, setAddModal } = props
 
-    const [matchNum, setMatchNum] = useState(null)
-    const [setMax, setSetMax] = useState(null)
     const gameNumArr = Array.from({ length: 7}, (_, idx) => idx + 1)
-    
+
+    const [match, setMatch] = useState({})
+    const [matchId, setMatchId] = useState(null)
+    const [setArr, setSetArr] = useState([])
+
+
+    const handleSelectMatch = async evt => {
+        const { name, value } = evt.target
+        setMatchId(value)
+
+        console.log('Match ID:', value)
+        if(value !== null){
+            let get_match_res = await getAllGameSetsByMatchId(backendURL, value)
+            console.log('get match response:', get_match_res)
+
+            if(get_match_res.status === 200){
+                setMatch(get_match_res)
+            }
+            else{
+                setMatch({})
+            }
+        }
+
+        console.log('Match:', match)
+    }
+
+
     return (
         <div 
             id="backdrop"
