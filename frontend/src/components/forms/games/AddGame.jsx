@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-function AddGame({ matches }) {
+function AddGame(props) {
+    const { backendURL, games, matches, refreshData, setAddModal } = props
+
     const [matchNum, setMatchNum] = useState(null)
     const [setMax, setSetMax] = useState(null)
     const gameNumArr = Array.from({ length: 7}, (_, idx) => idx + 1)

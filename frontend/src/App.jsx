@@ -162,10 +162,11 @@ function App() {
                     element={
                         <Games 
                             backendURL={backendURL}  
+                            games={games}
                             locale={userLocale} 
                             matches={matches}
+                            refreshData={refreshData}
                             sets={sets}
-                            games={games}
                         />
                     }
                 />
