@@ -16,9 +16,12 @@ const UpdatePersonForm = (props) => {
             person = person.dob ? 
                 { ...person, dob: person.dob.split('T')[0]}
                 : person
+        
+            setPerson(person)
         }
-
-        setPerson(person)
+        else{
+            setPerson({})
+        }
     }
 
     const handleInputOnChange = (evt) => {
