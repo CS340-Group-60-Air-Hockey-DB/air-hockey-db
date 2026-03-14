@@ -26,18 +26,30 @@ const create_location = async (req, res) => {
             city, state, country, zip_code, type_of_address, location_name, note, person_id
         } = req.body;
 
-        const safe_address_2 = street_address_2 === "" ? null : street_address_2;
+        const safe_email = email === '' ? null : email
         const safe_note = note === "" ? null : note;
 
-        const query = `CALL sp_add_location(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const query = `CALL sp_add_location(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @insertId, @error_message);
+                        SELECT @insertId, @error_message;`;
 
         const values = [
-            table_qty, email, phone_num, street_address_1, safe_address_2,
+            table_qty, safe_email, phone_num, street_address_1, street_address_2,
             city, state, country, zip_code, type_of_address, location_name, safe_note
         ];
 
         const [result] = await db.query(query, values);
-        const newLocationId = result[0][0].insertId;
+
+        if (result[1][0]['@error_message'] !== null) {
+            const message = result[1][0]['@error_message'] && result[1][0]['@error_message'].includes('unique_address')
+                ? 'The location provided is already taken. Either update that location or provide another address.' : 'There was an error adding the location.'
+
+            return res.status(400).json({
+                error: result[1][0]['@error_message'],
+                message
+            })
+        }
+
+        const newLocationId = result[1][0]['@insertId'];
 
         // insert junction table record if owner was selected
         if (person_id) {
@@ -49,11 +61,21 @@ const create_location = async (req, res) => {
             await db.query(query2, [person_id, newLocationId]);
         }
 
-        res.status(201).json({ message: "Location created successfully!", id: result.insertId});
+        res.status(201).json({ message: "Location created successfully!", id: result.insertId });
 
     } catch (error) {
-        console.error("Error creating location:", error);
-        res.status(500).json({ error: "Failed to create location" });
+        if (error.sqlState === '23000') {
+            if (error.sqlMessage?.includes('people_locations')) {
+                return res.status(400).json({
+                    error,
+                    message: 'The person already owns that location. Either update the location owner or provide a different owner.'
+                })
+            }
+        }
+        res.status(500).json({
+            error,
+            message: "Failed to create location"
+        });
     }
 };
 
@@ -61,7 +83,7 @@ const update_location = async (req, res) => {
     try {
         const { id } = req.params;
         const {
-            table_qty, email, phone_num, street_address_1, street_address_2, 
+            table_qty, email, phone_num, street_address_1, street_address_2,
             city, state, country, zip_code, type_of_address, location_name, note, person_id
         } = req.body;
 
@@ -71,7 +93,7 @@ const update_location = async (req, res) => {
         const query = `CALL sp_update_location(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
         const values = [
-            table_qty, email, phone_num, street_address_1, safe_address_2, 
+            table_qty, email, phone_num, street_address_1, safe_address_2,
             city, state, country, zip_code, type_of_address, location_name, safe_note, id
         ];
 
