@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import AddPlayerToMatch from '../components/forms/player_matches/AddPlayerToMatch';
+import EditPlayerMatch from '../components/forms/player_matches/EditPlayerMatch';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
@@ -12,16 +13,15 @@ const header_map = {
 function PlayerMatches(props) {
     const { backendURL, matches, people, playerMatches, refreshData } = props
 
-        
+    const [editingMatch, setEditingMatch] = useState(null);
+
     const headers = useMemo(() => {
         if(!playerMatches?.length) return []
-        
         return Object.keys(playerMatches[0])
     }, [playerMatches])
         
     const rows = useMemo(() => {
         if(!playerMatches?.length) return []
-        
         return playerMatches.map(pm => ({
             ...pm,
             player_order: pm.player_order ? cap_words(pm.player_order) : pm.player_order
@@ -31,9 +31,7 @@ function PlayerMatches(props) {
     return (
         <div className="page-container">
             <div>
-                <h1>
-                    Player Matches
-                </h1>
+                <h1>Player Matches</h1>
                 <p>
                     View player participation in matches. See which players competed in each match, their starting positions, match scores, and outcomes. Add, edit, or remove player-match records.
                 </p>
@@ -55,7 +53,16 @@ function PlayerMatches(props) {
                 <tbody>
                     {
                         rows.map((pm, idx) => {
-                            return <TableRow key={idx} rowObject={pm} backendURL={backendURL} deleteBtn={true} refreshData={refreshData} />
+                            return (
+                                <TableRow
+                                    key={idx}
+                                    rowObject={pm}
+                                    backendURL={backendURL}
+                                    deleteBtn={true}
+                                    refreshData={refreshData}
+                                    onEdit={() => setEditingMatch(pm)}
+                                />
+                            )
                         }
                     )}
                 </tbody>
@@ -63,8 +70,23 @@ function PlayerMatches(props) {
 
             <hr />
 
-            <AddPlayerToMatch backendURL={backendURL} matches={matches} people={people} onAdd={refreshData} />
-            
+            {editingMatch ? (
+                <EditPlayerMatch
+                    backendURL={backendURL}
+                    matches={matches}
+                    people={people}
+                    playerMatch={editingMatch}
+                    onUpdate={refreshData}
+                    onCancel={() => setEditingMatch(null)}
+                />
+            ) : (
+                <AddPlayerToMatch
+                    backendURL={backendURL}
+                    matches={matches}
+                    people={people}
+                    onAdd={refreshData}
+                />
+            )}
         </div>
     )
 }

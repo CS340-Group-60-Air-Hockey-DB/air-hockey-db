@@ -36,14 +36,11 @@ const DeleteBtn = ({ rowObject, backendURL, refreshData }) => {
     };
 
     return (
-        <td>
-            <form onSubmit={handleDelete}>
-                <button type='submit'>
-                    Delete
-                </button>
-            </form>
-        </td>
-
+        <form onSubmit={handleDelete} style={{ margin: 0 }}>
+            <button type='submit'>
+                Delete
+            </button>
+        </form>
     );
 };
 

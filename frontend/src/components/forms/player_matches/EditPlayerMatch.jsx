@@ -1,15 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function AddPlayerToMatch({ backendURL, matches, people, onAdd }) {
+function EditPlayerMatch({ backendURL, matches, people, playerMatch, onUpdate, onCancel }) {
     const [matchId, setMatchId] = useState('');
     const [playerId, setPlayerId] = useState('');
-    const [startingSide, setStartingSide] = useState('left');
-    const [playerOrder, setPlayerOrder] = useState('player_1');
+    const [startingSide, setStartingSide] = useState('');
+    const [playerOrder, setPlayerOrder] = useState('');
+
+    // auto-fill form based on selected playerMatch
+    useEffect(() => {
+        if (playerMatch) {
+            setMatchId(playerMatch.match_id);
+            setPlayerId(playerMatch.player_id);
+            setStartingSide(playerMatch.startingSide);
+
+            // format back to database ENUM
+            const rawOrder = playerMatch.player_order ? playerMatch.player_order.replace(' ', '_').toLowerCase() : 'player_1';
+            setPlayerOrder(rawOrder);
+        }
+    }, [playerMatch]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newPlayerMatch = {
+        const updatedPlayerMatch = {
             match_id: matchId,
             player_id: playerId,
             starting_side: startingSide,
@@ -17,25 +30,20 @@ function AddPlayerToMatch({ backendURL, matches, people, onAdd }) {
         };
 
         try {
-            const response = await fetch(`${backendURL}/player_matches`, {
-                method: 'POST',
+            const response = await fetch(`${backendURL}/player_matches/${playerMatch.player_match_id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newPlayerMatch),
+                body: JSON.stringify(updatedPlayerMatch),
             });
 
             if (response.ok) {
-                alert("Player added to match successfully!");
-                onAdd(); // refresh table
-
-                // clear form
-                setMatchId('');
-                setPlayerId('');
-                setStartingSide('left');
-                setPlayerOrder('player_1');
+                alert("Player match updated successfully!");
+                onUpdate(); // refresh table
+                onCancel(); // hide edit form
             } else {
-                alert("Failed to add player to match.")
+                alert("Failed to update player match.")
             }
         } catch (error) {
             console.error("Network error:", error);
@@ -43,8 +51,8 @@ function AddPlayerToMatch({ backendURL, matches, people, onAdd }) {
     };
 
     return (
-        <form id="add-form" onSubmit={handleSubmit}>
-            <h2>Add Player to Match</h2>
+        <form id="edit-form" onSubmit={handleSubmit}>
+            <h2>Edit Player Match</h2>
 
             <label>Select Match:</label>
             <select required value={matchId} onChange={(e) => setMatchId(e.target.value)}>
@@ -70,9 +78,12 @@ function AddPlayerToMatch({ backendURL, matches, people, onAdd }) {
                 <option value="player_2">Player 2</option>
             </select>
 
-            <button type="submit">Add Player to Match</button>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                <button type="submit">Save Changes</button>
+                <button type="button" onClick={onCancel}>Cancel</button>
+            </div>
         </form>
     );
 }
 
-export default AddPlayerToMatch;
+export default EditPlayerMatch;
