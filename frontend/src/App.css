@@ -378,18 +378,23 @@ footer{
   width: 92%;
 }
 
-.update-person-select {
+.init-select {
   justify-self: center;
-  width: 50%;
   margin: 10px 0px 0px;
+  text-align: center;
 }
 
-.update-person-select label{
+.init-select label{
+  justify-content: center;
+}
+
+.init-select select{
+  width: 60%;
   justify-content: center;
 }
 
 .section {
-  width: 80%;
+  width: 100%;
   margin: 20px 0;
 }
 

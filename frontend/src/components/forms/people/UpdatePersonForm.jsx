@@ -154,7 +154,7 @@ const UpdatePersonForm = (props) => {
                     noValidate
                 >
                     <div className="section">
-                        <div className="form-row update-person-select">
+                        <div className="form-row init-select">
                             <label 
                                 htmlFor="update_person_id"
                                 className='section-label'
