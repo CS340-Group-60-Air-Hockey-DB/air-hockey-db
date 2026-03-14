@@ -80,41 +80,66 @@ const create_location = async (req, res) => {
 };
 
 const update_location = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const {
-            table_qty, email, phone_num, street_address_1, street_address_2,
-            city, state, country, zip_code, type_of_address, location_name, note, person_id
-        } = req.body;
+    const { id } = req.params;
+    const {
+        table_qty, email, phone_num, street_address_1, street_address_2,
+        city, state, country, zip_code, type_of_address, location_name, note, person_id
+    } = req.body;
 
+    let message
+    let result
+
+    // Updating the locations table
+    try {
         const safe_address_2 = street_address_2 === "" ? null : street_address_2;
         const safe_note = note === "" ? null : note;
+        // After : is for when person_id = 'no owner'
+        // To make it null instead of NaN
+        const safe_person_id = person_id === '' ? null : parseInt(person_id) || null
 
-        const query = `CALL sp_update_location(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const query = `CALL sp_update_location(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @rows_affected, @error_message);
+                        SELECT @rows_affected, @error_message;`;
 
         const values = [
             table_qty, email, phone_num, street_address_1, safe_address_2,
-            city, state, country, zip_code, type_of_address, location_name, safe_note, id
+            city, state, country, zip_code, type_of_address, location_name, safe_note, id, safe_person_id
         ];
 
-        await db.query(query, values);
+        [result] = await db.query(query, values);
 
-        const deleteJunctionQuery = `DELETE FROM people_locations WHERE location_id = ?`;
-        await db.query(deleteJunctionQuery, [id]);
+        if (result[1][0]['@error_message'] !== null) {
+            if (result[1][0]['@error_message'].includes('unique_address')) {
+                message = 'The location provided is already taken. Either update that location or provide another address.'
 
-        if (person_id && person_id !== "") {
-            const insertJunctionQuery = `
-                INSERT INTO people_locations (person_id, location_id)
-                VALUES (?, ?);
-            `;
-            await db.query(insertJunctionQuery, [person_id, id]);
+                return res.status(400).json({
+                    error: result[1][0]['@error_message'],
+                    message
+                })
+            }
+            else if (result[1][0]['@error_message'].includes('email')) {
+                message = 'The email provided is already taken. Please provide another email address.'
+
+                return res.status(400).json({
+                    error: result[1][0]['@error_message'],
+                    message
+                })
+            }
+            else {
+                return res.status(400).json({
+                    error: result[1][0]['@error_message'],
+                    message: 'There was an error updating the location.'
+                })
+            }
         }
 
         res.status(200).json({ message: "Location updated successfully!" });
-
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error updating location:", error);
-        res.status(500).json({ error: "Failed to update location" });
+        res.status(500).json({
+            error,
+            message: "Failed to update location"
+        });
     }
 };
 
