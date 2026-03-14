@@ -108,20 +108,88 @@ function UpdateLocation({ backendURL, locations, peopleList, refreshData }) {
                 ))}
             </select>
 
-            <hr />
+            <input 
+                type="text" 
+                name="location_name" 
+                value={formData.location_name} 
+                onChange={handleChange} 
+                placeholder="Location Name" 
+                required 
+            />
+            <input 
+                type="number" 
+                name="table_qty" 
+                min={0}
+                value={formData.table_qty} 
+                onChange={handleChange} 
+                placeholder="Table Quantity" 
+                required 
+            />
+            <input 
+                type="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                placeholder="Email" 
+            />
+            <input 
+                type="text" 
+                name="phone_num" 
+                value={formData.phone_num} 
+                onChange={handleChange} 
+                placeholder="Phone Number" 
+            />
+            <input 
+                type="text" 
+                name="street_address_1" 
+                value={formData.street_address_1} 
+                onChange={handleChange} 
+                placeholder="Street Address 1" 
+                required
+            />
+            <input 
+                type="text" 
+                name="street_address_2" 
+                value={formData.street_address_2} 
+                onChange={handleChange} 
+                placeholder="Street Address 2" 
+            />
+            <input 
+                type="text" 
+                name="city" 
+                value={formData.city} 
+                onChange={handleChange} 
+                placeholder="City" 
+                required 
+            />
+            <input 
+                type="text" 
+                name="state" 
+                value={formData.state} 
+                onChange={handleChange} 
+                placeholder="State" 
+                required 
+            />
+            <input 
+                type="text" 
+                name="country" 
+                value={formData.country} 
+                onChange={handleChange} 
+                placeholder="Country" 
+                required 
+            />
+            <input 
+                type="text" 
+                name="zip_code" 
+                value={formData.zip_code} 
+                onChange={handleChange} 
+                placeholder="Zip Code" 
+                required 
+            />
 
-            <input type="text" name="location_name" value={formData.location_name} onChange={handleChange} placeholder="Location Name" required />
-            <input type="number" name="table_qty" value={formData.table_qty} onChange={handleChange} placeholder="Table Quantity" required />
-            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-            <input type="text" name="phone_num" value={formData.phone_num} onChange={handleChange} placeholder="Phone Number" />
-            <input type="text" name="street_address_1" value={formData.street_address_1} onChange={handleChange} placeholder="Street Address 1" required/>
-            <input type="text" name="street_address_2" value={formData.street_address_2} onChange={handleChange} placeholder="Street Address 2" />
-            <input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" required />
-            <input type="text" name="state" value={formData.state} onChange={handleChange} placeholder="State" required />
-            <input type="text" name="country" value={formData.country} onChange={handleChange} placeholder="Country" required />
-            <input type="text" name="zip_code" value={formData.zip_code} onChange={handleChange} placeholder="Zip Code" required />
-
-            <select name="type_of_address" value={formData.type_of_address} onChange={handleChange} required>
+            <select name="type_of_address" value={formData.type_of_address} onChange={handleChange} 
+            required
+        >
                 <option value="">Select Type of Address</option>
                 <option value="commercial">Commercial</option>
                 <option value="residential">Residential</option>
@@ -155,7 +223,8 @@ function UpdateLocation({ backendURL, locations, peopleList, refreshData }) {
                 })}
             </select>
 
-            <textarea name="note" value={formData.note} onChange={handleChange} placeholder="Notes (Optional)" maxLength="10000" />
+            <textarea name="note" value={formData.note} onChange={handleChange} placeholder="Notes (Optional)" maxLength="10000" 
+        />
 
             <button type="submit">Update Location</button>
         </form>
