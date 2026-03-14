@@ -37,7 +37,7 @@ const create_location = async (req, res) => {
         ];
 
         const [result] = await db.query(query, values);
-        const newLocationId = result.insertId;
+        const newLocationId = result[0][0].insertId;
 
         // insert junction table record if owner was selected
         if (person_id) {

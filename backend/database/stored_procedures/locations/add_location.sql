@@ -19,12 +19,15 @@ CREATE PROCEDURE sp_add_location(
 BEGIN
     INSERT INTO locations (
         table_qty, email, phone_num, street_address_1, street_address_2,
-        city, `state`, country, zip_code, type_of_address, location_name, note
+        city, `state`, country, zip_code, type_of_address, location_name, notes
     )
     VALUES (
         p_table_qty, p_email, p_phone_num, p_street_address_1, p_street_address_2,
         p_city, p_state, p_country, p_zip_code, p_type_of_address, p_location_name, p_note
     );
+
+    SELECT LAST_INSERT_ID() AS insertId;
+    
 END //
 
 DELIMITER ;

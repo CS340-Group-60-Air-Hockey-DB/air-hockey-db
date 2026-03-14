@@ -17,8 +17,8 @@ const create_locations_with_owners = `
         l.notes
     from
         locations as l
-        JOIN people_locations as pl on pl.location_id = l.location_id
-        INNER JOIN people as p on p.person_id = pl.person_id
+        LEFT JOIN people_locations as pl on pl.location_id = l.location_id
+        LEFT JOIN people as p on p.person_id = pl.person_id
     ORDER BY
         l.location_name;`
 

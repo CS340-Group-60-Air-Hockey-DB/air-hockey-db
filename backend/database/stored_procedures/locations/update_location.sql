@@ -31,7 +31,7 @@ BEGIN
         zip_code = p_zip_code,
         type_of_address = p_type_of_address,
         location_name = p_location_name,
-        note = p_note
+        notes = p_note
     WHERE location_id = p_location_id;
 END //
 
