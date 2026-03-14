@@ -48,7 +48,7 @@ function AddLocation({ backendURL, onAdd, peopleList }) {
                 if (onAdd) onAdd();
             } else {
                 const err = await response.json();
-                alert(`Error: ${err.error || "Failed to add location"}`);
+                alert(`Error: ${err.message || "Failed to add location"}`);
             }
         } catch (error) {
             console.error("Failed to fetch:", error);
