@@ -181,9 +181,10 @@ footer{
   width: 100%;
   margin: 50px 0;
   justify-content: center;
+  gap: 40px;
 }
 
-.add-btn {
+.default-btn {
   background-color: var(--baby-blue);
   padding: 10px;
   font-size: 16px;
@@ -283,6 +284,11 @@ footer{
   margin-bottom: 20px;
 }
 
+#modal-btn-row button {
+  width: 110px;
+  line-height: 20px;
+}
+
 .asterisk{
   color: var(--red);
 }
@@ -330,6 +336,15 @@ footer{
   font-size: 18px;
   color: var(--silver);
   font-weight: bold;
+  width: 100%;
+}
+
+#modal-p-div {
+  display: flex;
+  flex-wrap: wrap;
+  width: 85%;
+  justify-self: center;
+  gap: 20px;
 }
 
 .form-row {
@@ -361,6 +376,16 @@ footer{
 
 .form-row .address-line {
   width: 92%;
+}
+
+.update-person-select {
+  justify-self: center;
+  width: 50%;
+  margin: 10px 0px 0px;
+}
+
+.update-person-select label{
+  justify-content: center;
 }
 
 .section {

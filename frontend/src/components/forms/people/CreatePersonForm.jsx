@@ -20,18 +20,18 @@ const CreatePersonForm = (props) => {
                          + modal.scrollTop 
                          - modal.getBoundingClientRect().top
 
-            window.scrollTo({
+            modal.scrollTo({
                 top: elementTop - headerHeight - 16,
                 behavior: 'smooth'
             })
 
-            firstInvalidInput.focus()
 
             // Wait for the scrolling to the required input field finishes
             // Then show the validation tooltip
             setTimeout(() => {
+                firstInvalidInput.focus()
                 firstInvalidInput.reportValidity();
-            }, 0)
+            }, 300)
             return true
         }
 
@@ -117,12 +117,14 @@ const CreatePersonForm = (props) => {
                         Add New Person
                     </h2>
 
-                    <p>
-                        Fill in the details below by scrolling to add a new person to the community. 
-                    </p>
-                    <p>
-                        Any fields with <span className="asterisk">*</span> are required.
-                    </p>
+                    <div id='modal-p-div'>
+                        <p>
+                            Fill in the details below by scrolling to add a new person to the community. 
+                        </p>
+                        <p>
+                            Any fields with <span className="asterisk">*</span> are required.
+                        </p>
+                    </div>
                 </div>
 
                 <form 
@@ -152,7 +154,9 @@ const CreatePersonForm = (props) => {
                                 />
                             </label>
 
-                            <label htmlFor="last_name">Last Name <span className="asterisk">*</span> 
+                            <label htmlFor="last_name">
+                                Last Name <span className="asterisk">*</span> 
+                                
                                 <input
                                     placeholder="Type Last Name"
                                     type="text"

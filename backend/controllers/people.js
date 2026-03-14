@@ -56,8 +56,49 @@ const get_all_people = async (req, res) => {
 
 }
 
+const update_person_by_id = async (req, res) => {
+    const { person_id } = req.params
+    const { first_name, last_name, gender, dob, email, phone_num,
+        street_address_1, street_address_2, city, state,
+        country, zip_code } = req.body
+
+    const sp_query = `CALL sp_update_person (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @rows_affected, @error_message);
+                        SELECT @rows_affected, @error_message;`
+
+    const values = [person_id, first_name, last_name, gender, dob, email, phone_num, street_address_1, street_address_2, city, state, country, zip_code]
+
+    try {
+        const update_res = await db.query(sp_query, values);
+
+        if (update_res[0][1][0]['@error_message'] !== null) {
+            return res.status(400).json({
+                message: `There was an error with updating the person.`,
+                error: update_res[0][1][0]['@error_message']
+            })
+        }
+
+        return res.status(201).json({
+            message: "Person was updated successfully!",
+        });
+    }
+    catch (error) {
+        if (error.sqlState === '45000') {
+            return res.status(400).json({
+                message: `An error occurred while updating the person due to the request body or id parameter.`,
+                error
+            })
+        }
+
+        return res.status(500).json({
+            message: "An error occurred while updating the person.",
+            error
+        });
+    }
+}
+
 
 module.exports = {
     add_person,
-    get_all_people
+    get_all_people,
+    update_person_by_id
 }
