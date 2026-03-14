@@ -27,7 +27,7 @@ function UpdateLocation({ backendURL, locations, peopleList, refreshData }) {
             if (loc) {
                 setFormData({
                     location_name: loc.location_name || '',
-                    table_qty: loc.table_qty || '',
+                    table_qty: loc.table_qty || 0,
                     email: loc.email || '',
                     phone_num: loc.phone_num || '',
                     street_address_1: loc.street_address_1 || '',
