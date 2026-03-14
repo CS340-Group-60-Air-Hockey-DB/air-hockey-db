@@ -59,7 +59,7 @@ function AddLocation({ backendURL, onAdd, peopleList }) {
     return (
         <form id="add-form" onSubmit={handleSubmit}>
             <h2>Add a New Location</h2>
-            <input type="text" name="location_name" value={formData.location_name} onChange={handleChange} placeholder="Location Name" required />
+            <input type="text" name="location_name" value={formData.location_name} onChange={handleChange} placeholder="Location Name" />
             <input type="number" name="table_qty" value={formData.table_qty} onChange={handleChange} placeholder="Table Quantity" required />
             <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
             <input type="text" name="phone_num" value={formData.phone_num} onChange={handleChange} placeholder="Phone Number" />
@@ -79,7 +79,7 @@ function AddLocation({ backendURL, onAdd, peopleList }) {
                 <option value="other">Other</option>
             </select>
 
-            <select name="person_id" value={formData.person_id} onChange={handleChange} required>
+            <select name="person_id" value={formData.person_id} onChange={handleChange}>
                 <option value="">Select an Owner</option>
                 {peopleList && peopleList.map(person => (
                     <option key={person.person_id} value={person.person_id}>
