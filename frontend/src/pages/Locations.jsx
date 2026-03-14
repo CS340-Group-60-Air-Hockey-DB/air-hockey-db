@@ -21,7 +21,7 @@ function Locations(props) {
     const headers = useMemo(() => {
         if(!locations?.length) return []
         
-        return Object.keys(locations[0]).filter(header => header !== 'location_id')
+        return Object.keys(locations[0]).filter(header => header !== 'person_id' && header !== 'location_id')
     }, [locations])
         
     const rows = useMemo(() => {
@@ -29,7 +29,7 @@ function Locations(props) {
         
         return locations?.map(location => {
             // location_id will not show up in table
-            const { location_id, ...rest } = location
+            const { location_id, person_id,...rest } = location
                     
             return { ...rest }
         });

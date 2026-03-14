@@ -3,6 +3,7 @@ const create_locations_with_owners = `
     SELECT
         l.location_id,
         l.location_name,
+        p.person_id,
         CONCAT (p.first_name, ' ', p.last_name) as "owner",
         l.table_qty,
         l.email,
