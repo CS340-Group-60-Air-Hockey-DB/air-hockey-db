@@ -27,7 +27,7 @@ function AddPlayerToMatch({ backendURL, matches, people, onAdd }) {
 
             if (response.ok) {
                 alert("Player added to match successfully!");
-                onAdd(); // refresh table
+                await onAdd(); // refresh table
 
                 // clear form
                 setMatchId('');

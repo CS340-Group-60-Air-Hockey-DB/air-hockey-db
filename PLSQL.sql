@@ -541,9 +541,54 @@ DELIMITER ;
 -- player_matches --
 --------------------
 ----- CREATE -----
+DROP PROCEDURE IF EXISTS sp_add_player_match;
+DELIMITER //
 
+CREATE PROCEDURE sp_add_player_match(\
+    IN p_player_id INT,
+    IN p_match_id INT,
+    IN p_starting_side ENUM('left', 'right'),
+    IN p_player_order ENUM('player_1', 'player_2')
+)
+BEGIN
+    INSERT INTO player_matches (player_id, match_id, starting_side, player_order)
+    VALUES (p_player_id, p_match_id, p_starting_side, p_player_order);
+
+    -- Return new ID back to player_matches.js
+    SELECT LAST_INSERT_ID() AS insertId;
+END //
+DELIMITER;
 
 ----- UPDATE -----
+DROP PROCEDURE IF EXISTS sp_update_player_match;
+DELIMITER//
 
+CREATE PROCEDURE sp_update_player_match(
+    IN p_player_id INT,
+    IN p_match_id INT,
+    IN p_starting_side ENUM('left', 'right'),
+    IN p_player_order ENUM('player_1', 'player_2'),
+    IN p_player_match_id INT
+)
+BEGIN
+    UPDATE player_matches SET
+        player_id = p_player_id,
+        match_id = p_match_id,
+        starting_side = p_starting_side,
+        player_order = p_player_order
+    WHERE player_match_id = p_player_match_id;
+END //
+DELIMITER ;
 
 ----- DELETE -----
+DROP PROCEDURE IF EXISTS sp_delete_player_match;
+DELIMITER //
+
+CREATE PROCEDURE sp_delete_player_match(
+    IN p_player_match_id INT
+)
+BEGIN
+    DELETE FROM player_matches
+    WHERE player_match_id = p_player_match_id;
+END //
+DELIMITER ;

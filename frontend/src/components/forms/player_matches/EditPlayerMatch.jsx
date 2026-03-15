@@ -11,7 +11,10 @@ function EditPlayerMatch({ backendURL, matches, people, playerMatch, onUpdate, o
         if (playerMatch) {
             setMatchId(playerMatch.match_id);
             setPlayerId(playerMatch.player_id);
-            setStartingSide(playerMatch.startingSide);
+
+            // default to 'left'
+            const rawSide = playerMatch.startingSide ? playerMatch.starting_side.toLowerCase() : 'left';
+            setStartingSide(rawSide);
 
             // format back to database ENUM
             const rawOrder = playerMatch.player_order ? playerMatch.player_order.replace(' ', '_').toLowerCase() : 'player_1';

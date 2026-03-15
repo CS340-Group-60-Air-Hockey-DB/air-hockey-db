@@ -14,7 +14,7 @@ const player_match_queries = {
         JOIN people as p on p.person_id = pm.player_id
         LEFT JOIN player_matches as pm_opp on pm_opp.match_id = pm.match_id
             AND pm_opp.player_id != pm.player_id
-        JOIN people as p_opp on pm_opp.player_id = p_opp.person_id
+        LEFT JOIN people as p_opp on pm_opp.player_id = p_opp.person_id
         ORDER BY match_id;
     `,
     select_by_player_id: `

@@ -141,6 +141,7 @@ function App() {
                             people={people} 
                             matches={matches}
                             playerMatches={playerMatches}
+                            refreshData={refreshData}
                         />
                     }
                 />
