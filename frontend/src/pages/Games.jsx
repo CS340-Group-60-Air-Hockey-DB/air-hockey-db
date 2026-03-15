@@ -8,8 +8,8 @@ import cap_words from '../functions/cap_words';
 
 const header_map = {
     match_id: 'match',
-    set_id: 'set_number',
-    game_num: 'game_number'
+    set_num: 'set_number',
+    game_num: 'game_number',
 }
 
 
@@ -17,6 +17,7 @@ function Games(props) {
     const { backendURL, games, locale, matches, refreshData } = props
 
     const [addModal, setAddModal] = useState(false)
+    const gameIds = games.map(game => game.game_id)
     
     {/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
     // Memoize headers + rows
@@ -25,15 +26,15 @@ function Games(props) {
     const headers = useMemo(() => {
         if(!games?.length) return []
 
-        return Object.keys(games[0]).filter(header => header !== 'game_id')
+        return Object.keys(games[0]).filter(header => header !== 'game_id' && header !== 'set_id')
     }, [games])
 
     const rows = useMemo(() => {
         if(!games?.length) return []
 
         return games?.map(game => {
-            // game_id will not show up in table
-            const { game_id, ...rest } = game;
+            // game_id + set_id will not show up in table
+            const { game_id, set_id, ...rest } = game;
             
             return {
             ...rest,
@@ -84,7 +85,9 @@ function Games(props) {
                             return <TableRow 
                                 key={`game-${idx}`} 
                                 rowObject={game} 
+                                objectId={gameIds[idx]}
                                 backendURL={backendURL} 
+                                refreshData={refreshData}
                                 deleteBtn={true}
                             />
                         })}
