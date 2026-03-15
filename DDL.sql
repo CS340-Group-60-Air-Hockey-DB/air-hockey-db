@@ -223,7 +223,8 @@ VALUES (4, null, '919-329-9031', '1234 Foundation Lane', null, 'Raleigh', 'NC', 
 INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status, winner_id)
 VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challenge', null, 'completed', 1),
 (5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned', null),
-(7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled', null);
+(7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled', null),
+(3, 'standard', CURRENT_TIMESTAMP(), null, 1, 'challenge', null, 'in_progress', null);
 
 INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
 VALUES (1, 1, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
@@ -242,7 +243,9 @@ VALUES (1, 1, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
 (3, null, 4, null, null, 'scheduled'),
 (3, null, 5, null, null, 'scheduled'),
 (3, null, 6, null, null, 'scheduled'),
-(3, null, 7, null, null, 'scheduled');
+(3, null, 7, null, null, 'scheduled'),
+-- Match 4
+(4, null, 1, CURRENT_TIMESTAMP(), null, 'in_progress');
 
 -----------
 -- games --
