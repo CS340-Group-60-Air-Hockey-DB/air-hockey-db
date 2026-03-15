@@ -1,36 +1,48 @@
 import { useState } from 'react';
 
 import getAllGameSetsByMatchId from '../../../fetch_funcs/games/getAllGameSetsByMatchId';
+import cap_words from '../../../functions/cap_words';
+
+import { game_max_arr } from '../../../ common_variables';
 
 
 function AddGame(props) {
     const { backendURL, games, matches, refreshData, setAddModal } = props
 
-    const gameNumArr = Array.from({ length: 7}, (_, idx) => idx + 1)
-
     const [match, setMatch] = useState({})
     const [matchId, setMatchId] = useState(null)
-    const [setArr, setSetArr] = useState([])
+    const [activeSets, setActiveSets] = useState([])
 
 
     const handleSelectMatch = async evt => {
-        const { name, value } = evt.target
+        const { value } = evt.target
         setMatchId(value)
 
         console.log('Match ID:', value)
         if(value !== null){
-            let get_match_res = await getAllGameSetsByMatchId(backendURL, value)
-            console.log('get match response:', get_match_res)
+            let { match_details, status } = await getAllGameSetsByMatchId(backendURL, value)
+            console.log('get match response:', match_details)
 
-            if(get_match_res.status === 200){
-                setMatch(get_match_res)
+            if(status === 200){
+                const active_sets = match_details?.filter(set =>
+                    set.set_status === 'scheduled' || set.set_status === 'in_progress'
+                ) ?? []
+
+                const get_match = matches?.filter(match => 
+                    match.match_id === parseInt(value)
+                ) ?? {}
+
+                setActiveSets(active_sets)
+                setMatch(get_match)
+            }
+            else if(status === 404){
+                setMatchId('in progress')
             }
             else{
                 setMatch({})
+                setActiveSets([])
             }
         }
-
-        console.log('Match:', match)
     }
 
 
@@ -100,15 +112,16 @@ function AddGame(props) {
                                     To add a game, select a match
                                 </option>
                                 {
-                                    matches.map(m => 
-                                        <option 
-                                            key={m.match_id} 
-                                            value={m.match_id}
-                                        >
-                                            {m.match_id}
-                                        </option>
-                                    )
-                                }
+                                    matches.filter(m => m.match_status !== 'abandoned')
+                                            .map(m => 
+                                                <option 
+                                                    key={m.match_id} 
+                                                    value={m.match_id}
+                                                >
+                                                    {m.match_id} - {cap_words(m.match_status)}
+                                                </option>
+                                            )
+                                    })
                             </select>
                         </div>
                     </div>
@@ -124,7 +137,7 @@ function AddGame(props) {
                                     
                                         <select required>
                                             <option value="">{'Select a Set'}</option>
-                                            {setArr.map((num, idx) => <option key={idx} value={num}>{num}</option>)}
+                                            {activeSets.map((set, idx) => <option key={idx} value={set.set_num}>{set.set_num}</option>)}
                                         </select>
                                     </label>
 
@@ -133,7 +146,7 @@ function AddGame(props) {
                                     
                                         <select required>
                                             <option value="">{'Select the Game Number'}</option>
-                                                {gameNumArr.map((num, idx) => <option key={idx} value={num}>{num}</option>)}
+                                                {game_max_arr.map((num, idx) => <option key={idx} value={num}>{num}</option>)}
                                         </select>
                                     </label>
                                 </div>
