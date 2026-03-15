@@ -252,7 +252,7 @@ VALUES (:player_1_score, :player_2_score, :set_id, :game_num, :game_status, :sta
 
 ----- READ -----
 -- Get all data
-SELECT game_id, m.match_id, g.set_id, game_num, 
+SELECT game_id, m.match_id, g.set_id, s.set_num, game_num, 
     player_1_score, player_2_score, game_status, 
     (
         CASE 

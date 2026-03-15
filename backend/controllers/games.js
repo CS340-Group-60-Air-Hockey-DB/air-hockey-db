@@ -41,6 +41,34 @@ const create_game = async (req, res) => {
     }
 }
 
+const delete_game_by_id = async (req, res) => {
+    const { id } = req.params
+
+    const query = `
+            SET @rows_affected = 0;
+            SET @error_message = '';
+            CALL sp_delete_game(?, @rows_affected, @error_message);
+            SELECT @rows_affected AS rowsAffected, @error_message AS errorMessage;
+        `;
+
+    try {
+        const [results] = await db.query(query, [id]);
+
+        // get results from the SELECT statement
+        const outcome = results[3][0];
+
+        if (outcome.rowsAffected === -99) {
+            return res.status(400).json({ error: outcome.errorMessage });
+        }
+
+        res.status(200).json({ message: "Game deleted successfully!" });
+
+    } catch (error) {
+        console.error("Error executing delete_game:", error);
+        res.status(500).send(`An error occurred while deleting the game with id: ${id}`);
+    }
+}
+
 const get_all_games = async (req, res) => {
     try {
         const [games] = await db.query(game_queries.select_all);
@@ -55,5 +83,6 @@ const get_all_games = async (req, res) => {
 
 module.exports = {
     create_game,
+    delete_game_by_id,
     get_all_games
 };

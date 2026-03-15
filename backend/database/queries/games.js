@@ -4,7 +4,7 @@ const game_queries = {
         WHERE game_id = ?;
     `,
     select_all: `
-        SELECT game_id, m.match_id, g.set_id, game_num, 
+        SELECT game_id, m.match_id, g.set_id, s.set_num, game_num, 
             player_1_score, player_2_score, game_status, 
             (
                 CASE 
