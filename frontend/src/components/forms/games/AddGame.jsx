@@ -213,7 +213,7 @@ function AddGame(props) {
                         </>
                         :
                         // If there is a match id and there are no sets to be played:
-                        matchId !== 'in progress' && activeSets.length === 0 ?
+                        matchId && matchId !== 'in progress' && activeSets.length === 0 ?
                         <>
                             <div className="section">
                                 <div className="form-row-p-div">
