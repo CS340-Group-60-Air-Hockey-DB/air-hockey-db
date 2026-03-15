@@ -146,7 +146,7 @@ const update_match = async (req, res) => {
             start_datetime : curr_match.start_datetime
 
 
-        if (!safe_end_datetime || safe_end_datetime === '') {
+        if (safe_end_datetime === '') {
             return res.status(400).json({
                 message: `end_datetime must be a datetime value`
             })
