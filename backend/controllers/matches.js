@@ -42,7 +42,6 @@ const get_all_match_people = async (req, res) => {
 }
 
 const get_sets_and_games_by_match_id = async (req, res) => {
-    console.log('req.params:', req.params)
     const { id } = req.params
 
     try {
