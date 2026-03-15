@@ -42,6 +42,7 @@ const get_all_match_people = async (req, res) => {
 }
 
 const get_sets_and_games_by_match_id = async (req, res) => {
+    console.log('req.params:', req.params)
     const { id } = req.params
 
     try {
@@ -287,7 +288,7 @@ module.exports = {
     get_all_matches,
     get_all_match_locations,
     get_all_match_people,
-    get_sets_and_games_match_by_id: get_sets_and_games_by_match_id,
+    get_sets_and_games_by_match_id,
     delete_match,
     update_match,
     create_match

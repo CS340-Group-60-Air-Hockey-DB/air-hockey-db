@@ -8,7 +8,7 @@ const {
     delete_match,
     update_match,
     create_match,
-    get_sets_and_games_match_by_id
+    get_sets_and_games_by_match_id
 } = require("../controllers/matches")
 
 
@@ -17,8 +17,8 @@ router
     .get('/locations', get_all_match_locations)
     .get('/players', get_all_match_people)
     .delete('/:id', delete_match)
-    .get('/:id', get_sets_and_games_match_by_id)
     .put('/:id', update_match)
+    .get('/:id/details', get_sets_and_games_by_match_id)
     .post('/', create_match);
 
 
