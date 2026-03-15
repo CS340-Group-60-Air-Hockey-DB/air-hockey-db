@@ -265,7 +265,10 @@ BEGIN
     (7, 1, 3, 4, 'completed', '2026-02-01 15:36:20', '2026-02-01 15:39:45'),
     (4, 7, 3, 5, 'completed', '2026-02-01 15:40:15', '2026-02-01 15:44:30'),
     (6, 7, 3, 6, 'completed', '2026-02-01 15:44:55', '2026-02-01 15:49:45'),
-    (7, 6, 3, 7, 'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06');
+    (7, 6, 3, 7, 'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06'),
+    -- Games for Match 4 Set 1
+    (4, 7, 16, 1, 'completed', DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL '1:34:12' HOUR_SECOND), CURRENT_TIMESTAMP()),
+    (0, 0, 16, 2, 'scheduled', null, null);
 
     ---------------------
     -- match_officials --
