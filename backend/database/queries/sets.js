@@ -11,7 +11,7 @@ const set_queries = {
             end_datetime,
             set_status as status
         from sets
-        JOIN people as p on p.person_id = sets.winner_id
+        LEFT JOIN people as p on p.person_id = sets.winner_id
         ORDER BY match_id;
     `,
     select_by_id: `
