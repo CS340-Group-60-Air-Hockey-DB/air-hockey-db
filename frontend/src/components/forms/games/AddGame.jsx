@@ -127,7 +127,8 @@ function AddGame(props) {
                     </div>
 
                     {
-                        matchId && 
+                        // If there is a match id + sets to be played
+                        matchId !== 'in progress' && activeSets.length > 0 ?
                         <>
                             {/* Select Set + Game Number */}
                             <div className="section">
@@ -210,12 +211,39 @@ function AddGame(props) {
                                 </button>
                             </div>
                         </>
-                    }
+                        :
+                        // If there is a match id and there are no sets to be played:
+                        matchId !== 'in progress' && activeSets.length === 0 ?
+                        <>
+                            <div className="section">
+                                <div className="form-row-p-div">
+                                    <p>
+                                        The match has ended and cannot have a game added to it.
+                                    </p>
 
-                    {/* If sets cannot be found for the match with the selected id */}
-                    {/* {
-                        matchId && setArr.length === 0 && alert(`Match ${matchId} and/or the set max could not be found. Please refresh and try again.`)
-                    } */}
+                                    <p>
+                                        If you need to change a game&apos;s details, you can <b><i>update</i></b> the game.
+                                    </p>
+                                </div>
+                            </div>
+                        </>
+                        :
+                        // If the match is in progress and there are no sets:
+                        matchId === 'in progress' &&
+                        <>
+                            <div className="section">
+                                <div className="form-row-p-div">
+                                    <p>
+                                        The match doesn&apos;t have any sets added to it.
+                                    </p>
+
+                                    <p>
+                                        Add sets in the Sets page, then add a game.
+                                    </p>
+                                </div>
+                            </div>
+                        </>
+                    }
                 </form>  
             </div>
         </div>
