@@ -3,11 +3,15 @@ const player_match_queries = require('../database/queries/player_matches.js');
 
 const create_player_match = async (req, res) => {
     try {
-        const data = req.body;
+        const { player_id, match_id, starting_side, player_order } = req.body;
 
-        await db.query(player_match_queries.insert_player_match, data);
+        const query = `CALL sp_add_player_match(?, ?, ?, ?)`;
+        const values = [player_id, match_id, starting_side, player_order];
 
-        res.status(201).json(data);
+        const [result] = await db.query(query, values);
+        const newPlayerMatchId = result[0][0].insertId;
+
+        res.status(201).json({ message: "Player match created!", id: newPlayerMatchId });
 
     } catch (error) {
         res.status(500).send("An error occurred while creating the player match.");
@@ -28,12 +32,8 @@ const get_all_player_matches = async (req, res) => {
 const get_by_player_id = async (req, res) => {
     try {
         const player_id = req.params.id;
-
-        await db.query(player_match_queries.select_by_player_id, { person_id: player_id })
-            .then(([results]) => {
-                res.status(200).json(results);
-            });
-
+        const [results] = await db.query(player_match_queries.select_by_player_id, [player_id]);
+        res.status(200).json(results)
     } catch (error) {
         res.status(500).send("An error occurred while fetching matches for this player.");
     }
@@ -42,11 +42,8 @@ const get_by_player_id = async (req, res) => {
 const get_by_match_id = async (req, res) => {
     try {
         const match_id = req.params.id;
-
-        const [results] = await db.query(player_match_queries.select_by_match_id, { match_id });
-
+        const [results] = await db.query(player_match_queries.select_by_match_id, [match_id]);
         res.status(200).json(results);
-
     } catch (error) {
         res.status(500).send("An error occurred while fetching players for this match.");
     }
@@ -54,12 +51,13 @@ const get_by_match_id = async (req, res) => {
 
 const update_player_match = async (req, res) => {
     try {
-        const data = {
-            player_match_id: req.params.id,
-            ...req.body
-        };
+        const player_match_id = req.params.id;
+        const { player_id, match_id, starting_side, player_order } = req.body;
 
-        await db.query(player_match_queries.update_by_id, data);
+        const query = `CALL sp_update_player_match(?, ?, ?, ?, ?)`;
+        const values = [player_id, match_id, starting_side, player_order, player_match_id];
+
+        await db.query(query, values);
 
         res.status(200).json({ message: "Update successful" });
 
@@ -72,8 +70,9 @@ const delete_player_match = async (req, res) => {
     try {
         const player_match_id = req.params.id;
 
-        await db.query(player_match_queries.delete_by_id, { player_match_id });
-
+        const query = `CALL sp_delete_player_match(?)`;
+        await db.query(query, [player_match_id]);
+        
         res.status(204).send();
 
     } catch (error) {

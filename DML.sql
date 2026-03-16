@@ -331,16 +331,17 @@ VALUES (:player_id, :match_id, :starting_side, :player_order);
 
 ----- READ -----
 -- Get all data
-SELECT pm.match_id,
+SELECT pm.player_match_id,
+    pm.match_id,
     CONCAT(p.first_name, ' ', p.last_name) as "player_name",
     CONCAT(p_opp.first_name, ' ', p_opp.last_name) as "opponent",
     pm.player_order,
     pm.starting_side
 from player_matches as pm
 JOIN people as p on p.person_id = pm.player_id
-JOIN player_matches as pm_opp on pm_opp.match_id = pm.match_id
+LEFT JOIN player_matches as pm_opp on pm_opp.match_id = pm.match_id
     AND pm_opp.player_id != pm.player_id
-JOIN people as p_opp on pm_opp.player_id = p_opp.person_id
+LEFT JOIN people as p_opp on pm_opp.player_id = p_opp.person_id
 ORDER BY match_id;
 
 -- Get by match id
