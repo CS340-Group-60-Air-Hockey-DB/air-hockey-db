@@ -130,8 +130,8 @@ function AddGame(props) {
                 [name]: value,
                 player_1_score: 0,
                 player_2_score: 0,
-                start_datetime: '',
-                end_datetime: ''
+                start_datetime: null,
+                end_datetime: null
             })
         }
 
