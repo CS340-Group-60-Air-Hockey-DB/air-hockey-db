@@ -23,7 +23,7 @@ const create_game = async (req, res) => {
 
         return res.status(201).json({
             message: "Game added successfully",
-            person_id: add_res[0][1][0]['@person_id']
+            person_id: add_res[0][1][0]['game_id']
         });
     }
     catch (error) {
