@@ -14,6 +14,9 @@ const create_player_match = async (req, res) => {
         res.status(201).json({ message: "Player match created!", id: newPlayerMatchId });
 
     } catch (error) {
+        if (error.sqlMessage) {
+            return res.status(400).json({ error: error.sqlMessage });
+        }
         res.status(500).send("An error occurred while creating the player match.");
     }
 }

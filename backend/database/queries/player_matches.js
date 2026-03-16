@@ -6,6 +6,7 @@ const player_match_queries = {
     select_all: `
         SELECT pm.player_match_id,
             pm.match_id,
+            pm.player_id,
             CONCAT(p.first_name, ' ', p.last_name) as "player_name",
             CONCAT(p_opp.first_name, ' ', p_opp.last_name) as "opponent",
             pm.player_order,

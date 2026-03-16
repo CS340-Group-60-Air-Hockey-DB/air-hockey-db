@@ -84,6 +84,7 @@ function PlayerMatches(props) {
                     backendURL={backendURL}
                     matches={matches}
                     people={people}
+                    playerMatches={playerMatches}
                     onAdd={refreshData}
                 />
             )}
