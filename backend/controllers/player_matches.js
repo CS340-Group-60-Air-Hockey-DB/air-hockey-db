@@ -14,6 +14,9 @@ const create_player_match = async (req, res) => {
         res.status(201).json({ message: "Player match created!", id: newPlayerMatchId });
 
     } catch (error) {
+        if (error.sqlMessage) {
+            return res.status(400).json({ error: error.sqlMessage });
+        }
         res.status(500).send("An error occurred while creating the player match.");
     }
 }
@@ -59,10 +62,42 @@ const update_player_match = async (req, res) => {
 
         await db.query(query, values);
 
+        // Update other player match for starting side and/or player order
+        const [get_res] = await db.query(player_match_queries.select_by_match_id, [match_id])
+
+        if (get_res.length === 2) {
+            let [other_pm] = get_res.filter(pm => pm.player_id != player_id)
+
+            if (starting_side === other_pm.starting_side) {
+                if (starting_side === 'left') {
+                    other_pm.starting_side = 'right'
+                }
+                else {
+                    other_pm.starting_side = 'left'
+                }
+            }
+            if (player_order === other_pm.player_order) {
+                if (player_order === 'player_1') {
+                    other_pm.player_order = 'player_2'
+                }
+                else {
+                    other_pm.player_order = 'player_1'
+                }
+            }
+
+            const update_query_2 = `CALL sp_update_player_match(?, ?, ?, ?, ?)`;
+            const update_values_2 = [other_pm.player_id, other_pm.match_id, other_pm.starting_side, other_pm.player_order, other_pm.player_match_id];
+
+            await db.query(update_query_2, update_values_2);
+        }
+
         res.status(200).json({ message: "Update successful" });
 
     } catch (error) {
-        res.status(500).send("An error occurred while updating the player match.");
+        res.status(500).json({
+            error,
+            message: "An error occurred while updating the player match."
+        });
     }
 }
 
@@ -72,7 +107,7 @@ const delete_player_match = async (req, res) => {
 
         const query = `CALL sp_delete_player_match(?)`;
         await db.query(query, [player_match_id]);
-        
+
         res.status(204).send();
 
     } catch (error) {

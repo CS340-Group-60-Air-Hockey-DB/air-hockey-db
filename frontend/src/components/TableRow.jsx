@@ -17,7 +17,8 @@ const TableRow = ({ rowObject, backendURL, deleteBtn, refreshData, onEdit, hidde
 
                     {deleteBtn && (
                         <DeleteBtn 
-                            rowObject={rowObject} 
+                            rowObject={rowObject}
+                            objectId={objectId} 
                             backendURL={backendURL} 
                             refreshData={refreshData}
                         />

@@ -92,6 +92,7 @@ function App() {
                             backendURL={backendURL}  
                             locale={userLocale} 
                             people={people}
+                            refreshData={refreshData}
                         />
                 } 
                 />
@@ -103,6 +104,7 @@ function App() {
                             locale={userLocale} 
                             people={people}
                             locations={locations}
+                            refreshData={refreshData}
                         />
                     } 
                 />
@@ -162,10 +164,11 @@ function App() {
                     element={
                         <Games 
                             backendURL={backendURL}  
+                            games={games}
                             locale={userLocale} 
                             matches={matches}
+                            refreshData={refreshData}
                             sets={sets}
-                            games={games}
                         />
                     }
                 />

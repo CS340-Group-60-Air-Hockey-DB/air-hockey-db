@@ -26,6 +26,19 @@ const match_queries = {
         SELECT * from matches
         WHERE match_id = ?;
     `,
+    select_sets_by_match_id: `
+        SELECT *
+        FROM sets
+        WHERE match_id = ?
+        ORDER BY set_num;
+    `,
+    select_games_by_match_id: `
+        SELECT g.*
+        FROM games g
+        JOIN sets s ON s.set_id = g.set_id
+        WHERE s.match_id = ?
+        ORDER BY s.set_num, g.game_num;
+    `,
     insert_match: `
         INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status)
         VALUES (?, ?, ?, ?, ?, ?, ?, 'scheduled');

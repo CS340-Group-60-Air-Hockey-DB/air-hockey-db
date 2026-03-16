@@ -39,7 +39,7 @@ function Matches(props) {
 
     
     return (
-        <div className="page-container">
+        <div id='page-styles'>
             <div>
                 <h1>Air Hockey Matches</h1>
                 

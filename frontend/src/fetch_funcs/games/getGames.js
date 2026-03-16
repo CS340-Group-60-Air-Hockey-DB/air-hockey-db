@@ -1,8 +1,15 @@
 const getGames = async (backendURL, setGames) => {
-    const res = await fetch(backendURL + '/games')
-    const data = await res.json()
+    try {
+        const res = await fetch(backendURL + '/games')
+        const data = await res.json()
 
-    setGames(data)
+        setGames(data)
+    } catch (error) {
+        return {
+            status: error.status,
+            error
+        }
+    }
 }
 
 export default getGames

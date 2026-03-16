@@ -336,10 +336,146 @@ DELIMITER ;
 -- locations --
 ---------------
 ----- CREATE -----
+DROP PROCEDURE IF EXISTS sp_add_location;
 
+DELIMITER //
+
+CREATE PROCEDURE sp_add_location(
+    IN p_table_qty INT,
+    IN p_email VARCHAR(255),
+    IN p_phone_num VARCHAR(25),
+    IN p_street_address_1 VARCHAR(255),
+    IN p_street_address_2 VARCHAR (255),
+    IN p_city VARCHAR(255),
+    IN p_state VARCHAR(255),
+    IN p_country VARCHAR(255),
+    IN p_zip_code VARCHAR(255),
+    IN p_type_of_address VARCHAR(255),
+    IN p_location_name VARCHAR(255),
+    IN p_note VARCHAR(10000),
+
+    OUT insertId int(11),
+    OUT error_message varchar(255)
+)
+BEGIN
+-- In case of an error, set the person_id to -99
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            SET insertId = -99;
+            SET error_message = NULL;
+
+            GET DIAGNOSTICS CONDITION 1
+                error_message = MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+
+    START TRANSACTION;
+
+        INSERT INTO locations (
+            table_qty, email, phone_num, street_address_1, street_address_2,
+            city, `state`, country, zip_code, type_of_address, location_name, notes
+        )
+        VALUES (
+            p_table_qty, p_email, p_phone_num, p_street_address_1, p_street_address_2,
+            p_city, p_state, p_country, p_zip_code, p_type_of_address, p_location_name, p_note
+        );
+
+        SET insertId = LAST_INSERT_ID();
+    Commit;
+    
+END //
+
+DELIMITER ;
 
 ----- UPDATE -----
+DROP PROCEDURE IF EXISTS sp_update_location;
 
+DELIMITER //
+
+CREATE PROCEDURE sp_update_location(
+    IN p_table_qty INT,
+    IN p_email VARCHAR(255),
+    IN p_phone_num VARCHAR(25),
+    IN p_street_address_1 VARCHAR(255),
+    IN p_street_address_2 VARCHAR (255),
+    IN p_city VARCHAR(255),
+    IN p_state VARCHAR(255),
+    IN p_country VARCHAR(255),
+    IN p_zip_code VARCHAR(255),
+    IN p_type_of_address VARCHAR(255),
+    IN p_location_name VARCHAR(255),
+    IN p_note VARCHAR(10000),
+    IN p_location_id INT,
+    IN p_person_id INT,
+
+    OUT rows_affected INT,
+    OUT error_message VARCHAR(255)
+)
+BEGIN
+    DECLARE updated_person_id INT;
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            SET rows_affected = -99;
+            SET error_message = NULL;
+
+            GET DIAGNOSTICS CONDITION 1
+                error_message = MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+
+    START TRANSACTION;
+    -- Update the Location
+        UPDATE locations
+        SET
+            table_qty = p_table_qty,
+            email = NULLIF(p_email, ''),
+            phone_num = NULLIF(p_phone_num, ''),
+            street_address_1 = p_street_address_1,
+            street_address_2 = COALESCE(NULLIF(p_street_address_2, ''), ''),
+            city = p_city,
+            `state` = p_state,
+            country = p_country,
+            zip_code = p_zip_code,
+            type_of_address = p_type_of_address,
+            location_name = NULLIF(p_location_name, ''),
+            notes = NULLIF(p_note, '')
+        WHERE location_id = p_location_id;
+
+        -- Check if the location_id exists
+        SET rows_affected = ROW_COUNT();
+        IF rows_affected = 0 THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Location was not found. No rows were updated.';
+        END IF;
+
+    -- Update the people_locations table if person_id is different for the location_id
+    SELECT person_id INTO updated_person_id
+    FROM people_locations
+    WHERE location_id = p_location_id
+    LIMIT 1;
+
+    IF updated_person_id != p_person_id OR
+        (updated_person_id IS NULL AND p_person_id IS NOT NULL) OR
+        (updated_person_id IS NOT NULL AND p_person_id IS NULL) THEN
+        
+        IF p_person_id IS NOT NULL THEN
+        -- If no person_location row exists, insert data
+        -- Else, update the row with the location_id
+            INSERT INTO people_locations (person_id, location_id)
+            VALUES (p_person_id, p_location_id)
+            ON DUPLICATE KEY UPDATE person_id = p_person_id;
+        ELSE
+        -- DELETE when no p_person_id
+            DELETE FROM people_locations
+            WHERE location_id = p_location_id;
+        END IF;
+    END IF;
+
+    COMMIT;
+END //
+
+DELIMITER ;
 
 ----- DELETE -----
 -- There is no DELETE for this table, as the community wants to keep data integrity for past matches
@@ -349,12 +485,13 @@ DELIMITER ;
 -- people_locations --
 ----------------------
 ----- CREATE -----
-
+-- See locations stored procedure sp_add_location
 
 ----- UPDATE -----
-
+-- See locations stored procedure sp_update_location
 
 ----- DELETE -----
+-- See locations stored procedure sp_update_location
 
 
 -------------
@@ -515,13 +652,147 @@ DELIMITER ;
 -- games --
 -----------
 ----- CREATE -----
+DROP PROCEDURE IF EXISTS sp_add_game;
+DELIMITER //
 
+CREATE PROCEDURE sp_add_game(
+    IN p_set_id INT(11),
+    IN p_game_num TINYINT(4),
+    IN p_player_1_score TINYINT(4),
+    IN p_player_2_score TINYINT(4),
+    IN p_game_status ENUM('scheduled', 'in_progress', 'completed', 'abandoned'),
+    IN p_start_datetime DATETIME,
+    IN p_end_datetime DATETIME,
+
+    OUT game_id INT(11),
+    OUT p_error_message VARCHAR(255)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+        -- In case of an error, set the person_id to -99
+            SET game_id = -99;
+            SET p_error_message = NULL;
+
+            GET DIAGNOSTICS CONDITION 1
+                p_error_message = MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+
+    START TRANSACTION;
+    -- Validate Input
+    -- set_id 
+        IF p_set_id IS NULL THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'set_id must be provided.';
+        END IF;
+
+        IF NOT EXISTS (SELECT 1 FROM `sets` WHERE set_id = p_set_id) THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'set_id does not exist.';
+        END IF;
+
+    -- Game Number
+        IF p_game_num IS NULL THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'game_num must be provided.';
+        END IF;
+
+        IF p_game_num NOT BETWEEN 1 AND 7 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'game_num must be between 1 and 7.';
+        END IF;
+
+    -- No duplicate game number within the same set
+        IF EXISTS (
+            SELECT 1 FROM games
+            WHERE set_id = p_set_id AND game_num = p_game_num
+        ) THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A game with this game_num already exists in this set.';
+        END IF;
+
+    -- Player Scores are between 0 and 7
+        IF COALESCE(p_player_1_score, 0) NOT BETWEEN 0 AND 7 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'player_1_score must be between 0 and 7.';
+        END IF;
+
+        IF COALESCE(p_player_2_score, 0) NOT BETWEEN 0 AND 7 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'player_2_score must be between 0 and 7.';
+        END IF;
+
+    -- Win Condition on Completed Game
+    -- If the game is completed, exactly one player must have scored 7
+        IF COALESCE(p_game_status, 'scheduled') = 'completed' THEN
+            IF NOT (
+                (COALESCE(p_player_1_score, 0) = 7 AND COALESCE(p_player_2_score, 0) < 7) OR
+                (COALESCE(p_player_2_score, 0) = 7 AND COALESCE(p_player_1_score, 0) < 7)
+            ) THEN
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A completed game must have exactly one player at 7 points.';
+            END IF;
+        END IF;
+
+    -- Datetime Values
+    IF p_end_datetime IS NOT NULL AND p_start_datetime IS NOT NULL 
+        AND p_end_datetime <= p_start_datetime THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'end_datetime must be after start_datetime.';
+    END IF;
+
+    IF p_end_datetime IS NOT NULL AND p_start_datetime IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'start_datetime must be provided, the end_datetime cannot be set without it.';
+    END IF;
+
+    -- Insert Values
+    INSERT INTO games (
+        set_id, game_num, player_1_score, player_2_score, game_status, start_datetime, end_datetime
+    )
+    VALUES ( 
+        p_set_id, p_game_num, COALESCE(p_player_1_score, 0), COALESCE(p_player_2_score, 0), COALESCE(p_game_status, 'scheduled'), p_start_datetime, p_end_datetime
+    );
+
+    SET game_id = LAST_INSERT_ID();
+    COMMIT;
+
+END //
+DELIMITER ;
 
 ----- UPDATE -----
 
 
 ----- DELETE -----
+DROP PROCEDURE IF EXISTS sp_delete_game;
+DELIMITER //
 
+CREATE PROCEDURE sp_delete_game(
+    IN g_game_id int(11),
+
+    OUT rows_affected int(11),
+    OUT error_message varchar(255)
+)
+BEGIN
+    DECLARE game_exists boolean;
+
+-- In case of an error, set the rows_affected to -99
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            SET rows_affected = -99;
+            GET DIAGNOSTICS CONDITION 1
+                error_message = MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+
+    START TRANSACTION;
+    -- Validate game with id exists
+        SELECT COUNT(*) INTO game_exists 
+            FROM games 
+        WHERE game_id = g_game_id;
+        
+        IF game_exists = 0 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Game not found';
+        END IF;
+
+        DELETE FROM games
+        WHERE game_id = g_game_id;
+
+        SET rows_affected = ROW_COUNT();
+    COMMIT;
+END //
+DELIMITER ;
 
 
 ---------------------

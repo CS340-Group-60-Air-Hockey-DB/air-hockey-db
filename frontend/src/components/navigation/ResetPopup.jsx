@@ -25,12 +25,12 @@ function ResetPopup(props) {
     };
 
     return (
-        <div id="reset-database-popup">
+        <div id="reset-database-popup" className="modals">
             <p>
                 Are you sure you want to reset the database?
             </p>
 
-            <div id="reset-data-btns">
+            <div id="modal-btn-row">
                 <button
                     onClick={evt => {
                         evt.preventDefault() 

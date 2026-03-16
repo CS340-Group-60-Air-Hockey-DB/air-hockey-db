@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function AddPlayerToMatch({ backendURL, matches, people, onAdd }) {
+function AddPlayerToMatch({ backendURL, matches, people, playerMatches, onAdd }) {
     const [matchId, setMatchId] = useState('');
     const [playerId, setPlayerId] = useState('');
     const [startingSide, setStartingSide] = useState('left');
@@ -8,6 +8,26 @@ function AddPlayerToMatch({ backendURL, matches, people, onAdd }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // get all players currenty assigned to selected match
+        const playersInThisMatch = playerMatches ? playerMatches.filter(pm => pm.match_id == matchId) : [];
+
+        // check if match is full
+        if (playersInThisMatch.length >= 2) {
+            alert("This match is already full.");
+            return;
+        }
+
+        // check if someone is already in this side and order
+        const isSlotTaken = playersInThisMatch.some(pm =>
+            pm.starting_side?.toLowerCase() === startingSide.toLowerCase() &&
+            pm.player_order?.toLowerCase() === playerOrder.toLowerCase()
+        );
+
+        if (isSlotTaken) {
+            alert(`There is already a ${playerOrder.replace('_', ' ')} on the ${startingSide} side for this match.`);
+            return;
+        }
 
         const newPlayerMatch = {
             match_id: matchId,
@@ -35,7 +55,9 @@ function AddPlayerToMatch({ backendURL, matches, people, onAdd }) {
                 setStartingSide('left');
                 setPlayerOrder('player_1');
             } else {
-                alert("Failed to add player to match.")
+                const errorData = await response.json();
+
+                alert(errorData.error || "Failed to add player to match.");
             }
         } catch (error) {
             console.error("Network error:", error);

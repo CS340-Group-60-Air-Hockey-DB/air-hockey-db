@@ -1,4 +1,5 @@
 // Common enum values
+const game_max_arr = [1, 2, 3, 4, 5, 6, 7]
 const game_status_arr = ['scheduled', 'in_progress', 'completed', 'abandoned']
 const gender_arr = ['female', 'male', 'other', 'prefer not to say']
 const faceoff_type_arr = ['standard', 'puck flip']
@@ -13,6 +14,7 @@ const type_of_address_arr = ['residential', 'commercial', 'club', 'bar', 'other'
 
 
 export {
+    game_max_arr,
     game_status_arr,
     gender_arr,
     faceoff_type_arr,

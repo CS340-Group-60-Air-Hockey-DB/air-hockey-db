@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-
-const { get_all_locations } = require("../controllers/locations")
+const locationsController = require('../controllers/locations');
 
 
 router
-    .get('/', get_all_locations)
+    .get('/', locationsController.get_all_locations)
+    .post('/', locationsController.create_location)
+    .put('/:id', locationsController.update_location);
 
 
-module.exports = router
+module.exports = router;

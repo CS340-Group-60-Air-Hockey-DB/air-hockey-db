@@ -1,11 +1,12 @@
 const player_match_queries = {
     delete_by_id: `
         DELETE FROM player_matches
-        WHERE player_match_id = :player_match_id;
+        WHERE player_match_id = ?;
     `,
     select_all: `
         SELECT pm.player_match_id,
             pm.match_id,
+            pm.player_id,
             CONCAT(p.first_name, ' ', p.last_name) as "player_name",
             CONCAT(p_opp.first_name, ' ', p_opp.last_name) as "opponent",
             pm.player_order,
@@ -19,25 +20,25 @@ const player_match_queries = {
     `,
     select_by_player_id: `
         SELECT * from player_matches
-        WHERE player_id = :person_id
+        WHERE player_id = ?
         ORDER BY match_id;
     `,
     select_by_match_id: `
         SELECT * from player_matches
-        WHERE match_id = :match_id
+        WHERE match_id = ?
         ORDER BY match_id;
     `,
     insert_player_match: `
         INSERT INTO player_matches(player_id, match_id, starting_side, player_order)
-        VALUES (:player_id, :match_id, :starting_side, :player_order);
+        VALUES (?, ?, ?, ?);
     `,
     update_by_id: `
         UPDATE player_matches
-        SET player_id = :player_id,
-            match_id = :match_id,
-            starting_side = :starting_side,
-            player_order = :player_order
-        WHERE player_match_id = :player_match_id;
+        SET player_id = ?,
+            match_id = ?,
+            starting_side = ?,
+            player_order = ?
+        WHERE player_match_id = ?;
     `,
 }
 
