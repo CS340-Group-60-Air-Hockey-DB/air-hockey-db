@@ -25,7 +25,7 @@ const player_match_queries = {
     `,
     select_by_match_id: `
         SELECT * from player_matches
-        WHERE match_id = :match_id
+        WHERE match_id = ?
         ORDER BY match_id;
     `,
     insert_player_match: `
