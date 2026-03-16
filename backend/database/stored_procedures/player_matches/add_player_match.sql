@@ -26,12 +26,11 @@ BEGIN
     SELECT COUNT(*) INTO v_slot_taken
     FROM player_matches
     WHERE match_id = p_match_id
-        AND starting_side = p_starting_side
-        AND player_order = p.player_order;
+        AND (starting_side = p_starting_side OR player_order = p_player_order);
     
     IF v_slot_taken > 0 THEN
-        SIGNAL SQLSTATE '4500'
-        SET MESSAGE_TEXT = 'Database Error: That starting side and player order is already taken.';
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Database Error: That starting side and/or player order is already taken.';
     END IF;
 
     -- check if player is already in this match
