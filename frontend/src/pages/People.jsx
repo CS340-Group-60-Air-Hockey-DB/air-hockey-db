@@ -61,30 +61,32 @@ function People(props) {
                 </p>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        {
-                        headers.map((header, idx) => (
-                            <th key={`header-${idx}`}>
-                                {cap_words(header_map[header] ?? header)}
-                            </th>
-                            ))
-                        }
-                    </tr>
-                </thead>
+            <div id='table-div'>
+                <table>
+                    <thead>
+                        <tr>
+                            {
+                            headers.map((header, idx) => (
+                                <th key={`header-${idx}`}>
+                                    {cap_words(header_map[header] ?? header)}
+                                </th>
+                                ))
+                            }
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    { rows.map((person, index) => (
-                        <TableRow
-                            key={`person-${index}`} 
-                            rowObject={person} 
-                            backendURL={backendURL} 
-                        />
-                    ))}
+                    <tbody>
+                        { rows.map((person, index) => (
+                            <TableRow
+                                key={`person-${index}`} 
+                                rowObject={person} 
+                                backendURL={backendURL} 
+                            />
+                        ))}
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             
             <div id='btn-row'>
                 <button

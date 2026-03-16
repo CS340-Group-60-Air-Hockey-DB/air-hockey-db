@@ -227,6 +227,31 @@ footer{
   width: 100%;
   margin-top: -20px;
   padding: 0 0 20px;
+  z-index: 10;
+}
+
+.modals #modal-header h2 {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+#modal-p-div {
+  margin-top: 20px;
+  z-index: 9;
+}
+
+.modal-p-div-overflow {
+  position: relative;
+  z-index: 1;
+}
+
+.form-row-p-div {
+  display: flex;
+  flex-wrap: wrap;
+  width: 75%;
+  gap: 10px;
+  margin: -20px 0 10px;
+  justify-self: center;
 }
 
 .modals p {
@@ -287,6 +312,7 @@ footer{
 #modal-btn-row button {
   width: 110px;
   line-height: 20px;
+  justify-content: center;
 }
 
 .asterisk{
@@ -348,6 +374,7 @@ footer{
 }
 
 .form-row {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -378,19 +405,34 @@ footer{
   width: 92%;
 }
 
-.update-person-select {
-  justify-self: center;
+.init-select {
   width: 50%;
+  justify-self: center;
   margin: 10px 0px 0px;
+  text-align: center;
 }
 
-.update-person-select label{
+.init-select label{
   justify-content: center;
 }
 
+.init-select select{
+  width: 60%;
+  justify-content: center;
+}
+
+.set-select {
+  justify-self: center;
+}
+
 .section {
-  width: 80%;
+  width: 100%;
   margin: 20px 0;
+}
+
+.game-section{
+  width: 80%;
+  margin: 0 0;
 }
 
 /* Forms to Add Data */

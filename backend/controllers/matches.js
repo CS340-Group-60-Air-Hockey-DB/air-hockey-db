@@ -41,6 +41,49 @@ const get_all_match_people = async (req, res) => {
     }
 }
 
+const get_sets_and_games_by_match_id = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        let [match_sets] = await db.query(match_queries.select_sets_by_match_id, id)
+
+        if (match_sets.length === 0) {
+            return res.status(404).json({
+                message: 'No sets found for this match.'
+            });
+        }
+
+        let [set_games] = await db.query(match_queries.select_games_by_match_id, id)
+
+        // Group games by the set number
+        const games_per_set = set_games.reduce((acc, game) => {
+            const { set_id, ...gameData } = game;
+
+            if (!acc[set_id]) {
+                acc[set_id] = []
+            }
+
+            acc[set_id].push(gameData)
+
+            return acc;
+        }, {});
+
+        // Combine the set details with the games for that set number
+        const match_details = match_sets.map(set => ({
+            ...set,
+            games: games_per_set[set.set_id] || []
+        }));
+
+        return res.status(200).json(match_details)
+    }
+    catch (error) {
+        return res.status(500).send({
+            message: `An error occurred while getting the sets and games for the match: ${id}`,
+            error
+        });
+    }
+}
+
 const delete_match = async (req, res) => {
     try {
         const matchID = req.params.id;
@@ -103,7 +146,7 @@ const update_match = async (req, res) => {
             start_datetime : curr_match.start_datetime
 
 
-        if (!safe_end_datetime || safe_end_datetime === '') {
+        if (safe_end_datetime === '') {
             return res.status(400).json({
                 message: `end_datetime must be a datetime value`
             })
@@ -182,8 +225,8 @@ const update_match = async (req, res) => {
 
 const create_match = async (req, res) => {
     try {
-        const { 
-            location_id, 
+        const {
+            location_id,
             set_max,
             faceoff_type,
             start_datetime,
@@ -232,9 +275,9 @@ const create_match = async (req, res) => {
         if (outcome.match_id === -99) {
             return res.status(400).json({ error: "A database error occurred while creating the match." });
         }
-        
-        res.status(201).json({ message: "Match created successfully!", id: outcome.insertId});
-    
+
+        res.status(201).json({ message: "Match created successfully!", id: outcome.insertId });
+
     } catch (error) {
         res.status(500).json({ error, message: "Failed to create match" });
     }
@@ -244,6 +287,7 @@ module.exports = {
     get_all_matches,
     get_all_match_locations,
     get_all_match_people,
+    get_sets_and_games_by_match_id,
     delete_match,
     update_match,
     create_match

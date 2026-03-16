@@ -16,9 +16,12 @@ const UpdatePersonForm = (props) => {
             person = person.dob ? 
                 { ...person, dob: person.dob.split('T')[0]}
                 : person
+        
+            setPerson(person)
         }
-
-        setPerson(person)
+        else{
+            setPerson({})
+        }
     }
 
     const handleInputOnChange = (evt) => {
@@ -151,7 +154,7 @@ const UpdatePersonForm = (props) => {
                     noValidate
                 >
                     <div className="section">
-                        <div className="form-row update-person-select">
+                        <div className="form-row init-select">
                             <label 
                                 htmlFor="update_person_id"
                                 className='section-label'
