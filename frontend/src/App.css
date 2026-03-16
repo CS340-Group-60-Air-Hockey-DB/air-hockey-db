@@ -374,6 +374,7 @@ footer{
 }
 
 .form-row {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -405,6 +406,7 @@ footer{
 }
 
 .init-select {
+  width: 50%;
   justify-self: center;
   margin: 10px 0px 0px;
   text-align: center;
@@ -419,9 +421,18 @@ footer{
   justify-content: center;
 }
 
+.set-select {
+  justify-self: center;
+}
+
 .section {
   width: 100%;
   margin: 20px 0;
+}
+
+.game-section{
+  width: 80%;
+  margin: 0 0;
 }
 
 /* Forms to Add Data */
