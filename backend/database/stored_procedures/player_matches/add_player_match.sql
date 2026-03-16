@@ -1,7 +1,7 @@
 DROP PROCEDURE IF EXISTS sp_add_player_match;
 DELIMITER //
 
-CREATE PROCEDURE sp_add_player_match(\
+CREATE PROCEDURE sp_add_player_match(
     IN p_player_id INT,
     IN p_match_id INT,
     IN p_starting_side ENUM('left', 'right'),
@@ -14,4 +14,4 @@ BEGIN
     -- Return new ID back to player_matches.js
     SELECT LAST_INSERT_ID() AS insertId;
 END //
-DELIMITER;
+DELIMITER ;

@@ -1,5 +1,5 @@
 DROP PROCEDURE IF EXISTS sp_update_player_match;
-DELIMITER//
+DELIMITER //
 
 CREATE PROCEDURE sp_update_player_match(
     IN p_player_id INT,
