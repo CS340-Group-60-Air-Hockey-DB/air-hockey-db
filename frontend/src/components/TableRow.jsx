@@ -1,10 +1,12 @@
 import DeleteBtn from './DeleteBtn';
 
-const TableRow = ({ rowObject, backendURL, deleteBtn, refreshData, onEdit }) => {
+const TableRow = ({ rowObject, backendURL, deleteBtn, refreshData, onEdit, hiddenColumns = [] }) => {
+    const visibleColumns = Object.keys(rowObject).filter(colName => !hiddenColumns.includes(colName));
+
     return (
         <tr>
-            {Object.values(rowObject).map((value, index) => (
-                <td key={index}>{value}</td>
+            {visibleColumns.map((colName, index) => (
+                <td key={index}>{rowObject[colName]}</td>
             ))}
             
             {(deleteBtn || onEdit) && (

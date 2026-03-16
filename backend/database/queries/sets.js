@@ -4,15 +4,16 @@ const set_queries = {
         WHERE set_id = :set_id;
     `,
     select_all: `
-        SELECT match_id,
+        SELECT sets.set_id,
+            sets.match_id,
             CONCAT(p.first_name, ' ', p.last_name) as winner, 
-            set_num,
-            start_datetime, 
-            end_datetime,
-            set_status as status
+            sets.set_num,
+            sets.start_datetime, 
+            sets.end_datetime,
+            sets.set_status as status
         from sets
-        JOIN people as p on p.person_id = sets.winner_id
-        ORDER BY match_id;
+        LEFT JOIN people as p on p.person_id = sets.winner_id
+        ORDER BY sets.match_id, sets.set_num;
     `,
     select_by_id: `
         SELECT * from sets
