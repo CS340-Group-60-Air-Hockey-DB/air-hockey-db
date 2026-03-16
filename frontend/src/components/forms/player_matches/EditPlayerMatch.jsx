@@ -52,6 +52,7 @@ function EditPlayerMatch({ backendURL, matches, people, playerMatch, onUpdate, o
             }
         } catch (error) {
             console.error("Network error:", error);
+            alert("Failed to update player match.")
         }
     };
 
@@ -66,8 +67,8 @@ function EditPlayerMatch({ backendURL, matches, people, playerMatch, onUpdate, o
             </select>
 
             <label> Select Player: </label>
-            <select required disabled value={playerId} onChange={(e) => setPlayerId(e.target.value)}>
-                <option value="" disabled>Select a Player</option>
+            <select required  value={playerId} onChange={(e) => setPlayerId(e.target.value)}>
+                <option value="">Select a Player</option>
                 {people.map(p => <option key={p.person_id} value={p.person_id}>{p.first_name + ' ' + p.last_name}</option>)}
             </select>
 
