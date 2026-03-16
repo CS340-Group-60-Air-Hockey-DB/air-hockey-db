@@ -18,7 +18,6 @@ export default async function addPerson(backendURL, personData) {
         }
 
     } catch (error) {
-        // If the API call fails, print the error to the console
         return {
             status: error.status,
             error

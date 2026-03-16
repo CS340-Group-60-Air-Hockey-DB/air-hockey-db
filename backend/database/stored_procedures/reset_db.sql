@@ -47,7 +47,7 @@ BEGIN
         email varchar(255) UNIQUE,
         phone_num varchar(25),
         street_address_1 varchar(255) NOT NULL,
-        street_address_2 varchar(255),
+        street_address_2 varchar(255) NOT NULL DEFAULT '',
         city varchar(255) NOT NULL,
         state varchar(255) NOT NULL,
         country varchar(255) NOT NULL,
@@ -179,7 +179,9 @@ BEGIN
         foreign key (person_id) REFERENCES people(person_id) 
             ON UPDATE CASCADE,
         foreign key (location_id) REFERENCES locations(location_id) 
-            ON UPDATE CASCADE
+            ON UPDATE CASCADE,
+
+        UNIQUE KEY unique_location (location_id)
     );
 
 
@@ -217,7 +219,8 @@ BEGIN
     INSERT INTO matches(set_max, faceoff_type, start_datetime, end_datetime, location_id, match_type, note, match_status, winner_id)
     VALUES (3, 'standard', '2026-02-01 14:31:39', '2026-02-01 15:48:06', 2, 'challenge', null, 'completed', 1),
     (5, 'puck flip', '2024-01-15 19:00:00', null, 3, 'tournament', 'Tournament was cancelled.', 'abandoned', null),
-    (7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled', null);
+    (7, 'standard', '2026-05-11 18:00:00', null, 1, 'challenge', null, 'scheduled', null),
+    (3, 'standard', CURRENT_TIMESTAMP(), null, 1, 'challenge', null, 'in_progress', null);
 
     INSERT INTO `sets`(match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
     VALUES (1, 1, 1, '2026-02-01 14:31:39', '2026-02-01 14:53:22', 'completed'),
@@ -236,7 +239,9 @@ BEGIN
     (3, null, 4, null, null, 'scheduled'),
     (3, null, 5, null, null, 'scheduled'),
     (3, null, 6, null, null, 'scheduled'),
-    (3, null, 7, null, null, 'scheduled');
+    (3, null, 7, null, null, 'scheduled'),
+    -- Match 4
+    (4, null, 1, CURRENT_TIMESTAMP(), null, 'in_progress');
 
     -----------
     -- games --
@@ -260,7 +265,10 @@ BEGIN
     (7, 1, 3, 4, 'completed', '2026-02-01 15:36:20', '2026-02-01 15:39:45'),
     (4, 7, 3, 5, 'completed', '2026-02-01 15:40:15', '2026-02-01 15:44:30'),
     (6, 7, 3, 6, 'completed', '2026-02-01 15:44:55', '2026-02-01 15:49:45'),
-    (7, 6, 3, 7, 'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06');
+    (7, 6, 3, 7, 'completed', '2026-02-01 15:40:10', '2026-02-01 15:48:06'),
+    -- Games for Match 4 Set 1
+    (4, 7, 16, 1, 'completed', DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL '1:34:12' HOUR_SECOND), CURRENT_TIMESTAMP()),
+    (0, 0, 16, 2, 'scheduled', null, null);
 
     ---------------------
     -- match_officials --
@@ -291,6 +299,10 @@ BEGIN
     -- Match 3
     (2, 3, 'left', 'player_1'),
     (6, 3, 'right', 'player_2');
+
+    -- Match 4
+    (7, 4, 'left', 'player_1'),
+    (4, 4, 'right', 'player_2');
 
     ----------------------
     -- people_locations --

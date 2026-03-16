@@ -221,12 +221,17 @@ SELECT match_id,
     end_datetime,
     set_status as status
 from "sets"
-JOIN people as p on p.person_id = "sets".winner_id
+LEFT JOIN people as p on p.person_id = "sets".winner_id
 ORDER BY match_id;
 
 -- Get data by ID
 SELECT * from "sets"
 WHERE set_id = :set_id;
+
+-- Get all Sets in the Match
+SELECT * FROM sets
+    WHERE match_id = ?
+ORDER BY set_num;
 
 ----- UPDATE -----
 UPDATE "sets"
@@ -252,7 +257,7 @@ VALUES (:player_1_score, :player_2_score, :set_id, :game_num, :game_status, :sta
 
 ----- READ -----
 -- Get all data
-SELECT game_id, m.match_id, g.set_id, game_num, 
+SELECT game_id, m.match_id, g.set_id, s.set_num, game_num, 
     player_1_score, player_2_score, game_status, 
     (
         CASE 
@@ -269,11 +274,17 @@ JOIN player_matches AS pm1 ON pm1.match_id = m.match_id AND pm1.player_order = '
 JOIN player_matches AS pm2 ON pm2.match_id = m.match_id AND pm2.player_order = 'player_2'
 JOIN people AS p1 ON p1.person_id = pm1.player_id
 JOIN people AS p2 ON p2.person_id = pm2.player_id
-ORDER BY set_id;
+ORDER BY set_id, game_id;
 
 -- Get data by ID
 SELECT * from games
 WHERE game_id = :game_id;
+
+-- Get all Games in the Match
+SELECT g.* FROM games g
+JOIN sets s ON s.set_id = g.set_id
+    WHERE s.match_id = ?
+ORDER BY s.set_num, g.game_num;
 
 ----- UPDATE -----
 UPDATE games

@@ -1,35 +1,40 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+
 import AddGame from '../components/forms/games/AddGame';
-import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
+
+import cap_words from '../functions/cap_words';
 
 
 const header_map = {
     match_id: 'match',
-    set_id: 'set_number',
-    game_num: 'game_number'
+    set_num: 'set_number',
+    game_num: 'game_number',
 }
 
 
 function Games(props) {
-    const { backendURL, games, locale, matches } = props
+    const { backendURL, games, locale, matches, refreshData } = props
 
-{/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
+    const [addModal, setAddModal] = useState(false)
+    const gameIds = games.map(game => game.game_id)
+    
+    {/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
     // Memoize headers + rows
     // Will only recalculate if the games table in the backend changes
     // Makes getting the table headers more efficient
     const headers = useMemo(() => {
         if(!games?.length) return []
 
-        return Object.keys(games[0]).filter(header => header !== 'game_id')
+        return Object.keys(games[0]).filter(header => header !== 'game_id' && header !== 'set_id')
     }, [games])
 
     const rows = useMemo(() => {
         if(!games?.length) return []
 
         return games?.map(game => {
-            // game_id will not show up in table
-            const { game_id, ...rest } = game;
+            // game_id + set_id will not show up in table
+            const { game_id, set_id, ...rest } = game;
             
             return {
             ...rest,
@@ -56,39 +61,61 @@ function Games(props) {
                 </p>
             </div>
 
-{/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
-            <table className="data-table">
-                <thead>
-                    <tr>
-                        {
-                            headers.map((header, idx) => (
-                                <th key={`${header}-${idx}`}>
-                                    { cap_words(header_map[header] ?? header) }
-                                    </th>
-                            ))
-                        }
-                        { games?.length > 0 && 
-                            <th>
-                                Actions
-                            </th>    
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows?.map((game, idx) => {
-                        return <TableRow 
-                            key={`game-${idx}`} 
-                            rowObject={game} 
-                            backendURL={backendURL} 
-                            deleteBtn={true}
-                        />
-                    })}
-                </tbody>
-            </table>
+            <div id='table-div'>
+                {/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
+                <table className="data-table">
+                    <thead>
+                        <tr>
+                            {
+                                headers.map((header, idx) => (
+                                    <th key={`${header}-${idx}`}>
+                                        { cap_words(header_map[header] ?? header) }
+                                        </th>
+                                ))
+                            }
+                            { games?.length > 0 && 
+                                <th>
+                                    Actions
+                                </th>    
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {rows?.map((game, idx) => {
+                            return <TableRow 
+                                key={`game-${idx}`} 
+                                rowObject={game} 
+                                objectId={gameIds[idx]}
+                                backendURL={backendURL} 
+                                refreshData={refreshData}
+                                deleteBtn={true}
+                            />
+                        })}
+                    </tbody>
+                </table>
+            </div>
 
-            <hr />
+            <div id='btn-row'>
+                <button
+                    id='add-game'
+                    className='default-btn'
+                    onClick={() => setAddModal(true)}
+                >
+                    Add Game
+                </button>
+            </div>
 
-            <AddGame matches={matches} />
+
+            {
+                addModal && 
+                    <AddGame 
+                        backendURL={backendURL}
+                        games={games}
+                        matches={matches} 
+                        refreshData={refreshData}
+                        setAddModal={setAddModal}
+                    />
+            }  
         </div>
     );
 }
