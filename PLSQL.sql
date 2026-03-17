@@ -861,13 +861,96 @@ DELIMITER ;
 -- sets --
 ----------
 ----- CREATE -----
+DROP PROCEDURE IF EXISTS sp_add_set;
+DELIMITER //
 
+CREATE PROCEDURE sp_add_set(
+    IN p_match_id INT,
+    IN p_winner_id INT,
+    IN p_set_num INT,
+    IN p_start_datetime DATETIME,
+    IN p_end_datetime DATETIME,
+    IN p_set_status VARCHAR(50),
+    OUT p_set_id INT,
+    OUT p_error_message VARCHAR(255)
+)
+BEGIN
+    DECLARE v_duplicate INT;
+    SET p_error_message = NULL;
+
+    -- check if this match already has this set number
+    SELECT COUNT(*) INTO v_duplicate
+    FROM sets
+    WHERE match_id = p_match_id AND set_num = p_set_num;
+
+    IF v_duplicate > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Database error: this match already has a set with that number.';
+    ELSE 
+        INSERT INTO sets (match_id, winner_id, set_num, start_datetime, end_datetime, set_status)
+        VALUES (p_match_id, p_winner_id, p_set_num, p_start_datetime, p_end_datetime, p_set_status);
+
+        SET p_set_id = LAST_INSERT_ID();
+    END IF;
+END //
+DELIMITER ;
 
 ----- UPDATE -----
+DROP PROCEDURE IF EXISTS sp_update_set;
+DELIMITER //
 
+CREATE PROCEDURE sp_update_set(
+    IN p_set_id INT,
+    IN p_match_id INT,
+    IN p_winner_id INT,
+    IN p_set_num INT,
+    IN p_start_datetime DATETIME,
+    IN p_end_datetime DATETIME,
+    IN p_set_status VARCHAR(50),
+    OUT p_rows_affected INT,
+    OUT p_error_message VARCHAR(255)
+)
+BEGIN
+    SET p_error_message = NULL;
+
+    UPDATE sets
+    SET match_id = p_match_id,
+        winner_id = p_winner_id,
+        set_num = p_set_num,
+        start_datetime = p_start_datetime,
+        end_datetime = p_end_datetime,
+        set_status = p_set_status
+    WHERE set_id = p_set_id;
+
+    SET p_rows_affected = ROW_COUNT();
+END //
+DELIMITER ;
 
 ----- DELETE -----
+DROP PROCEDURE IF EXISTS sp_delete_set;
+DELIMITER //
 
+CREATE PROCEDURE sp_delete_set(
+    IN p_set_id INT,
+    OUT p_rows_affected INT,
+    OUT p_error_message VARCHAR(255)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SET p_error_message = 'Cannot delete this set. It may have games associated with it.';
+        SET p_rows_affected = -99;
+        ROLLBACK;
+    END;
+
+    SET p_error_message = NULL;
+
+    DELETE FROM sets
+    WHERE set_id = p_set_id;
+
+    SET p_rows_affected = ROW_COUNT();
+END //
+DELIMITER ;
 
 ----- Triggers -----
 DROP TRIGGER IF EXISTS trg_set_revert_to_scheduled;

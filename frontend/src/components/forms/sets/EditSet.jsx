@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function AddSet({ matches, people, backendURL, refreshData }) {
+function EditSet({ matches, people, backendURL, refreshData, setToEdit, closeEdit }) {
     const [matchId, setMatchId] = useState("");
     const [setNum, setSetNum] = useState("");
     const [status, setStatus] = useState("Scheduled");
@@ -9,6 +9,30 @@ function AddSet({ matches, people, backendURL, refreshData }) {
     const [endDatetime, setEndDatetime] = useState("");
 
     const [setMaxArray, setSetMaxArray] = useState(null);
+
+    // format DB dates for local datetime
+    const toLocalDatetimeInput = (dateStr) => {
+        if (!dateStr) return "";
+        const date = new Date(dateStr);
+        return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    };
+
+    // pre-fill form when set is clicked
+    useEffect(() => {
+        if (setToEdit) {
+            setMatchId(setToEdit.match_id || "");
+            setWinnerId(setToEdit.winner_id || "");
+            setSetNum(setToEdit.set_num || "");
+            setStatus(setToEdit.status || "Scheduled");
+            setStartDatetime(toLocalDatetimeInput(setToEdit.startDatetime));
+            setEndDatetime(toLocalDatetimeInput(setToEdit.end_datetime));
+
+            const selectedMatch = matches.find(m => m.match_id === parseInt(setToEdit.match_id));
+            if (selectedMatch) {
+                setSetMaxArray(Array.from({ length: selectedMatch.set_max }, (_, idx) => idx + 1));
+            }
+        }
+    }, [setToEdit, matches]);
 
     const handleMatchChange = (evt) => {
         const selectedMatchId = evt.target.value;
@@ -28,7 +52,7 @@ function AddSet({ matches, people, backendURL, refreshData }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newSet = {
+        const updatedSet = {
             match_id: matchId,
             winner_id: winnerId,
             set_num: setNum,
@@ -38,36 +62,30 @@ function AddSet({ matches, people, backendURL, refreshData }) {
         };
 
         try {
-            const response = await fetch(`${backendURL}/sets`, {
-                method: 'POST',
+            const response = await fetch(`${backendURL}/sets/${setToEdit.set_id}`, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newSet)
+                body: JSON.stringify(updatedSet)
             });
 
             if (response.ok) {
-                alert("Set added successfuly.");
+                alert("Set updated successfuly.");
                 if (refreshData) refreshData();
-
-                // clear the form
-                setMatchId("");
-                setSetNum("");
-                setStatus("Scheduled");
-                setWinnerId("");
-                setStartDatetime("");
-                setEndDatetime("");
-                setSetMaxArray(null);
+                closeEdit();
             } else {
                 const errorData = await response.json();
-                alert(errorData.message || "Failed to add set.");
+                alert(errorData.message || "Failed to update set.");
             }
         } catch (error) {
             alert("A network error occurred.");
         }
     };
 
+    if (!setToEdit) return null;
+
     return (
-        <form id="add-form" onSubmit={handleSubmit}>
-            <h2>Add a New Set</h2>
+        <form id="update-form" onSubmit={handleSubmit}>
+            <h2>Edit Set {setToEdit.set_id}</h2>
 
             <label> Match: </label>
                 <select required value={matchId} onChange={handleMatchChange}>
@@ -109,23 +127,26 @@ function AddSet({ matches, people, backendURL, refreshData }) {
                     )}
             </select>
 
-            <label> Start Date & Time (Optional): </label>
+            <label> Start Date & Time: </label>
             <input 
                 type="datetime-local" 
                 value={startDatetime} 
                 onChange={(e) => setStartDatetime(e.target.value)} 
             />
 
-            <label> End Date & Time (Optional): </label>
+            <label> End Date & Time: </label>
             <input 
                 type="datetime-local" 
                 value={endDatetime} 
                 onChange={(e) => setEndDatetime(e.target.value)} 
             />
 
-            <button type="submit">Add Set</button>
+            <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
+                <button type="submit">Save Changes</button>
+                <button type="button" onClick={closeEdit}>Cancel</button>
+            </div>
         </form>  
     );
 }
 
-export default AddSet;
+export default EditSet;

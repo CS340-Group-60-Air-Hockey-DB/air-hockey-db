@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import AddSet from '../components/forms/sets/AddSet';
+import EditSet from '../components/forms/sets/EditSet';
 import cap_words from '../functions/cap_words';
 import TableRow from '../components/TableRow';
 
@@ -13,7 +14,8 @@ const header_map = {
 
 
 function Sets(props) {
-    const { backendURL, locale, matches, sets } = props
+    const { backendURL, locale, matches, sets, people, refreshData } = props
+    const [setRowToEdit, setSetRowToEdit] = useState(null);
     
     const headers = useMemo(() => {
             if (!sets?.length) return []
@@ -25,10 +27,11 @@ function Sets(props) {
             if(!sets?.length) return []
     
            return sets.map(set => {
-                const { set_id, ...rest } = set
+                const { set_id, ...rest } = set;
 
                 return {
                     ...rest,
+                    status: rest.status === 'in_progress' ? 'in progress' : rest.status,
                     start_datetime: rest.start_datetime
                         ? new Date(rest.start_datetime).toLocaleDateString(locale, { hour: 'numeric', minute: 'numeric' })
                         : null,
@@ -36,8 +39,8 @@ function Sets(props) {
                         ? new Date(rest.end_datetime).toLocaleDateString(locale, { hour: 'numeric', minute: 'numeric' })
                         : null
                 }
-            })
-        }, [sets, locale])
+            });
+        }, [sets, locale]);
 
     return (
         <div id='page-styles'>
@@ -64,12 +67,17 @@ function Sets(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    { rows.map((set, idx) => {
+                    { rows.map((rowObj, idx) => {
+                        const fullSetData = sets[idx];
+
                         return <TableRow
-                            key={idx}
-                            rowObject={set}
+                            key={fullSetData.set_id}
+                            rowObject={rowObj}
+                            objectId={fullSetData.set_id}
                             backendURL={backendURL}
                             deleteBtn={true}
+                            refreshData={refreshData}
+                            onEdit={() => setSetRowToEdit(fullSetData)}
                         />
                     })}
                 </tbody>
@@ -77,8 +85,23 @@ function Sets(props) {
 
             <hr />
 
-            <AddSet matches={matches} backendURL={backendURL} />
-
+            {setRowToEdit ? (
+                <EditSet
+                    matches={matches} 
+                    people={people}
+                    backendURL={backendURL} 
+                    refreshData={refreshData}
+                    setToEdit={setRowToEdit}
+                    closeEdit={() => setSetRowToEdit(null)}
+                />
+            ) : (
+                <AddSet
+                    matches={matches}
+                    people={people}
+                    backendURL={backendURL}
+                    refreshData={refreshData}
+                />
+            )}
         </div>
     );
 }
