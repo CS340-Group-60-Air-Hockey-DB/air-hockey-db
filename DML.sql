@@ -214,15 +214,17 @@ VALUES (:match_id, :winner_id, :set_num, :start_datetime, :end_datetime, :set_st
 
 ----- READ -----
 -- Get all data
-SELECT match_id,
+SELECT "sets".set_id,
+    "sets".winner_id,
+    "sets".match_id,
     CONCAT(p.first_name, ' ', p.last_name) as winner, 
-    set_num,
-    start_datetime, 
-    end_datetime,
-    set_status as status
+    "sets".set_num,
+    "sets".start_datetime, 
+    "sets".end_datetime,
+    "sets".set_status as status
 from "sets"
-LEFT JOIN people as p on p.person_id = "sets".winner_id
-ORDER BY match_id;
+LEFT JOIN people as p on p.person_id = sets.winner_id
+ORDER BY "sets".match_id, "sets".set_num;
 
 -- Get data by ID
 SELECT * from "sets"

@@ -155,6 +155,8 @@ function App() {
                             locale={userLocale} 
                             matches={matches}
                             sets={sets}
+                            people={people}
+                            refreshData={refreshData}
                         />
                     }
                 />
