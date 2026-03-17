@@ -4,19 +4,8 @@ import addGame from '../../../fetch_funcs/games/addGame';
 import getAllGameSetsByMatchId from '../../../fetch_funcs/games/getAllGameSetsByMatchId';
 import cap_words from '../../../functions/cap_words';
 
-import { game_max_arr, game_status_arr } from '../../../ common_variables';
+import { game_max_arr, game_status_arr, initGame } from '../../../common_variables';
 import getInputDatetime from '../../../functions/input_datetime';
-
-const initGame = {
-    set_id: '', 
-    set_num: '',
-    game_num: '', 
-    player_1_score: 0, 
-    player_2_score: 0, 
-    game_status: 'scheduled', 
-    start_datetime: null, 
-    end_datetime: null
-}
 
 
 function AddGame(props) {

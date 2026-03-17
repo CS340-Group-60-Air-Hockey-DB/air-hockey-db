@@ -12,12 +12,26 @@ const set_status_arr = ['scheduled', 'in_progress', 'completed', 'abandoned']
 const starting_side_arr = ['left', 'right']
 const type_of_address_arr = ['residential', 'commercial', 'club', 'bar', 'other']
 
+// Initial Form Values
+const initGame = {
+    match_id: '',
+    set_id: '',
+    set_num: '',
+    game_num: '',
+    player_1_score: 0,
+    player_2_score: 0,
+    game_status: 'scheduled',
+    start_datetime: null,
+    end_datetime: null
+}
+
 
 export {
     game_max_arr,
     game_status_arr,
     gender_arr,
     faceoff_type_arr,
+    initGame,
     match_status_arr,
     match_type_arr,
     official_type_arr,
