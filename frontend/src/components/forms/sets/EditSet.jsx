@@ -114,6 +114,7 @@ function EditSet({ matches, people, backendURL, refreshData, setToEdit, closeEdi
                 <option value="scheduled">Scheduled</option>
                 <option value="in_progress">In Progress</option>
                 <option value="completed">Completed</option>
+                <option value="Abandoned">Abandoned</option>
             </select>
 
             <label> Winner (Optional): </label>

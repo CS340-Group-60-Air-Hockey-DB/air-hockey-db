@@ -96,6 +96,7 @@ function AddSet({ matches, people, backendURL, refreshData }) {
                 <option value="scheduled">Scheduled</option>
                 <option value="in_progress">In Progress</option>
                 <option value="completed">Completed</option>
+                <option value="Abandoned">Abandoned</option>
             </select>
 
             <label> Winner (Optional): </label>
