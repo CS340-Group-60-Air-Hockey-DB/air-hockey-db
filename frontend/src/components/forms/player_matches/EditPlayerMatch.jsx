@@ -6,7 +6,6 @@ function EditPlayerMatch({ backendURL, matches, people, playerMatch, onUpdate, o
     const [startingSide, setStartingSide] = useState('');
     const [playerOrder, setPlayerOrder] = useState('');
 
-    console.log("Data passed to Edit Form:", playerMatch);
 
     // auto-fill form based on selected playerMatch
     useEffect(() => {
