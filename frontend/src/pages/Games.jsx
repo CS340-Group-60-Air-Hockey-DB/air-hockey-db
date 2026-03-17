@@ -2,8 +2,11 @@ import { useMemo, useState } from 'react';
 
 import AddGame from '../components/forms/games/AddGame';
 import TableRow from '../components/TableRow';
+import UpdateGame from '../components/forms/games/UpdateGame';
 
 import cap_words from '../functions/cap_words';
+
+import { initGame } from '../common_variables';
 
 
 const header_map = {
@@ -17,8 +20,10 @@ function Games(props) {
     const { backendURL, games, locale, matches, refreshData } = props
 
     const [addModal, setAddModal] = useState(false)
-    const gameIds = games.map(game => game.game_id)
-    
+    const [updateModal, setUpdateModal] = useState(false)
+    const [editGame, setEditGame] = useState(initGame)
+
+
     {/*   Citation for Use of AI Tools: See file "citations/gamesTableMapArray.md"   */}
     // Memoize headers + rows
     // Will only recalculate if the games table in the backend changes
@@ -110,11 +115,21 @@ function Games(props) {
                 addModal && 
                     <AddGame 
                         backendURL={backendURL}
-                        games={games}
                         matches={matches} 
                         refreshData={refreshData}
                         setAddModal={setAddModal}
                     />
+            }  
+
+            {
+                updateModal && 
+                <UpdateGame
+                    backendURL={backendURL}
+                    editGame={editGame}
+                    refreshData={refreshData}
+                    setEditGame={setEditGame}
+                    setUpdateModal={setUpdateModal}
+                />
             }  
         </div>
     );

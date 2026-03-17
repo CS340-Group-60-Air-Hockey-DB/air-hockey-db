@@ -383,7 +383,8 @@ footer{
 }
 
 .form-row input, 
-.form-row select {
+.form-row select,
+.select-style-div {
   width: 100%;
   margin-top: 10px;
   padding: 10px 12px;
@@ -395,10 +396,17 @@ footer{
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-row label {
+.form-row label,
+.select-style-div {
   display: flex; 
   flex-wrap: wrap;
   width: 45%;
+}
+
+.select-style-div {
+  background-color: var(--silver);
+  color: black;
+  font-family: 'Arial';
 }
 
 .form-row .address-line {
