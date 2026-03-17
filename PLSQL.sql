@@ -1258,7 +1258,7 @@ BEGIN
     -- Return new ID back to player_matches.js
     SELECT LAST_INSERT_ID() AS insertId;
 END //
-DELIMITER. ;
+DELIMITER ;
 
 ----- UPDATE -----
 DROP PROCEDURE IF EXISTS sp_update_player_match;
