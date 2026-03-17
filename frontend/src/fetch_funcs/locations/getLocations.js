@@ -9,9 +9,12 @@ const getLocations = async function (backendURL, setLocations) {
         // Update the locations state with the response data
         setLocations(data);
 
-    } catch (error) {
-        // If the API call fails, print the error to the console
-        console.log('Error:', error);
+    }
+    catch (error) {
+        return {
+            status: error.status,
+            error
+        }
     }
 };
 
