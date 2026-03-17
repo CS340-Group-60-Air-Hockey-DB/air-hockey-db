@@ -81,8 +81,48 @@ const get_all_games = async (req, res) => {
     }
 }
 
+const update_game_by_id = async (req, res) => {
+    const { id } = req.params
+    const { set_id, game_num, player_1_score, player_2_score, game_status, start_datetime, end_datetime } = req.body
+
+    const sp_query = `CALL sp_update_game (?, ?, ?, ?, ?, ?, ?, ?, @game_id, @error_message);
+                        SELECT @game_id, @error_message;`
+
+    const values = [id, set_id, game_num, player_1_score, player_2_score, game_status, start_datetime, end_datetime]
+
+    try {
+        const update_res = await db.query(sp_query, values);
+
+        if (update_res[0][1][0]['@error_message'] !== null) {
+            return res.status(400).json({
+                message: `There was an error with updating the game.`,
+                error: update_res[0][1][0]['@error_message']
+            })
+        }
+
+        return res.status(201).json({
+            message: "The game was updated successfully!",
+        });
+    }
+    catch (error) {
+        if (error.sqlState === '45000') {
+            return res.status(400).json({
+                message: `An error occurred while updating the game due to the request body or id parameter.`,
+                error
+            })
+        }
+
+        return res.status(500).json({
+            message: "An error occurred while updating the game.",
+            error
+        });
+    }
+}
+
+
 module.exports = {
     create_game,
     delete_game_by_id,
-    get_all_games
+    get_all_games,
+    update_game_by_id
 };
