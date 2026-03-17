@@ -2,7 +2,7 @@
 const db = require('../database/db-connector');
 const match_queries = require('../database/queries/matches.js');
 const create_matches_with_fks = require('../database/views/matches_with_fks.js');
-const { set_max_arr, faceoff_type_arr, match_type_arr, match_status_arr } = require('../ common_variables.js');
+const { set_max_arr, faceoff_type_arr, match_type_arr, match_status_arr } = require('../common_variables.js');
 
 
 const get_all_matches = async (req, res) => {

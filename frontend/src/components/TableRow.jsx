@@ -1,6 +1,6 @@
 import DeleteBtn from './DeleteBtn';
 
-const TableRow = ({ rowObject, objectId, backendURL, deleteBtn, refreshData, onEdit, hiddenColumns = [] }) => {
+const TableRow = ({ rowObject, objectId, backendURL, deleteBtn, refreshData, onEdit, editDisabled, hiddenColumns = [] }) => {
     const visibleColumns = Object.keys(rowObject).filter(colName => !hiddenColumns.includes(colName));
 
     return (
@@ -12,7 +12,12 @@ const TableRow = ({ rowObject, objectId, backendURL, deleteBtn, refreshData, onE
             {(deleteBtn || onEdit) && (
                 <td style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     {onEdit && (
-                        <button onClick={onEdit}>Edit</button>
+                        <button 
+                            disabled={editDisabled}
+                            onClick={onEdit}
+                        >
+                            Edit
+                        </button>
                     )}
 
                     {deleteBtn && (
