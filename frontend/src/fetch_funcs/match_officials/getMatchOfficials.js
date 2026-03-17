@@ -6,7 +6,10 @@ const getMatchOfficials = async (backendURL, setMatchOfficials) => {
         setMatchOfficials(data)
     }
     catch (error) {
-        console.log('Match Officials Fetch Error:', error)
+        return {
+            status: error.status,
+            error
+        }
     }
 }
 
