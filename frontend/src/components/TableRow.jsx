@@ -1,6 +1,6 @@
 import DeleteBtn from './DeleteBtn';
 
-const TableRow = ({ rowObject, backendURL, deleteBtn, refreshData, onEdit, hiddenColumns = [] }) => {
+const TableRow = ({ rowObject, objectId, backendURL, deleteBtn, refreshData, onEdit, hiddenColumns = [] }) => {
     const visibleColumns = Object.keys(rowObject).filter(colName => !hiddenColumns.includes(colName));
 
     return (

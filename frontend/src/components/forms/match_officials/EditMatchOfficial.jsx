@@ -53,7 +53,7 @@ function EditMatchOfficial({ backendURL, people, matches, sets, matchOfficial, o
             <h2>Edit Match Official</h2>
 
             <label>Person: </label>
-            <select required value={officialPersonId} onChange={(e) => setOfficialPeresonId(e.target.value)}>
+            <select required value={officialPersonId} onChange={(e) => setOfficialPersonId(e.target.value)}>
                 <option value="" disabled>Select an Official</option>
                 {people.map(p => <option key={p.person_id} value={p.person_id}>{p.first_name + ' ' + p.last_name}</option>)}
             </select>
