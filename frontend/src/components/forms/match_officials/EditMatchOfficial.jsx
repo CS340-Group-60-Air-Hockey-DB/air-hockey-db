@@ -41,7 +41,9 @@ function EditMatchOfficial({ backendURL, people, matches, sets, matchOfficial, o
                 onUpdate();
                 onCancel();
             } else {
-                alert("Failed to udpate match official.");
+                const errorData = await response.json();
+                
+                alert(`The match official was not able to be updated to the database:\n${errorData.error} \n\nPlease try again or contact the administrator.`)
             }
         } catch (error) {
             console.error("Network error:", error);

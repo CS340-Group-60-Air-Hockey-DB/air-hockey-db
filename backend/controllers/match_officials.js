@@ -14,7 +14,7 @@ const get_all_match_officials = async (req, res) => {
     }
 }
 
-const create_match_official = async(req, res) => {
+const create_match_official = async (req, res) => {
     try {
         const { official_person_id, set_id, official_type } = req.body;
 
@@ -37,16 +37,27 @@ const update_match_official = async (req, res) => {
         const match_official_id = req.params.id;
         const { official_person_id, set_id, official_type } = req.body;
 
-        const query = `CALL sp_update_match_official(?, ?, ?, ?)`;
+        const query = `CALL sp_update_match_official(?, ?, ?, ?, @error_message);
+                        SELECT @error_message;`;
         const values = [official_person_id, set_id, official_type, match_official_id];
 
-        await db.query(query, values);
+        const update_res = await db.query(query, values);
+
+        if (update_res[0][1][0]['@error_message'] !== null) {
+            return res.status(400).json({
+                message: `There was an error with updating the match official.`,
+                error: update_res[0][1][0]['@error_message']
+            })
+        }
 
         res.status(200).json({ message: "Update successful" });
 
     } catch (error) {
         console.error("Error updating match official:", error);
-        res.status(500).send("An error occurred while updating the match official.");
+        res.status(500).json({
+            error,
+            message: "An error occurred while updating the match official."
+        });
     }
 }
 
@@ -59,7 +70,7 @@ const delete_match_official = async (req, res) => {
 
         res.status(204).send();
 
-    } catch(error) {
+    } catch (error) {
         console.error("Error deleting match official:", error);
         res.status(500).send("An error occurred while deleting the match official.");
     }

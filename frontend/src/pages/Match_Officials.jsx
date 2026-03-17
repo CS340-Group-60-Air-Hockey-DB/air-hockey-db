@@ -63,9 +63,7 @@ function MatchOfficials(props) {
                             rowObject={official}
                             backendURL={backendURL}
                             deleteBtn={true}
-
                             onEdit={() => setEditingOfficial(official)}
-
                             refreshData={refreshData}
                             hiddenColumns={hiddenColumns}
                        />
