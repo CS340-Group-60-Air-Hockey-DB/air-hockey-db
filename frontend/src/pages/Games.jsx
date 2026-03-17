@@ -87,13 +87,27 @@ function Games(props) {
                     </thead>
                     <tbody>
                         {rows?.map((game, idx) => {
+                            // Filter based on values that together can only be 1 game
+                            // game_id + set_id were filtered out, and this is used to get the full game's data for the update form
+                            let full_game = games.filter(g => 
+                                g.set_num == game.set_num && 
+                                g.match_id == game.match_id && 
+                                g.game_num == game.game_num && 
+                                g.game_status == game.game_status
+                            )
+
                             return <TableRow 
                                 key={`game-${idx}`} 
                                 rowObject={game} 
-                                objectId={gameIds[idx]}
+                                objectId={full_game.game_id}
                                 backendURL={backendURL} 
                                 refreshData={refreshData}
                                 deleteBtn={true}
+                                editDisabled={game.game_status === 'abandoned'}
+                                onEdit={() => {
+                                    setUpdateModal(true)
+                                    setEditGame(full_game?.[0] ?? initGame)
+                                }}
                             />
                         })}
                     </tbody>
@@ -130,7 +144,7 @@ function Games(props) {
                     setEditGame={setEditGame}
                     setUpdateModal={setUpdateModal}
                 />
-            }  
+            }
         </div>
     );
 }
