@@ -7,7 +7,10 @@ const getPlayerMatches = async (backendURL, setPlayerMatches) => {
         setPlayerMatches(data)
     }
     catch (error) {
-        console.log('Error:', error)
+        return {
+            status: error.status,
+            error
+        }
     }
 }
 

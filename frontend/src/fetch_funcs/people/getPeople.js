@@ -9,9 +9,12 @@ const getPeople = async function (backendURL, setPeople) {
         // Update the people state with the response data
         setPeople(people);
 
-    } catch (error) {
-        // If the API call fails, print the error to the console
-        console.log('Error:', error);
+    }
+    catch (error) {
+        return {
+            status: error.status,
+            error
+        }
     }
 };
 

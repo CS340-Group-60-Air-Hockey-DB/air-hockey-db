@@ -131,6 +131,7 @@ function App() {
                             matchOfficials={matchOfficials}
                             people={people}
                             sets={sets}
+                            refreshData={refreshData}
                         />
                     }
                 />

@@ -8,7 +8,10 @@ const getMatches = async (backendURL, setMatches) => {
         setMatches(data)
     }
     catch (error) {
-        console.log('Error:', error)
+        return {
+            status: error.status,
+            error
+        }
     }
 }
 

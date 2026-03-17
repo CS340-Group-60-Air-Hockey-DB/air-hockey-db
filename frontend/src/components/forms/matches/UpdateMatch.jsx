@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import getInputDatetime from '../../../functions/input_datetime';
-import { faceoff_type_arr, match_status_arr, match_type_arr, set_max_arr } from '../../../ common_variables';
+import { faceoff_type_arr, match_status_arr, match_type_arr, set_max_arr } from '../../../common_variables';
 
 
 function UpdateMatch({ backendURL, locations, matches, refreshData}) {
